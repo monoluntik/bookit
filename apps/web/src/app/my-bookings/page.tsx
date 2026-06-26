@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import { STATUS_LABEL, STATUS_COLOR, formatDate, formatTime } from '@/lib/businessTypes'
+import CustomerBottomNav from '@/components/CustomerBottomNav'
 
 export default function MyBookingsPage() {
   const { user, token, loading: authLoading, logout } = useAuth()
@@ -46,7 +47,7 @@ export default function MyBookingsPage() {
   const past = bookings.filter(b => new Date(b.startAt) < new Date() || b.status === 'CANCELLED')
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-16">
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="text-blue-600 font-bold">Booking</Link>
@@ -89,6 +90,7 @@ export default function MyBookingsPage() {
           </>
         )}
       </div>
+      <CustomerBottomNav />
     </div>
   )
 }

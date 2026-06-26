@@ -130,13 +130,32 @@ export default function DashboardPage() {
   if (loading) return <div className="flex justify-center pt-20"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
 
   if (businesses.length === 0) return (
-    <div className="bg-white rounded-2xl p-12 text-center">
-      <div className="text-4xl mb-3">🏢</div>
-      <div className="font-medium text-gray-700 mb-1">Нет бизнесов</div>
-      <p className="text-sm text-gray-400 mb-4">Создайте первый бизнес чтобы начать принимать брони</p>
-      <Link href="/dashboard/settings" className="inline-flex px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700">
-        Создать бизнес
-      </Link>
+    <div className="max-w-lg mx-auto pt-10">
+      <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
+        <div className="text-5xl mb-4">🚀</div>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">Добро пожаловать!</h2>
+        <p className="text-gray-500 text-sm mb-6 leading-relaxed">
+          Создайте первый бизнес, чтобы начать принимать онлайн-бронирования. Это займёт 5 минут.
+        </p>
+
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          {[
+            { num: '1', text: 'Создайте бизнес', icon: '🏢' },
+            { num: '2', text: 'Добавьте ресурсы', icon: '🪑' },
+            { num: '3', text: 'Принимайте брони', icon: '📅' },
+          ].map(s => (
+            <div key={s.num} className="bg-gray-50 rounded-xl p-3 text-center">
+              <div className="text-2xl mb-1">{s.icon}</div>
+              <div className="text-xs text-gray-500 font-medium leading-tight">{s.text}</div>
+            </div>
+          ))}
+        </div>
+
+        <Link href="/dashboard/settings"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors">
+          Создать бизнес →
+        </Link>
+      </div>
     </div>
   )
 

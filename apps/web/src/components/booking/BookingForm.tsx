@@ -28,6 +28,7 @@ export default function BookingForm({ resource, service, slot, guestCount, night
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [notes, setNotes] = useState('')
+  const [showPw, setShowPw] = useState(false)
 
   // Fields only needed when not logged in
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' })
@@ -119,15 +120,25 @@ export default function BookingForm({ resource, service, slot, guestCount, night
             {tab === 'register' && (
               <>
                 <input required placeholder="Имя" value={form.name} onChange={set('name')}
+                  autoComplete="name"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
                 <input type="tel" placeholder="Телефон (необязательно)" value={form.phone} onChange={set('phone')}
+                  autoComplete="tel"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
               </>
             )}
             <input required type="email" placeholder="Email" value={form.email} onChange={set('email')}
+              autoComplete="email"
               className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
-            <input required type="password" placeholder="Пароль" value={form.password} onChange={set('password')}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <div className="relative">
+              <input required type={showPw ? 'text' : 'password'} placeholder="Пароль" value={form.password} onChange={set('password')}
+                autoComplete={tab === 'register' ? 'new-password' : 'current-password'}
+                className="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+              <button type="button" onClick={() => setShowPw(v => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                {showPw ? '🙈' : '👁️'}
+              </button>
+            </div>
           </>
         )}
 

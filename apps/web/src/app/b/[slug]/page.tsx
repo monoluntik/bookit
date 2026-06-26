@@ -9,6 +9,7 @@ import GallerySection from '@/components/business/GallerySection'
 import { getMeta } from '@/lib/businessTypes'
 import BusinessPageNav from '@/components/business/BusinessPageNav'
 import StickyBookingCTA from '@/components/business/StickyBookingCTA'
+import BusinessActions from '@/components/business/BusinessActions'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -62,6 +63,13 @@ export default async function BusinessPage({ params }: Props) {
       <div className="max-w-3xl mx-auto px-4 py-6">
         {/* Hero */}
         <BusinessHero business={business} />
+
+        {/* Call & Share actions */}
+        <BusinessActions
+          phone={business.phone}
+          shareUrl={`https://bookit-web.vercel.app/b/${business.slug}`}
+          shareName={business.name}
+        />
 
         {/* Photo gallery */}
         {business.images?.length > 0 && (

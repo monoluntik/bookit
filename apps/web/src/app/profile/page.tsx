@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import { STATUS_COLOR, STATUS_LABEL, formatDate, formatTime } from '@/lib/businessTypes'
 import ReviewForm from '@/components/reviews/ReviewForm'
+import CustomerBottomNav from '@/components/CustomerBottomNav'
 
 export default function ProfilePage() {
   const { user, token, loading: authLoading, updateUser, logout } = useAuth()
@@ -114,7 +115,7 @@ export default function ProfilePage() {
   const past = bookings.filter(b => new Date(b.startAt) < new Date() || b.status === 'CANCELLED')
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-16">
       {/* Header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -265,6 +266,8 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
+
+      <CustomerBottomNav />
 
       {/* Cancel confirmation modal */}
       {cancelTarget && (

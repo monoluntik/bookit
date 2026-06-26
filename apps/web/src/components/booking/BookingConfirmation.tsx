@@ -27,6 +27,41 @@ export default function BookingConfirmation({ booking, business, token, serviceP
     ? servicePrice
     : (resourcePrice && nights && nights > 0 ? resourcePrice * nights : null)
 
+  const downloadCalendar = () => {
+    const start = new Date(booking.startAt)
+    const end = new Date(booking.endAt)
+
+    const pad = (n: number) => String(n).padStart(2, '0')
+    const fmt = (d: Date) =>
+      `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`
+
+    const summary = `${business.name}${booking.service ? ` — ${booking.service.name}` : ''}`
+    const desc = `Ресурс: ${booking.resource?.name ?? ''}\nНомер брони: ${booking.id.slice(0,8).toUpperCase()}`
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Booking//RU',
+      'BEGIN:VEVENT',
+      `DTSTART:${fmt(start)}`,
+      `DTEND:${fmt(end)}`,
+      `SUMMARY:${summary}`,
+      `DESCRIPTION:${desc}`,
+      `LOCATION:${business.address ?? ''}`,
+      'STATUS:CONFIRMED',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n')
+
+    const blob = new Blob([ics], { type: 'text/calendar' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'booking.ics'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const handlePay = async () => {
     if (!token || !payableAmount) return
     setPaying(true)
@@ -64,6 +99,11 @@ export default function BookingConfirmation({ booking, business, token, serviceP
         <Row label="Статус" value="Ожидает подтверждения" />
         <Row label="Номер брони" value={booking.id.slice(0, 8).toUpperCase()} />
       </div>
+
+      <button onClick={downloadCalendar}
+        className="mt-4 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm flex items-center justify-center gap-2">
+        📅 Добавить в календарь
+      </button>
 
       {token && payableAmount && payableAmount > 0 && (
         <button onClick={handlePay} disabled={paying}

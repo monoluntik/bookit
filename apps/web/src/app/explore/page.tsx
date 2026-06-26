@@ -6,6 +6,7 @@ import Link from 'next/link'
 import BusinessCard from '@/components/marketplace/BusinessCard'
 import { api } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
+import CustomerBottomNav from '@/components/CustomerBottomNav'
 
 const TYPE_LABELS: Record<string, string> = {
   HOTEL: 'Отели', RESTAURANT: 'Рестораны', SALON: 'Салоны',
@@ -101,7 +102,7 @@ function ExploreContent() {
   const hasAnyFilter = Boolean(type || debouncedSearch || minRating > 0 || hasPhoto || onlineOnly || sort !== 'newest')
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20">
       {/* Sticky header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
@@ -329,6 +330,7 @@ function ExploreContent() {
           </>
         )}
       </div>
+      <CustomerBottomNav />
     </div>
   )
 }
