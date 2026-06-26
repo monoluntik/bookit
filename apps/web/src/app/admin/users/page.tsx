@@ -144,7 +144,7 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3 hidden md:table-cell">
                   <span className="text-xs text-gray-400">
-                    {u._count?.bookings ?? 0} броней · {u._count?.businesses ?? 0} бизнесов
+                    {u._count?.bookings ?? 0} броней · {u._count?.ownedBusinesses ?? 0} бизнесов
                   </span>
                 </td>
                 <td className="px-4 py-3 hidden lg:table-cell">

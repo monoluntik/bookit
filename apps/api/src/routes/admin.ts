@@ -99,7 +99,7 @@ export async function adminRoutes(app: FastifyInstance) {
         select: {
           id: true, name: true, email: true, phone: true, role: true,
           isActive: true, createdAt: true,
-          _count: { select: { bookings: true, businesses: true } },
+          _count: { select: { bookings: true, ownedBusinesses: true } },
         },
         orderBy: { createdAt: 'desc' },
         skip: (p - 1) * l, take: l,
