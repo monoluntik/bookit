@@ -1,0 +1,296 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum BusinessType {
+  HOTEL
+  RESTAURANT
+  SALON
+  COWORKING
+  SPORT
+  MEDICAL
+  CUSTOM
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  UNPAID
+  PENDING
+  PAID
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum UserRole {
+  SUPERADMIN
+  BUSINESS_OWNER
+  STAFF
+  CUSTOMER
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+  BUSINESS
+}
+
+// ─── Platform users ──────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         UserRole @default(CUSTOMER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  ownedBusinesses Business[]
+  staffMemberships StaffMember[]
+  bookings        Booking[]
+  reviews         Review[]
+}
+
+// ─── Business (tenant) ───────────────────────────────────────────────────────
+
+model Business {
+  id               String           @id @default(cuid())
+  slug             String           @unique
+  name             String
+  description      String?
+  type             BusinessType
+  metadata         Json             @default("{}")
+  logoUrl          String?
+  images           String[]
+  address          String?
+  phone            String?
+  email            String?
+  timezone         String           @default("Asia/Bishkek")
+  subscriptionPlan SubscriptionPlan @default(FREE)
+  subscriptionActive Boolean        @default(true)
+  isActive         Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  ownerId  String
+  owner    User   @relation(fields: [ownerId], references: [id])
+
+  resources          Resource[]
+  staff              StaffMember[]
+  bookings           Booking[]
+  customRoles        CustomRole[]
+  cancellationPolicy CancellationPolicy?
+  services           Service[]
+  reviews            Review[]
+}
+
+// ─── Staff & custom RBAC ─────────────────────────────────────────────────────
+
+model CustomRole {
+  id          String   @id @default(cuid())
+  name        String
+  permissions String[]
+  createdAt   DateTime @default(now())
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  staffMembers StaffMember[]
+
+  @@unique([businessId, name])
+}
+
+model StaffMember {
+  id        String   @id @default(cuid())
+  position  String?
+  bio       String?
+  createdAt DateTime @default(now())
+
+  userId     String
+  user       User   @relation(fields: [userId], references: [id])
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  roleId     String?
+  role       CustomRole? @relation(fields: [roleId], references: [id])
+
+  resources Resource[]
+
+  @@unique([userId, businessId])
+}
+
+// ─── Resources ───────────────────────────────────────────────────────────────
+
+model Resource {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  images      String[]
+  metadata    Json     @default("{}")
+  capacity    Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  businessId    String
+  business      Business     @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  staffMemberId String?
+  staffMember   StaffMember? @relation(fields: [staffMemberId], references: [id])
+
+  schedules Schedule[]
+  bookings  Booking[]
+  services  Service[]
+}
+
+// ─── Schedule (availability rules) ──────────────────────────────────────────
+
+model Schedule {
+  id        String   @id @default(cuid())
+  dayOfWeek Int[]
+  startTime String
+  endTime   String
+  slotDurationMinutes Int @default(60)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  exceptions ScheduleException[]
+}
+
+model ScheduleException {
+  id        String   @id @default(cuid())
+  date      DateTime @db.Date
+  reason    String?
+  isClosed  Boolean  @default(true)
+  startTime String?
+  endTime   String?
+
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+}
+
+// ─── Services (optional: for salons, medical, etc.) ─────────────────────────
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  durationMinutes Int
+  price       Decimal  @db.Decimal(10, 2)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id])
+
+  resourceId String?
+  resource   Resource? @relation(fields: [resourceId], references: [id])
+
+  bookings Booking[]
+}
+
+// ─── Cancellation policy ─────────────────────────────────────────────────────
+
+model CancellationPolicy {
+  id                    String   @id @default(cuid())
+  freeCancellationHours Int      @default(24)
+  penaltyPercent        Decimal  @db.Decimal(5, 2) @default(0)
+  noRefundHours         Int      @default(0)
+  updatedAt             DateTime @updatedAt
+
+  businessId String   @unique
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+// ─── Bookings ─────────────────────────────────────────────────────────────────
+
+model Booking {
+  id         String        @id @default(cuid())
+  status     BookingStatus @default(PENDING)
+  source     String        @default("ONLINE") // ONLINE | MANUAL | BLOCK
+  startAt    DateTime
+  endAt      DateTime
+  guestCount Int           @default(1)
+  notes      String?
+  guestName  String?       // for MANUAL/BLOCK: walk-in customer name
+  guestPhone String?       // for MANUAL/BLOCK: walk-in customer phone
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  customerId String
+  customer   User     @relation(fields: [customerId], references: [id])
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id])
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  serviceId  String?
+  service    Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  payment       Payment?
+  recurringRule RecurringRule?
+  review        Review?
+}
+
+// ─── Payments ────────────────────────────────────────────────────────────────
+
+model Payment {
+  id            String        @id @default(cuid())
+  status        PaymentStatus @default(UNPAID)
+  amount        Decimal       @db.Decimal(10, 2)
+  currency      String        @default("KGS")
+  transactionId String?
+  paidAt        DateTime?
+  refundedAt    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  bookingId String  @unique
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+// ─── Reviews ─────────────────────────────────────────────────────────────────
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5
+  comment   String?
+  reply     String?  // owner reply
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customerId String
+  customer   User     @relation(fields: [customerId], references: [id])
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  bookingId  String   @unique
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+// ─── Recurring bookings ──────────────────────────────────────────────────────
+
+model RecurringRule {
+  id        String   @id @default(cuid())
+  rrule     String
+  until     DateTime?
+  count     Int?
+  createdAt DateTime @default(now())
+
+  bookingId    String  @unique
+  booking      Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}

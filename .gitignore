@@ -1,0 +1,17 @@
+node_modules
+.env
+.env.local
+.env.*.local
+.env.production
+dist
+.next
+out
+build
+*.log
+.DS_Store
+Thumbs.db
+.turbo
+.vercel
+coverage
+apps/api/prisma/dev.db
+apps/api/prisma/dev.db-journal
