@@ -64,22 +64,30 @@ export default function DatePicker({ onSelect, onBack }: Props) {
             if (!date) return <div key={i} />
             const str = formatDate(date)
             const isPast = date < today
+            const isToday = str === formatDate(today)
             const isSelected = str === selected
             return (
               <button
                 key={i}
                 disabled={isPast}
                 onClick={() => setSelected(str)}
-                className={`h-9 w-full rounded-lg text-sm font-medium transition-colors
+                className={`relative h-9 w-full rounded-lg text-sm font-medium transition-colors
                   ${isPast ? 'text-gray-200 cursor-not-allowed' :
                     isSelected ? 'bg-blue-600 text-white' :
+                    isToday ? 'ring-2 ring-blue-400 text-blue-600 hover:bg-blue-50' :
                     'hover:bg-blue-50 text-gray-700'}`}
               >
                 {date.getDate()}
+                {isToday && !isSelected && (
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-blue-400" />
+                )}
               </button>
             )
           })}
         </div>
+        <p className="text-xs text-gray-400 mt-2 text-center">
+          Сегодня — {today.toLocaleDateString('ru', { day: 'numeric', month: 'long' })}
+        </p>
       </div>
       <div className="flex gap-3 mt-6">
         <button onClick={onBack} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm">

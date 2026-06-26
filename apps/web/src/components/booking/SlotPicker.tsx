@@ -66,9 +66,28 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
 
       ) : slots.length === 0 ? (
         <div className="text-center py-10 bg-gray-50 rounded-xl">
-          <div className="text-3xl mb-2">😔</div>
-          <p className="text-gray-500 font-medium text-sm">На эту дату нет свободных слотов</p>
-          <p className="text-xs text-gray-400 mt-1">Попробуйте другой день</p>
+          <div className="text-3xl mb-2">
+            {date === new Date().toISOString().split('T')[0] ? '🌙' : '😔'}
+          </div>
+          {date === new Date().toISOString().split('T')[0] ? (
+            <>
+              <p className="text-gray-500 font-medium text-sm">На сегодня записи закончились</p>
+              <p className="text-xs text-gray-400 mt-1">Все оставшиеся слоты заняты или уже прошли</p>
+              <button onClick={onBack}
+                className="mt-3 text-sm text-blue-600 hover:underline font-medium">
+                Выбрать другой день →
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-gray-500 font-medium text-sm">На эту дату нет свободных слотов</p>
+              <p className="text-xs text-gray-400 mt-1">Попробуйте другой день</p>
+              <button onClick={onBack}
+                className="mt-3 text-sm text-blue-600 hover:underline font-medium">
+                Выбрать другой день →
+              </button>
+            </>
+          )}
         </div>
 
       ) : (
