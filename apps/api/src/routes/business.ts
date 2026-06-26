@@ -15,7 +15,10 @@ const createBusinessSchema = z.object({
   metadata: z.record(z.unknown()).optional(),
 })
 
-const updateBusinessSchema = createBusinessSchema.partial().omit({ slug: true })
+const updateBusinessSchema = createBusinessSchema.partial().omit({ slug: true }).extend({
+  bakaiUsername: z.string().optional().nullable(),
+  bakaiPassword: z.string().optional().nullable(),
+})
 
 export async function businessRoutes(app: FastifyInstance) {
   // Public: get business by slug
@@ -47,9 +50,13 @@ export async function businessRoutes(app: FastifyInstance) {
     const payload = request.user as { sub: string }
     const businesses = await prisma.business.findMany({
       where: { ownerId: payload.sub },
-      select: { id: true, slug: true, name: true, type: true, isActive: true, subscriptionPlan: true },
+      select: { id: true, slug: true, name: true, type: true, isActive: true, subscriptionPlan: true, bakaiUsername: true },
     })
-    return reply.send(businesses)
+    return reply.send(businesses.map(b => ({
+      ...b,
+      hasBakaiCredentials: !!b.bakaiUsername,
+      bakaiUsername: undefined,
+    })))
   })
 
   // Public: list all active businesses (marketplace)
@@ -256,11 +263,18 @@ export async function businessRoutes(app: FastifyInstance) {
     if (!business) return reply.status(404).send({ error: 'Not found' })
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
-    const { metadata: md, ...restData } = body.data
+    const { metadata: md, bakaiUsername, bakaiPassword, ...restData } = body.data
     const updated = await prisma.business.update({
       where: { id },
-      data: { ...restData, ...(md ? { metadata: md as any } : {}) },
+      data: {
+        ...restData,
+        ...(md ? { metadata: md as any } : {}),
+        ...(bakaiUsername !== undefined ? { bakaiUsername } : {}),
+        ...(bakaiPassword !== undefined ? { bakaiPassword } : {}),
+      },
     })
-    return reply.send(updated)
+    // Never return Bakai credentials to client
+    const { bakaiUsername: _u, bakaiPassword: _p, ...safe } = updated as any
+    return reply.send({ ...safe, hasBakaiCredentials: !!(updated as any).bakaiUsername })
   })
 }

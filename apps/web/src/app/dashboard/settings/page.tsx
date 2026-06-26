@@ -36,6 +36,10 @@ export default function SettingsPage() {
   const [editPhotos, setEditPhotos] = useState<string | null>(null) // businessId being edited
   const [editingBiz, setEditingBiz] = useState<string | null>(null) // businessId being info-edited
   const [editBizForm, setEditBizForm] = useState({ name: '', type: 'SALON', description: '', address: '', phone: '', email: '' })
+  const [editingPayment, setEditingPayment] = useState<string | null>(null) // businessId
+  const [paymentForm, setPaymentForm] = useState({ bakaiUsername: '', bakaiPassword: '' })
+  const [showBakaiPw, setShowBakaiPw] = useState(false)
+  const [paymentSaving, setPaymentSaving] = useState(false)
 
   // Photos state per business
   const [photoState, setPhotoState] = useState<Record<string, { logoUrl: string | null; images: string[] }>>({})
@@ -126,6 +130,38 @@ export default function SettingsPage() {
       showError(err.message ?? 'Ошибка')
     } finally {
       setSaving(false)
+    }
+  }
+
+  const openEditPayment = (b: any) => {
+    setPaymentForm({ bakaiUsername: '', bakaiPassword: '' })
+    setShowBakaiPw(false)
+    setEditingPayment(b.id)
+    setEditingBiz(null)
+    setEditPhotos(null)
+  }
+
+  const handleSavePayment = async (bizId: string) => {
+    if (!token) return
+    setPaymentSaving(true)
+    try {
+      const res = await fetch(`${API}/api/businesses/${bizId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          bakaiUsername: paymentForm.bakaiUsername || null,
+          bakaiPassword: paymentForm.bakaiPassword || null,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Ошибка')
+      setBusinesses(prev => prev.map(b => b.id === bizId ? { ...b, hasBakaiCredentials: data.hasBakaiCredentials } : b))
+      setEditingPayment(null)
+      success('Настройки оплаты сохранены')
+    } catch (err: any) {
+      showError(err.message ?? 'Ошибка')
+    } finally {
+      setPaymentSaving(false)
     }
   }
 
@@ -230,7 +266,7 @@ export default function SettingsPage() {
                         <div className="text-sm text-gray-400">{TYPE_LABELS[b.type]} · /{b.slug}</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full capitalize">
                         {b.subscriptionPlan}
                       </span>
@@ -247,6 +283,13 @@ export default function SettingsPage() {
                           ${isEditingPhotos ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                       >
                         📷 Фото
+                      </button>
+                      <button
+                        onClick={() => editingPayment === b.id ? setEditingPayment(null) : openEditPayment(b)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors
+                          ${editingPayment === b.id ? 'bg-green-600 text-white border-green-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                      >
+                        {b.hasBakaiCredentials ? '💳 Оплата ✓' : '💳 Оплата'}
                       </button>
                     </div>
                   </div>
@@ -381,6 +424,98 @@ export default function SettingsPage() {
                         className="px-5 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-white"
                       >
                         Отмена
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {/* Payment settings */}
+                {editingPayment === b.id && (
+                  <div className="border-t border-gray-100 p-5 bg-gray-50 space-y-4">
+                    <div>
+                      <div className="text-sm font-medium text-gray-800 mb-1">Онлайн-оплата через Bakai</div>
+                      <p className="text-xs text-gray-400 leading-relaxed">
+                        Деньги поступают напрямую на ваш счёт в Bakai. Для настройки:
+                        войдите в <strong>Bakai Бизнес</strong> → «Внешние сервисы» → создайте подключение «Создание платёжной ссылки» →
+                        скачайте PDF с логином и паролем.
+                      </p>
+                    </div>
+
+                    {b.hasBakaiCredentials && (
+                      <div className="flex items-center gap-2 text-xs text-green-600 bg-green-50 rounded-xl px-3 py-2">
+                        <span>✓</span>
+                        <span>Онлайн-оплата подключена. Введите новые данные чтобы обновить.</span>
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      <input
+                        placeholder="Логин из PDF (username)"
+                        value={paymentForm.bakaiUsername}
+                        onChange={e => setPaymentForm(p => ({ ...p, bakaiUsername: e.target.value }))}
+                        autoComplete="off"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+                      />
+                      <div className="relative">
+                        <input
+                          type={showBakaiPw ? 'text' : 'password'}
+                          placeholder="Пароль из PDF (password)"
+                          value={paymentForm.bakaiPassword}
+                          onChange={e => setPaymentForm(p => ({ ...p, bakaiPassword: e.target.value }))}
+                          autoComplete="new-password"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowBakaiPw(v => !v)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+                        >
+                          {showBakaiPw ? '🙈' : '👁'}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="bg-amber-50 rounded-xl px-3 py-2.5 text-xs text-amber-700">
+                      Перед сохранением убедитесь, что вы активировали подключение в Bakai Бизнес
+                      (статус должен быть «Активен», не «Требует активации»).
+                    </div>
+
+                    <div className="flex gap-3">
+                      {b.hasBakaiCredentials && (
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (!token) return
+                            setPaymentSaving(true)
+                            try {
+                              await fetch(`${API}/api/businesses/${b.id}`, {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                                body: JSON.stringify({ bakaiUsername: null, bakaiPassword: null }),
+                              })
+                              setBusinesses(prev => prev.map(biz => biz.id === b.id ? { ...biz, hasBakaiCredentials: false } : biz))
+                              setEditingPayment(null)
+                              success('Оплата отключена')
+                            } catch {
+                              showError('Ошибка')
+                            } finally { setPaymentSaving(false) }
+                          }}
+                          disabled={paymentSaving}
+                          className="px-4 py-2.5 rounded-xl border border-red-200 text-red-500 text-sm hover:bg-red-50 disabled:opacity-60"
+                        >
+                          Отключить
+                        </button>
+                      )}
+                      <button type="button" onClick={() => setEditingPayment(null)}
+                        className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-white">
+                        Отмена
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSavePayment(b.id)}
+                        disabled={paymentSaving || !paymentForm.bakaiUsername || !paymentForm.bakaiPassword}
+                        className="flex-1 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium hover:bg-green-700 disabled:opacity-60"
+                      >
+                        {paymentSaving ? 'Сохраняем...' : 'Сохранить'}
                       </button>
                     </div>
                   </div>

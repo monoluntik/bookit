@@ -26,10 +26,20 @@ export async function paymentRoutes(app: FastifyInstance) {
     const amount = Number(booking.service.price)
     if (amount <= 0) return reply.status(400).send({ error: 'Услуга бесплатна' })
 
+    if (!booking.business.bakaiUsername || !booking.business.bakaiPassword) {
+      return reply.status(400).send({ error: 'Онлайн-оплата не настроена для этого бизнеса' })
+    }
+
+    const credentials = {
+      username: booking.business.bakaiUsername,
+      password: booking.business.bakaiPassword,
+      businessId: booking.business.id,
+    }
+
     const transactionId = `BK-${booking.id.slice(0, 12).toUpperCase()}-${Date.now()}`
     const redirectUrl = `${process.env.FRONTEND_URL}/booking/payment-result?bookingId=${booking.id}&txId=${transactionId}`
 
-    const { payUrl } = await createPayLink({ amount, transactionId, redirectUrl, bookingId: booking.id })
+    const { payUrl } = await createPayLink({ amount, transactionId, redirectUrl, bookingId: booking.id, credentials })
 
     await prisma.payment.upsert({
       where: { bookingId: booking.id },
@@ -47,7 +57,10 @@ export async function paymentRoutes(app: FastifyInstance) {
       return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?reason=missing-params`)
     }
 
-    const payment = await prisma.payment.findUnique({ where: { bookingId } })
+    const payment = await prisma.payment.findUnique({
+      where: { bookingId },
+      include: { booking: { include: { business: true } } },
+    })
     if (!payment) return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?bookingId=${bookingId}`)
 
     // Security: verify txId matches stored value — prevents spoofed callbacks
@@ -56,7 +69,12 @@ export async function paymentRoutes(app: FastifyInstance) {
       return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?bookingId=${bookingId}`)
     }
 
-    const status = await getPaymentStatus(txId)
+    const biz = payment.booking.business
+    const credentials = biz.bakaiUsername && biz.bakaiPassword
+      ? { username: biz.bakaiUsername, password: biz.bakaiPassword, businessId: biz.id }
+      : undefined
+
+    const status = await getPaymentStatus(txId, credentials)
 
     if (status === 'SUCCESS') {
       await prisma.$transaction([
@@ -104,5 +122,54 @@ export async function paymentRoutes(app: FastifyInstance) {
     if (!isCustomer && !isOwner) return reply.status(403).send({ error: 'Forbidden' })
 
     return reply.send({ status: payment.status, amount: Number(payment.amount), paidAt: payment.paidAt })
+  })
+
+  // Bakai webhook — called by Bakai when payment succeeds
+  // URL: POST /api/payments/webhook
+  // Configure in Bakai Business portal → "Платежные ссылки" → "Вебхук"
+  app.post('/webhook', async (request, reply) => {
+    const body = request.body as { transactionId?: string; status?: string; amount?: number }
+    app.log.info({ body }, 'Bakai webhook received')
+
+    if (!body.transactionId) return reply.status(400).send({ error: 'transactionId required' })
+
+    const payment = await prisma.payment.findFirst({
+      where: { transactionId: body.transactionId },
+      include: {
+        booking: {
+          include: {
+            customer: { select: { email: true, name: true, phone: true } },
+            resource: { select: { name: true } },
+            service: { select: { name: true } },
+            business: true,
+          },
+        },
+      },
+    })
+
+    if (!payment) {
+      app.log.warn({ transactionId: body.transactionId }, 'Webhook: payment not found')
+      return reply.status(404).send({ error: 'Payment not found' })
+    }
+
+    if (payment.status === 'PAID') return reply.send({ ok: true, already: true })
+
+    const isSuccess = !body.status || body.status === 'Success' || body.status === 'Processed'
+    if (!isSuccess) return reply.send({ ok: true, ignored: true })
+
+    const { booking } = payment
+    await prisma.$transaction([
+      prisma.payment.update({ where: { id: payment.id }, data: { status: 'PAID', paidAt: new Date() } }),
+      prisma.booking.update({ where: { id: booking.id }, data: { status: 'CONFIRMED' } }),
+    ])
+
+    if (booking.customer) {
+      sendBookingConfirmation(booking, booking.business, booking.customer.email).catch(console.error)
+      prisma.user.findUnique({ where: { id: booking.business.ownerId }, select: { email: true } })
+        .then(o => { if (o) sendNewBookingAlert(booking, o.email).catch(console.error) })
+        .catch(console.error)
+    }
+
+    return reply.send({ ok: true })
   })
 }
