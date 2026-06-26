@@ -163,6 +163,19 @@ export async function businessRoutes(app: FastifyInstance) {
     const body = createBusinessSchema.safeParse(request.body)
     if (!body.success) return reply.status(400).send({ error: body.error.errors[0]?.message ?? 'Неверные данные' })
 
+    const existingBusinesses = await prisma.business.findMany({
+      where: { ownerId: payload.sub },
+      select: { subscriptionPlan: true },
+    })
+    const topPlan = existingBusinesses.some(b => b.subscriptionPlan === 'BUSINESS') ? 'BUSINESS'
+      : existingBusinesses.some(b => b.subscriptionPlan === 'PRO') ? 'PRO' : 'FREE'
+    if (topPlan === 'FREE' && existingBusinesses.length >= 1) {
+      return reply.status(403).send({ error: 'Free-тариф допускает только 1 бизнес. Перейдите на Pro.' })
+    }
+    if (topPlan === 'PRO' && existingBusinesses.length >= 5) {
+      return reply.status(403).send({ error: 'Pro-тариф допускает до 5 бизнесов.' })
+    }
+
     const existing = await prisma.business.findUnique({ where: { slug: body.data.slug } })
     if (existing) return reply.status(409).send({ error: 'Slug already taken' })
 

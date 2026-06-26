@@ -29,6 +29,11 @@ export async function resourceRoutes(app: FastifyInstance) {
     if (!business) return reply.status(404).send({ error: 'Business not found' })
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
+    if (business.subscriptionPlan === 'FREE') {
+      const count = await prisma.resource.count({ where: { businessId: business.id } })
+      if (count >= 3) return reply.status(403).send({ error: 'Free-тариф допускает до 3 ресурсов. Перейдите на Pro.' })
+    }
+
     const { metadata: rMeta, ...rRest } = body.data
     const resource = await prisma.resource.create({
       data: { ...rRest, ...(rMeta ? { metadata: rMeta as any } : {}) },

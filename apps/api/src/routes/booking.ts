@@ -43,6 +43,14 @@ export async function bookingRoutes(app: FastifyInstance) {
     })
     if (!resource) return reply.status(404).send({ error: 'Ресурс не найден или неактивен' })
 
+    if (resource.business.subscriptionPlan === 'FREE') {
+      const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0)
+      const monthlyCount = await prisma.booking.count({
+        where: { resource: { businessId: resource.businessId }, createdAt: { gte: monthStart }, status: { not: 'CANCELLED' } },
+      })
+      if (monthlyCount >= 50) return reply.status(403).send({ error: 'Бизнес достиг лимита 50 броней/мес на Free-тарифе.' })
+    }
+
     // Validate guest count against capacity
     if (body.data.guestCount && resource.capacity && body.data.guestCount > resource.capacity) {
       return reply.status(400).send({ error: `Максимальная вместимость: ${resource.capacity} чел.` })
