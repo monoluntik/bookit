@@ -51,8 +51,19 @@ const start = async () => {
     decorateReply: false,
   })
 
+  const allowedOrigins = (process.env.FRONTEND_URL ?? 'http://localhost:3000')
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean)
+
   await app.register(cors, {
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+    origin: (origin, cb) => {
+      if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
+        cb(null, true)
+      } else {
+        cb(new Error('Not allowed by CORS'), false)
+      }
+    },
     credentials: true,
   })
 
