@@ -8,7 +8,9 @@ interface Props {
   business: any
   token?: string | null
   servicePrice?: number | null
+  resourcePrice?: number | null
   nights?: number
+  guestCount?: number
 }
 
 function formatTime(iso: string) {
@@ -18,11 +20,15 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-export default function BookingConfirmation({ booking, business, token, servicePrice, nights }: Props) {
+export default function BookingConfirmation({ booking, business, token, servicePrice, resourcePrice, nights, guestCount }: Props) {
   const [paying, setPaying] = useState(false)
 
+  const payableAmount = servicePrice
+    ? servicePrice
+    : (resourcePrice && nights && nights > 0 ? resourcePrice * nights : null)
+
   const handlePay = async () => {
-    if (!token || !servicePrice) return
+    if (!token || !payableAmount) return
     setPaying(true)
     try {
       const { payUrl } = await api.initiatePayment(booking.id, token)
@@ -49,14 +55,20 @@ export default function BookingConfirmation({ booking, business, token, serviceP
           ? <Row label="Ночей" value={String(nights)} />
           : <Row label="Время" value={`${formatTime(booking.startAt)} – ${formatTime(booking.endAt)}`} />
         }
+        {guestCount && guestCount > 1 && (
+          <Row label="Гостей" value={String(guestCount)} />
+        )}
+        {payableAmount && payableAmount > 0 && (
+          <Row label="Итого" value={`${payableAmount.toLocaleString('ru')} сом`} />
+        )}
         <Row label="Статус" value="Ожидает подтверждения" />
         <Row label="Номер брони" value={booking.id.slice(0, 8).toUpperCase()} />
       </div>
 
-      {token && servicePrice && (
+      {token && payableAmount && payableAmount > 0 && (
         <button onClick={handlePay} disabled={paying}
           className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
-          {paying ? 'Переходим к оплате...' : `Оплатить ${servicePrice.toLocaleString('ru')} сом`}
+          {paying ? 'Переходим к оплате...' : `Оплатить ${payableAmount.toLocaleString('ru')} сом`}
         </button>
       )}
       <button

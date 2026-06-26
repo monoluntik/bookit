@@ -1,18 +1,67 @@
 'use client'
 
+import { useEffect } from 'react'
+
 interface Props {
   resources: any[]
   onSelect: (resource: any) => void
+  onBack?: () => void
   label?: string
   resourceIcon?: string
+  businessType?: string
+  minCapacity?: number
 }
 
-export default function ResourceSelector({ resources, onSelect, label = 'Ресурс', resourceIcon = '📋' }: Props) {
+export default function ResourceSelector({
+  resources,
+  onSelect,
+  onBack,
+  label = 'Ресурс',
+  resourceIcon = '📋',
+  businessType,
+  minCapacity,
+}: Props) {
+  const active = resources.filter(r => r.isActive !== false)
+  const filtered = minCapacity && minCapacity > 0
+    ? active.filter(r => !r.capacity || r.capacity >= minCapacity)
+    : active
+
+  useEffect(() => {
+    if (filtered.length === 1) {
+      onSelect(filtered[0])
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (filtered.length === 1) {
+    return null
+  }
+
+  if (filtered.length === 0) {
+    return (
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Выберите {label.toLowerCase()}</h2>
+        <div className="text-center py-10 bg-gray-50 rounded-xl">
+          <div className="text-3xl mb-3">😔</div>
+          <p className="text-gray-600 font-medium text-sm">
+            Нет столов на {minCapacity} {minCapacity === 1 ? 'человека' : 'человек'}.
+          </p>
+          <p className="text-xs text-gray-400 mt-1">Попробуйте уменьшить количество гостей.</p>
+          {onBack && (
+            <button onClick={onBack}
+              className="mt-4 px-4 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
+              ← Назад
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Выберите {label.toLowerCase()}</h2>
       <div className="grid gap-3">
-        {resources.filter(r => r.isActive !== false).map((r) => (
+        {filtered.map((r) => (
           <button
             key={r.id}
             onClick={() => onSelect(r)}
@@ -22,23 +71,36 @@ export default function ResourceSelector({ resources, onSelect, label = 'Рес�
               <span className="text-2xl">{resourceIcon}</span>
               <div className="flex-1">
                 <div className="font-medium text-gray-900 group-hover:text-blue-700">{r.name}</div>
-                {r.description && <div className="text-sm text-gray-500 mt-0.5">{r.description}</div>}
-                {r.capacity && r.capacity > 1 && (
-                  <div className="text-xs text-gray-400 mt-0.5">до {r.capacity} чел.</div>
-                )}
-                {r.schedules?.length > 0 && (
-                  <div className="text-xs text-green-600 mt-1">
-                    {r.schedules[0].startTime}–{r.schedules[0].endTime}
+                {r.description && (
+                  <div className="text-sm text-gray-500 mt-0.5">
+                    {businessType === 'MEDICAL' && <span className="text-gray-400">Специализация: </span>}
+                    {r.description}
                   </div>
                 )}
+                <div className="flex flex-wrap items-center gap-2 mt-1">
+                  {r.capacity && r.capacity > 1 && (
+                    <span className={`text-xs ${businessType === 'HOTEL' ? 'bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full' : 'text-gray-400'}`}>
+                      {businessType === 'HOTEL' ? `👤 до ${r.capacity} чел.` : `до ${r.capacity} чел.`}
+                    </span>
+                  )}
+                  {r.schedules?.length > 0 && (
+                    <span className="text-xs text-green-600">
+                      {r.schedules[0].startTime}–{r.schedules[0].endTime}
+                    </span>
+                  )}
+                </div>
               </div>
-              <span className="text-blue-400 group-hover:text-blue-600">→</span>
+              <div className="text-right shrink-0 ml-2">
+                {r.basePrice && (
+                  <div className="text-sm font-semibold text-blue-700">
+                    от {Number(r.basePrice).toLocaleString('ru')} сом
+                  </div>
+                )}
+                <span className="text-blue-400 group-hover:text-blue-600 block mt-1">→</span>
+              </div>
             </div>
           </button>
         ))}
-        {resources.filter(r => r.isActive !== false).length === 0 && (
-          <div className="text-center py-8 text-gray-400">Нет доступных ресурсов</div>
-        )}
       </div>
     </div>
   )

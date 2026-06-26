@@ -12,8 +12,9 @@ import BookingForm from './BookingForm'
 import BookingConfirmation from './BookingConfirmation'
 import HotelDateRange from './HotelDateRange'
 import GuestCountStep from './GuestCountStep'
+import DurationStep from './DurationStep'
 
-type AnyStep = 'service' | 'resource' | 'guests' | 'date' | 'dateRange' | 'slot' | 'form' | 'done'
+type AnyStep = 'service' | 'resource' | 'guests' | 'date' | 'dateRange' | 'slot' | 'duration' | 'form' | 'done'
 
 interface FlowDef {
   steps: AnyStep[]
@@ -25,18 +26,25 @@ function getFlow(type: string, hasServices: boolean): FlowDef {
     case 'HOTEL':
       return { steps: ['resource', 'dateRange', 'guests', 'form', 'done'], labels: ['Номер', 'Даты', 'Гости', 'Данные', 'Готово'] }
     case 'RESTAURANT':
-      return { steps: ['date', 'slot', 'guests', 'form', 'done'], labels: ['Дата', 'Время', 'Гости', 'Данные', 'Готово'] }
+      return { steps: ['guests', 'resource', 'date', 'slot', 'form', 'done'], labels: ['Гости', 'Стол', 'Дата', 'Время', 'Данные', 'Готово'] }
     case 'SALON':
       if (hasServices) return { steps: ['service', 'resource', 'date', 'slot', 'form', 'done'], labels: ['Услуга', 'Мастер', 'Дата', 'Время', 'Данные', 'Готово'] }
       return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: ['Мастер', 'Дата', 'Время', 'Данные', 'Готово'] }
     case 'MEDICAL':
       if (hasServices) return { steps: ['resource', 'service', 'date', 'slot', 'form', 'done'], labels: ['Врач', 'Приём', 'Дата', 'Время', 'Данные', 'Готово'] }
       return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: ['Врач', 'Дата', 'Время', 'Данные', 'Готово'] }
+    case 'SPORT':
+      return { steps: ['resource', 'date', 'duration', 'slot', 'form', 'done'], labels: ['Корт', 'Дата', 'Длит.', 'Время', 'Данные', 'Готово'] }
+    case 'COWORKING':
+      return { steps: ['resource', 'date', 'duration', 'slot', 'guests', 'form', 'done'], labels: ['Место', 'Дата', 'Длит.', 'Время', 'Гости', 'Данные', 'Готово'] }
     default:
       if (hasServices) return { steps: ['resource', 'service', 'date', 'slot', 'form', 'done'], labels: ['Выбор', 'Услуга', 'Дата', 'Время', 'Данные', 'Готово'] }
       return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: ['Выбор', 'Дата', 'Время', 'Данные', 'Готово'] }
   }
 }
+
+const SPORT_DURATIONS = [60, 90, 120]
+const COWORKING_DURATIONS = [60, 120, 240, 480]
 
 interface Props { business: any }
 
@@ -49,6 +57,7 @@ export default function BookingFlowAdaptive({ business }: Props) {
   const [selectedService, setSelectedService] = useState<any>(null)
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string } | null>(null)
+  const [selectedDuration, setSelectedDuration] = useState<number | null>(null)
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [nights, setNights] = useState(0)
@@ -65,10 +74,8 @@ export default function BookingFlowAdaptive({ business }: Props) {
   const next = () => setStepIdx(i => i + 1)
   const back = () => setStepIdx(i => i - 1)
 
-  // For restaurant — no resource selection, use first available resource
-  const activeResource = selectedResource ?? (business.type === 'RESTAURANT' ? business.resources?.[0] : null)
+  const activeResource = selectedResource
 
-  // Build slot start/end from hotel date range (14:00 check-in, 12:00 check-out)
   const hotelSlot = checkIn && checkOut ? {
     start: `${checkIn}T14:00:00`,
     end: `${checkOut}T12:00:00`,
@@ -76,9 +83,10 @@ export default function BookingFlowAdaptive({ business }: Props) {
 
   const currentSlot = business.type === 'HOTEL' ? hotelSlot : selectedSlot
 
+  const slotDuration = selectedDuration ?? selectedService?.durationMinutes
+
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
-      {/* Progress */}
       <div className="flex items-center mb-8 overflow-x-auto">
         {flow.labels.map((label, i) => (
           <div key={i} className="flex items-center shrink-0">
@@ -99,32 +107,42 @@ export default function BookingFlowAdaptive({ business }: Props) {
         ))}
       </div>
 
-      {/* Step: service */}
+      {step === 'guests' && (
+        <GuestCountStep
+          max={selectedResource?.capacity ?? 20}
+          label={business.type === 'HOTEL' ? 'Количество гостей' : business.type === 'RESTAURANT' ? 'Сколько вас будет?' : 'Количество человек'}
+          businessType={business.type}
+          onSelect={c => { setGuestCount(c); next() }}
+          onBack={back}
+        />
+      )}
+
+      {step === 'resource' && (
+        <ResourceSelector
+          resources={business.resources}
+          onSelect={r => { setSelectedResource(r); next() }}
+          onBack={back}
+          label={meta.resourceLabel}
+          resourceIcon={meta.resourceIcon}
+          businessType={business.type}
+          minCapacity={business.type === 'RESTAURANT' ? guestCount : undefined}
+        />
+      )}
+
       {step === 'service' && (
         <ServiceSelector
           services={services}
           onSelect={s => { setSelectedService(s); next() }}
           onSkip={() => { setSelectedService(null); next() }}
           onBack={back}
+          required={business.type !== 'MEDICAL'}
         />
       )}
 
-      {/* Step: resource */}
-      {step === 'resource' && (
-        <ResourceSelector
-          resources={business.resources}
-          onSelect={r => { setSelectedResource(r); next() }}
-          label={meta.resourceLabel}
-          resourceIcon={meta.resourceIcon}
-        />
-      )}
-
-      {/* Step: date */}
       {step === 'date' && (
         <DatePicker onSelect={d => { setSelectedDate(d); next() }} onBack={back} />
       )}
 
-      {/* Step: dateRange (hotel) */}
       {step === 'dateRange' && (
         <HotelDateRange
           onSelect={(ci, co, n) => { setCheckIn(ci); setCheckOut(co); setNights(n); next() }}
@@ -132,28 +150,25 @@ export default function BookingFlowAdaptive({ business }: Props) {
         />
       )}
 
-      {/* Step: slot */}
+      {step === 'duration' && (
+        <DurationStep
+          options={business.type === 'COWORKING' ? COWORKING_DURATIONS : SPORT_DURATIONS}
+          onSelect={d => { setSelectedDuration(d); next() }}
+          onBack={back}
+        />
+      )}
+
       {step === 'slot' && activeResource && (
         <SlotPicker
           resourceId={activeResource.id}
           date={selectedDate}
-          slotDuration={selectedService?.durationMinutes}
+          slotDuration={slotDuration}
           onSelect={s => { setSelectedSlot(s); next() }}
           onBack={back}
+          onChangeDate={(d) => setSelectedDate(d)}
         />
       )}
 
-      {/* Step: guests */}
-      {step === 'guests' && (
-        <GuestCountStep
-          max={selectedResource?.capacity ?? 20}
-          label={business.type === 'HOTEL' ? 'Количество гостей' : 'Количество человек'}
-          onSelect={c => { setGuestCount(c); next() }}
-          onBack={back}
-        />
-      )}
-
-      {/* Step: form */}
       {step === 'form' && currentSlot && activeResource && (
         <BookingForm
           resource={activeResource}
@@ -166,14 +181,15 @@ export default function BookingFlowAdaptive({ business }: Props) {
         />
       )}
 
-      {/* Step: done */}
       {step === 'done' && booking && (
         <BookingConfirmation
           booking={booking}
           business={business}
           token={token}
           servicePrice={selectedService ? Number(selectedService.price) : null}
+          resourcePrice={selectedResource?.basePrice ? Number(selectedResource.basePrice) : null}
           nights={nights}
+          guestCount={guestCount}
         />
       )}
     </div>

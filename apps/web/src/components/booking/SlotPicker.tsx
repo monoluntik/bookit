@@ -11,6 +11,7 @@ interface Props {
   slotDuration?: number
   onSelect: (slot: Slot) => void
   onBack: () => void
+  onChangeDate?: (newDate: string) => void
 }
 
 function formatTime(iso: string) {
@@ -25,7 +26,7 @@ function formatDuration(slot: Slot) {
   return m ? `${h} ч ${m} мин` : `${h} ч`
 }
 
-export default function SlotPicker({ resourceId, date, slotDuration, onSelect, onBack }: Props) {
+export default function SlotPicker({ resourceId, date, slotDuration, onSelect, onBack, onChangeDate }: Props) {
   const [slots, setSlots] = useState<Slot[]>([])
   const [loading, setLoading] = useState(true)
   const [apiError, setApiError] = useState(false)
@@ -42,6 +43,14 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
   }
 
   useEffect(() => { load() }, [resourceId, date]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleNextDay = () => {
+    if (!onChangeDate) return
+    const nextDate = new Date(date)
+    nextDate.setDate(nextDate.getDate() + 1)
+    const nextDateStr = nextDate.toISOString().split('T')[0]
+    onChangeDate(nextDateStr)
+  }
 
   return (
     <div>
@@ -87,6 +96,12 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
                 Выбрать другой день →
               </button>
             </>
+          )}
+          {onChangeDate && (
+            <button onClick={handleNextDay}
+              className="mt-3 block mx-auto px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">
+              📅 Показать следующий день
+            </button>
           )}
         </div>
 
