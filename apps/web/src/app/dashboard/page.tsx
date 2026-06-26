@@ -99,6 +99,7 @@ export default function DashboardPage() {
   const [selectedBiz, setSelectedBiz] = useState('')
   const [stats, setStats] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [todayBookings, setTodayBookings] = useState<any[]>([])
 
   useEffect(() => {
     if (!token) return
@@ -113,6 +114,18 @@ export default function DashboardPage() {
     setStats(null)
     api.getStats(selectedBiz, token).then(setStats).catch(() => setStats(null))
   }, [token, selectedBiz])
+
+  useEffect(() => {
+    if (!token) return
+    const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
+    const today = new Date().toISOString().slice(0, 10)
+    fetch(`${API}/api/bookings/mine?date=${today}&limit=50`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) setTodayBookings(d.bookings ?? []) })
+      .catch(() => {})
+  }, [token])
 
   if (loading) return <div className="flex justify-center pt-20"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
 
@@ -157,6 +170,36 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Today's bookings */}
+      {todayBookings.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-base font-semibold text-gray-700 mb-3">
+            📅 Сегодня — {todayBookings.length} {todayBookings.length === 1 ? 'запись' : 'записей'}
+          </h2>
+          <div className="space-y-2">
+            {todayBookings.slice(0, 5).map(b => (
+              <div key={b.id} className="bg-white rounded-xl px-4 py-3 shadow-sm flex items-center justify-between gap-3">
+                <div>
+                  <span className="font-medium text-sm text-gray-900">{b.resource?.name}</span>
+                  <span className="text-xs text-gray-400 ml-2">
+                    {new Date(b.startAt).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}
+                    {' – '}
+                    {new Date(b.endAt).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  {b.service && <span className="text-xs text-blue-600 ml-1">· {b.service.name}</span>}
+                </div>
+                <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_COLOR[b.status]}`}>
+                  {STATUS_LABEL[b.status]}
+                </span>
+              </div>
+            ))}
+            {todayBookings.length > 5 && (
+              <p className="text-xs text-gray-400 text-center">+ ещё {todayBookings.length - 5}</p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Stats cards */}
       {stats ? (

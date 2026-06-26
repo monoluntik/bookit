@@ -35,6 +35,13 @@ export default function BusinessHero({ business }: Props) {
             <span className="text-xs font-semibold uppercase tracking-widest">{meta.label}</span>
           </div>
           <h1 className="text-2xl font-bold mb-1 drop-shadow-sm">{business.name}</h1>
+          {business.avgRating > 0 && (
+            <div className="flex items-center gap-1.5 mt-2">
+              <span className="text-yellow-400 text-sm">{'★'.repeat(Math.round(business.avgRating))}</span>
+              <span className="text-sm font-semibold text-white">{business.avgRating.toFixed(1)}</span>
+              <span className="text-xs opacity-70">({business.reviewCount} {business.reviewCount === 1 ? 'отзыв' : 'отзывов'})</span>
+            </div>
+          )}
           {business.description && (
             <p className="text-sm opacity-90 max-w-lg line-clamp-2">{business.description}</p>
           )}
@@ -59,6 +66,13 @@ export default function BusinessHero({ business }: Props) {
           <span className="text-xs font-semibold uppercase tracking-widest opacity-80">{meta.label}</span>
         </div>
         <h1 className="text-2xl font-bold mb-1">{business.name}</h1>
+        {business.avgRating > 0 && (
+          <div className="flex items-center gap-1.5 mt-2">
+            <span className="text-yellow-400 text-sm">{'★'.repeat(Math.round(business.avgRating))}</span>
+            <span className="text-sm font-semibold text-white">{business.avgRating.toFixed(1)}</span>
+            <span className="text-xs opacity-70">({business.reviewCount} {business.reviewCount === 1 ? 'отзыв' : 'отзывов'})</span>
+          </div>
+        )}
         {business.description && (
           <p className="text-sm opacity-90 max-w-lg">{business.description}</p>
         )}

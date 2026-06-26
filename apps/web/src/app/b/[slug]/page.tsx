@@ -8,6 +8,7 @@ import ReviewsList from '@/components/reviews/ReviewsList'
 import GallerySection from '@/components/business/GallerySection'
 import { getMeta } from '@/lib/businessTypes'
 import BusinessPageNav from '@/components/business/BusinessPageNav'
+import StickyBookingCTA from '@/components/business/StickyBookingCTA'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -25,6 +26,24 @@ async function getServices(businessId: string) {
   const res = await fetch(`${API}/api/services/business/${businessId}`, { cache: 'no-store' })
   if (!res.ok) return []
   return res.json()
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params
+  const business = await getBusiness(slug)
+  if (!business) return { title: 'Не найдено' }
+  const title = `${business.name} — онлайн запись`
+  const description = business.description
+    ?? `Запишитесь онлайн в ${business.name}. Быстро, удобно, без звонков.`
+  return {
+    title,
+    description,
+    openGraph: {
+      title: business.name,
+      description,
+      ...(business.logoUrl ? { images: [{ url: business.logoUrl }] } : {}),
+    },
+  }
 }
 
 export default async function BusinessPage({ params }: Props) {
@@ -73,6 +92,7 @@ export default async function BusinessPage({ params }: Props) {
           )}
         </div>
       </div>
+      <StickyBookingCTA label={meta.bookingVerb} />
     </div>
   )
 }

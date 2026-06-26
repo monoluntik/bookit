@@ -22,16 +22,28 @@ const navItems = [
 const mobileNavItems = navItems.slice(0, 4)
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading, logout } = useAuth()
+  const { user, loading, token, logout } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [pendingCount, setPendingCount] = useState(0)
 
   useEffect(() => {
     if (!loading && !user) router.push('/login')
   }, [user, loading, router])
 
   useEffect(() => { setSidebarOpen(false) }, [pathname])
+
+  useEffect(() => {
+    if (!token || !user) return
+    const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
+    fetch(`${API}/api/bookings/mine?status=PENDING&limit=100`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(r => r.json())
+      .then(data => setPendingCount(data.bookings?.length ?? 0))
+      .catch(() => {})
+  }, [token, user])
 
   if (loading || !user) {
     return (
@@ -59,6 +71,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           >
             <span>{item.icon}</span>
             {item.label}
+            {item.label === 'Брони' && pendingCount > 0 && (
+              <span className="ml-auto text-[10px] font-bold bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shrink-0">
+                {pendingCount > 9 ? '9+' : pendingCount}
+              </span>
+            )}
           </Link>
         ))}
       </nav>
@@ -114,6 +131,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             >
               <span className="text-base">{item.icon}</span>
               {item.label}
+              {item.label === 'Брони' && pendingCount > 0 && (
+                <span className="ml-auto text-[10px] font-bold bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shrink-0">
+                  {pendingCount > 9 ? '9+' : pendingCount}
+                </span>
+              )}
             </Link>
           ))}
         </nav>
@@ -157,10 +179,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors
+                className={`flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors relative
                   ${pathname === item.href ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
               >
-                <span className="text-xl leading-none">{item.icon}</span>
+                <span className="text-xl leading-none relative">
+                  {item.icon}
+                  {item.label === 'Брони' && pendingCount > 0 && (
+                    <span className="absolute -top-1 -right-1 text-[8px] font-bold bg-red-500 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">
+                      {pendingCount > 9 ? '9+' : pendingCount}
+                    </span>
+                  )}
+                </span>
                 <span>{item.mobileLabel}</span>
               </Link>
             ))}

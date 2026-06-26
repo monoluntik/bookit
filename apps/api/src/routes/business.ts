@@ -32,7 +32,14 @@ export async function businessRoutes(app: FastifyInstance) {
       },
     })
     if (!business) return reply.status(404).send({ error: 'Business not found' })
-    return reply.send(business)
+    const reviews = await prisma.review.findMany({
+      where: { businessId: business.id },
+      select: { rating: true },
+    })
+    const avgRating = reviews.length > 0
+      ? Math.round((reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10) / 10
+      : 0
+    return reply.send({ ...business, avgRating, reviewCount: reviews.length })
   })
 
   // Protected: get my businesses — registered BEFORE /:slug to avoid conflict
