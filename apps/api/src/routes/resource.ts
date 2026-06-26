@@ -184,9 +184,11 @@ export async function resourceRoutes(app: FastifyInstance) {
       select: { startAt: true, endAt: true },
     })
 
+    const now = new Date()
     const available = slots.filter((slot) => {
       const slotStart = new Date(slot.start)
       const slotEnd = new Date(slot.end)
+      if (slotStart <= now) return false
       return !bookings.some(
         (b: { startAt: Date; endAt: Date }) => slotStart < b.endAt && slotEnd > b.startAt,
       )
