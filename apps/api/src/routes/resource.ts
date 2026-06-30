@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
+import { zonedTimeToUtc } from '../lib/datetime'
 
 const createResourceSchema = z.object({
   businessId: z.string(),
@@ -139,6 +140,7 @@ export async function resourceRoutes(app: FastifyInstance) {
     const resource = await prisma.resource.findUnique({
       where: { id, isActive: true },
       include: {
+        business: { select: { timezone: true } },
         schedules: {
           where: { isActive: true, dayOfWeek: { has: dayOfWeek } },
           include: {
@@ -153,6 +155,7 @@ export async function resourceRoutes(app: FastifyInstance) {
     })
 
     if (!resource) return reply.status(404).send({ error: 'Resource not found' })
+    const tz = resource.business.timezone
 
     const slots: { start: string; end: string }[] = []
     for (const schedule of resource.schedules) {
@@ -192,13 +195,14 @@ export async function resourceRoutes(app: FastifyInstance) {
     }
 
     // Filter out already booked slots
+    const dayStart = zonedTimeToUtc(`${date}T00:00`, tz)
     const bookings = await prisma.booking.findMany({
       where: {
         resourceId: id,
         status: { in: ['PENDING', 'CONFIRMED'] },
         startAt: {
-          gte: new Date(`${date}T00:00:00`),
-          lt: new Date(new Date(`${date}T00:00:00`).getTime() + 86_400_000),
+          gte: dayStart,
+          lt: new Date(dayStart.getTime() + 86_400_000),
         },
       },
       select: { startAt: true, endAt: true },
@@ -206,8 +210,8 @@ export async function resourceRoutes(app: FastifyInstance) {
 
     const now = new Date()
     const available = slots.filter((slot) => {
-      const slotStart = new Date(slot.start)
-      const slotEnd = new Date(slot.end)
+      const slotStart = zonedTimeToUtc(slot.start, tz)
+      const slotEnd = zonedTimeToUtc(slot.end, tz)
       if (slotStart <= now) return false
       return !bookings.some(
         (b: { startAt: Date; endAt: Date }) => slotStart < b.endAt && slotEnd > b.startAt,

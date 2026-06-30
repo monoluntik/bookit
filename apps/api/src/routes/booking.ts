@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma, Prisma } from '../lib/prisma'
 import { sendBookingConfirmation, sendBookingCancellation, sendNewBookingAlert } from '../lib/email'
+import { zonedTimeToUtc } from '../lib/datetime'
 
 const isValidDate = (s: string) => !isNaN(Date.parse(s))
 
@@ -29,19 +30,22 @@ export async function bookingRoutes(app: FastifyInstance) {
       return reply.status(400).send({ error: msg })
     }
 
-    const startAt = new Date(body.data.startAt)
-    const endAt = new Date(body.data.endAt)
-
-    // Prevent past bookings
-    if (startAt <= new Date()) {
-      return reply.status(400).send({ error: 'Нельзя забронировать прошедшую дату' })
-    }
-
     const resource = await prisma.resource.findUnique({
       where: { id: body.data.resourceId, isActive: true },
       include: { business: true },
     })
     if (!resource) return reply.status(404).send({ error: 'Ресурс не найден или неактивен' })
+
+    // startAt/endAt arrive as naive "YYYY-MM-DDTHH:mm" wall-clock strings
+    // (same value shown to the customer in the slot picker) — interpret them
+    // in the business's own timezone, not the server process's timezone.
+    const startAt = zonedTimeToUtc(body.data.startAt, resource.business.timezone)
+    const endAt = zonedTimeToUtc(body.data.endAt, resource.business.timezone)
+
+    // Prevent past bookings
+    if (startAt <= new Date()) {
+      return reply.status(400).send({ error: 'Нельзя забронировать прошедшую дату' })
+    }
 
     if (resource.business.subscriptionPlan === 'FREE') {
       const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0)
