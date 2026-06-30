@@ -162,6 +162,11 @@ export async function resourceRoutes(app: FastifyInstance) {
       const start = exception?.startTime ?? schedule.startTime
       const end = exception?.endTime ?? schedule.endTime
       const duration = forceDuration ?? schedule.slotDurationMinutes
+      // When duration is chosen by the customer (forceDuration), step by the
+      // schedule's granularity instead of the booking length itself — otherwise
+      // start times jump in increments of the full duration (e.g. only 08:00/12:00
+      // for a 4h booking) instead of every available slotDurationMinutes.
+      const step = forceDuration ? schedule.slotDurationMinutes : duration
 
       const [startH, startM] = start.split(':').map(Number)
       const [endH, endM] = end.split(':').map(Number)
@@ -172,7 +177,7 @@ export async function resourceRoutes(app: FastifyInstance) {
         const slotStart = `${String(Math.floor(current / 60)).padStart(2, '0')}:${String(current % 60).padStart(2, '0')}`
         const slotEnd = `${String(Math.floor((current + duration) / 60)).padStart(2, '0')}:${String((current + duration) % 60).padStart(2, '0')}`
         slots.push({ start: `${date}T${slotStart}`, end: `${date}T${slotEnd}` })
-        current += duration
+        current += step
       }
     }
 
