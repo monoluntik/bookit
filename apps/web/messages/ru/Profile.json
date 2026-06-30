@@ -1,0 +1,83 @@
+{
+  "Profile": {
+    "header": {
+      "catalog": "Каталог",
+      "logout": "Выйти"
+    },
+    "card": {
+      "forBusiness": "Для бизнеса →"
+    },
+    "tabs": {
+      "bookings": "Брони",
+      "bookingsWithCount": "Брони ({count})",
+      "notifications": "Напоминания",
+      "settings": "Данные",
+      "password": "Пароль"
+    },
+    "bookings": {
+      "empty": "Броней пока нет",
+      "findPlace": "Найти заведение",
+      "upcoming": "Предстоящие",
+      "history": "История",
+      "guestCount": "{count, plural, one {# чел.} few {# чел.} many {# чел.} other {# чел.}}",
+      "paid": "Оплачено",
+      "cancel": "Отменить",
+      "review": "Оценить"
+    },
+    "notifications": {
+      "title": "Напоминания о бронях",
+      "subtitle": "Привяжите Telegram, чтобы получать напоминания перед визитом — настройки времени задаёт каждый бизнес.",
+      "linked": "Telegram привязан",
+      "unlink": "Отвязать",
+      "botNotConfigured": "Telegram-бот ещё не настроен платформой. Загляните позже.",
+      "linkButton": "Привязать Telegram",
+      "linkOpening": "Открываем Telegram...",
+      "linkHint": "Откройте Telegram и нажмите «Start» в чате с ботом — страница обновится автоматически.",
+      "errorDefault": "Ошибка"
+    },
+    "settings": {
+      "title": "Личные данные",
+      "nameLabel": "Имя",
+      "emailLabel": "Email",
+      "phoneLabel": "Телефон",
+      "phonePlaceholder": "+996 700 000 000",
+      "saved": "Сохранено!",
+      "errorPrefix": "Ошибка: ",
+      "submit": "Сохранить изменения",
+      "submitting": "Сохраняем..."
+    },
+    "password": {
+      "title": "Изменить пароль",
+      "currentLabel": "Текущий пароль",
+      "newLabel": "Новый пароль",
+      "confirmLabel": "Повторите новый пароль",
+      "mismatch": "Пароли не совпадают",
+      "tooShort": "Пароль минимум 6 символов",
+      "changed": "Пароль изменён!",
+      "submit": "Изменить пароль",
+      "submitting": "Меняем пароль..."
+    },
+    "cancelModal": {
+      "title": "Отменить бронь?",
+      "policyTitle": "Политика отмены",
+      "freeCancellation": "Бесплатно за {hours} ч до начала",
+      "penalty": "Штраф {percent}% при более поздней отмене",
+      "noRefund": "Без возврата при отмене менее чем за {hours} ч",
+      "noPolicy": "Политика отмены не установлена.",
+      "back": "Назад",
+      "confirm": "Отменить бронь"
+    },
+    "myBookings": {
+      "title": "Мои бронирования",
+      "empty": "У вас пока нет броней",
+      "findPlace": "Найти заведение",
+      "upcoming": "Предстоящие",
+      "past": "Прошедшие",
+      "paid": "Оплачено",
+      "cancel": "Отменить",
+      "cancelling": "Отмена...",
+      "cancelConfirm": "Отменить бронь?",
+      "bookAgain": "Забронировать снова →"
+    }
+  }
+}

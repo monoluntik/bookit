@@ -1,0 +1,120 @@
+{
+  "Home": {
+    "hero": {
+      "badge": "Kichik biznes uchun bepul",
+      "titleLine1": "Onlayn bron qilish",
+      "titleLine2": "har qanday biznes uchun",
+      "subtitle": "Salonlar, restoranlar, mehmonxonalar, koworkinglar, sport zallari va klinikalar — qo'ng'iroqlar va messenjerlarsiz 24/7 bron qabul qiling.",
+      "ctaPrimary": "Biznesni bepul ulash",
+      "ctaSecondary": "Joy topish",
+      "footnote": "Yashirin to'lovlar yo'q · 5 daqiqada sozlash"
+    },
+    "categories": {
+      "title": "Mashhur kategoriyalar",
+      "subtitle": "Yoningizdagi kerakli joyni toping",
+      "types": {
+        "HOTEL": "Mehmonxonalar",
+        "RESTAURANT": "Restoranlar",
+        "SALON": "Go'zallik salonlari",
+        "COWORKING": "Koworking",
+        "SPORT": "Sport",
+        "MEDICAL": "Tibbiyot"
+      }
+    },
+    "features": {
+      "title": "Ishlash uchun kerakli hamma narsa",
+      "subtitle": "Ortiqcha narsa yo'q — biznesga haqiqatan kerak bo'lgan narsalar",
+      "items": {
+        "instantBooking": {
+          "title": "Tezkor bron qilish",
+          "desc": "Mijoz vaqtni tanlab, qo'ng'iroqsiz va kutmasdan 30 soniyada bron qiladi."
+        },
+        "anyDevice": {
+          "title": "Har qanday qurilmada ishlaydi",
+          "desc": "Telefon, planshet va kompyuter uchun moslashuvchan interfeys."
+        },
+        "onlinePayment": {
+          "title": "Onlayn to'lov",
+          "desc": "Bakai PayLink orqali oldindan to'lovni qabul qiling. Pul darhol keladi."
+        },
+        "emailNotifications": {
+          "title": "Email xabarnomalar",
+          "desc": "Mijozlar bron qilingandan so'ng darhol tasdiqlash oladi."
+        },
+        "analytics": {
+          "title": "Analitika va statistika",
+          "desc": "Bandlik, daromad va mashhur xizmatlarni real vaqtda kuzating."
+        },
+        "staffManagement": {
+          "title": "Xodimlarni boshqarish",
+          "desc": "Xodimlarni qo'shing, rollarni belgilang, jadvalni yuriting."
+        }
+      }
+    },
+    "steps": {
+      "title": "Bir kunda ishga tushiring",
+      "subtitle": "Texnik bilim va dasturchilar talab qilinmaydi",
+      "items": {
+        "registerBusiness": {
+          "title": "Biznesingizni ro'yxatdan o'tkazing",
+          "desc": "Akkaunt yarating va kompaniya profilini 5 daqiqada to'ldiring."
+        },
+        "addResources": {
+          "title": "Resurslar va jadvalni qo'shing",
+          "desc": "Ustalar, stollar yoki xonalarni ko'rsating va ish soatlarini belgilang."
+        },
+        "shareLink": {
+          "title": "Havolani ulashing",
+          "desc": "Mijozlarga bron qilish sahifasi havolasini yuboring."
+        },
+        "acceptBookings": {
+          "title": "Bronlarni qabul qiling",
+          "desc": "Bronlarni qulay boshqaruv panelida boshqaring."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Bizga ishonishadi",
+      "subtitle": "Biznes egalarining fikrlari",
+      "items": {
+        "aigul": {
+          "name": "Aygul M.",
+          "role": "Go'zallik saloni egasi",
+          "text": "Avval yozuvlarni daftarda yuritardim. Endi hammasi onlayn — mijozlar o'zlari qulay vaqtni tanlaydi, men esa barcha bronlarni bir joyda ko'raman."
+        },
+        "daniyar": {
+          "name": "Daniyar K.",
+          "role": "Koworking menejeri",
+          "text": "Bir kunda sozlab oldik. Onlayn to'lov ayniqsa yoqdi — endi mijozlarga to'lov haqida eslatishning hojati yo'q."
+        },
+        "nurzhan": {
+          "name": "Nurjan A.",
+          "role": "Fitnes-klub direktori",
+          "text": "Tizim bizning ish formatimizga moslashadi. Murabbiylar o'z jadvalini boshqaruv paneli orqali o'zlari ko'rishadi."
+        }
+      }
+    },
+    "ctaSection": {
+      "title": "Hozir bepul boshlang",
+      "subtitle": "Bepul tarif abadiy. Ko'proq imkoniyat kerak bo'lganda Upgrade qiling.",
+      "ctaPrimary": "Bepul akkaunt yaratish",
+      "ctaSecondary": "Tariflarni ko'rish"
+    },
+    "footer": {
+      "tagline": "Kichik va o'rta biznes uchun onlayn bron qilish platformasi.",
+      "productHeading": "Mahsulot",
+      "findBusiness": "Joy topish",
+      "guide": "Platforma bo'yicha qo'llanma",
+      "pricing": "Tariflar",
+      "forBusiness": "Biznes uchun",
+      "companyHeading": "Kompaniya",
+      "about": "Biz haqimizda",
+      "contact": "Aloqa",
+      "legalHeading": "Huquqiy",
+      "terms": "Foydalanish shartlari",
+      "privacy": "Maxfiylik siyosati",
+      "copyright": "© 2026 Booking. Barcha huquqlar himoyalangan.",
+      "location": "Bishkek, Qirg'iziston"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { api } from '@/lib/api'
 
 interface Slot { start: string; end: string }
@@ -18,16 +19,17 @@ function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
 }
 
-function formatDuration(slot: Slot) {
-  const mins = (new Date(slot.end).getTime() - new Date(slot.start).getTime()) / 60000
-  if (mins < 60) return `${mins} мин`
-  const h = Math.floor(mins / 60)
-  const m = mins % 60
-  return m ? `${h} ч ${m} мин` : `${h} ч`
-}
-
 export default function SlotPicker({ resourceId, date, slotDuration, onSelect, onBack, onChangeDate }: Props) {
+  const t = useTranslations('Booking.slotPicker')
   const [slots, setSlots] = useState<Slot[]>([])
+
+  const formatDuration = (slot: Slot) => {
+    const mins = (new Date(slot.end).getTime() - new Date(slot.start).getTime()) / 60000
+    if (mins < 60) return t('minutes', { count: mins })
+    const h = Math.floor(mins / 60)
+    const m = mins % 60
+    return m ? t('hoursMinutes', { hours: h, minutes: m }) : t('hours', { count: h })
+  }
   const [loading, setLoading] = useState(true)
   const [apiError, setApiError] = useState(false)
   const [selected, setSelected] = useState<Slot | null>(null)
@@ -54,7 +56,7 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-0.5">Выберите время</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-0.5">{t('title')}</h2>
       <p className="text-sm text-gray-400 mb-4">
         {new Date(date).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long' })}
       </p>
@@ -68,9 +70,9 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
 
       ) : apiError ? (
         <div className="text-center py-10">
-          <p className="text-gray-400 mb-3">Не удалось загрузить слоты</p>
+          <p className="text-gray-400 mb-3">{t('loadError')}</p>
           <button onClick={load}
-            className="text-sm text-blue-600 hover:underline">Попробовать снова</button>
+            className="text-sm text-blue-600 hover:underline">{t('retry')}</button>
         </div>
 
       ) : slots.length === 0 ? (
@@ -80,27 +82,27 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
           </div>
           {date === new Date().toISOString().split('T')[0] ? (
             <>
-              <p className="text-gray-500 font-medium text-sm">На сегодня записи закончились</p>
-              <p className="text-xs text-gray-400 mt-1">Все оставшиеся слоты заняты или уже прошли</p>
+              <p className="text-gray-500 font-medium text-sm">{t('noSlotsToday')}</p>
+              <p className="text-xs text-gray-400 mt-1">{t('noSlotsTodayHint')}</p>
               <button onClick={onBack}
                 className="mt-3 text-sm text-blue-600 hover:underline font-medium">
-                Выбрать другой день →
+                {t('chooseAnotherDay')}
               </button>
             </>
           ) : (
             <>
-              <p className="text-gray-500 font-medium text-sm">На эту дату нет свободных слотов</p>
-              <p className="text-xs text-gray-400 mt-1">Попробуйте другой день</p>
+              <p className="text-gray-500 font-medium text-sm">{t('noSlotsDate')}</p>
+              <p className="text-xs text-gray-400 mt-1">{t('noSlotsDateHint')}</p>
               <button onClick={onBack}
                 className="mt-3 text-sm text-blue-600 hover:underline font-medium">
-                Выбрать другой день →
+                {t('chooseAnotherDay')}
               </button>
             </>
           )}
           {onChangeDate && (
             <button onClick={handleNextDay}
               className="mt-3 block mx-auto px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">
-              📅 Показать следующий день
+              {t('showNextDay')}
             </button>
           )}
         </div>
@@ -131,14 +133,14 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
       <div className="flex gap-3 mt-6">
         <button onClick={onBack}
           className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm">
-          Назад
+          {t('back')}
         </button>
         <button
           disabled={!selected}
           onClick={() => selected && onSelect(selected)}
           className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {selected ? `Выбрать ${formatTime(selected.start)}` : 'Выберите время'}
+          {selected ? t('selectSlot', { time: formatTime(selected.start) }) : t('selectTime')}
         </button>
       </div>
     </div>

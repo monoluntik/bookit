@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
+import { resolveContentLocale, withTranslation, CONTENT_LOCALES } from '../lib/i18n'
 
 const createSchema = z.object({
   businessId: z.string(),
@@ -13,15 +14,22 @@ const createSchema = z.object({
 
 const updateSchema = createSchema.partial().omit({ businessId: true })
 
+const translationBodySchema = z.object({
+  name: z.string().min(1).optional().nullable(),
+  description: z.string().optional().nullable(),
+})
+
 export async function serviceRoutes(app: FastifyInstance) {
   // GET services for a business (public)
   app.get('/business/:businessId', async (request, reply) => {
     const { businessId } = request.params as { businessId: string }
+    const locale = resolveContentLocale((request.query as { locale?: string }).locale)
     const services = await prisma.service.findMany({
       where: { businessId },
+      include: { translations: { where: { locale } } },
       orderBy: { name: 'asc' },
     })
-    return reply.send(services)
+    return reply.send(services.map(({ translations, ...s }) => withTranslation(s, translations[0])))
   })
 
   // POST create service (owner only)
@@ -84,5 +92,39 @@ export async function serviceRoutes(app: FastifyInstance) {
 
     await prisma.service.delete({ where: { id } })
     return reply.send({ ok: true })
+  })
+
+  // Protected: list translations for a service (owner only)
+  app.get('/:id/translations', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+    const service = await prisma.service.findUnique({ where: { id }, include: { business: true } })
+    if (!service) return reply.status(404).send({ error: 'Not found' })
+    if (service.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const translations = await prisma.serviceTranslation.findMany({ where: { serviceId: id } })
+    return reply.send(translations)
+  })
+
+  // Protected: upsert a single-locale translation for a service (owner only)
+  app.put('/:id/translations/:locale', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id, locale } = request.params as { id: string; locale: string }
+    if (!(CONTENT_LOCALES as readonly string[]).includes(locale)) {
+      return reply.status(400).send({ error: 'Unsupported locale' })
+    }
+    const body = translationBodySchema.safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: 'Неверные данные' })
+
+    const service = await prisma.service.findUnique({ where: { id }, include: { business: true } })
+    if (!service) return reply.status(404).send({ error: 'Not found' })
+    if (service.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const translation = await prisma.serviceTranslation.upsert({
+      where: { serviceId_locale: { serviceId: id, locale } },
+      create: { serviceId: id, locale, ...body.data },
+      update: body.data,
+    })
+    return reply.send(translation)
   })
 }

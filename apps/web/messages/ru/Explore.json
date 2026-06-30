@@ -1,0 +1,64 @@
+{
+  "Explore": {
+    "searchPlaceholder": "Поиск заведений...",
+    "login": "Войти",
+    "types": {
+      "HOTEL": "Отели",
+      "RESTAURANT": "Рестораны",
+      "SALON": "Салоны",
+      "COWORKING": "Коворкинг",
+      "SPORT": "Спорт",
+      "MEDICAL": "Медицина",
+      "CUSTOM": "Другое"
+    },
+    "cardTypes": {
+      "HOTEL": "Отель",
+      "RESTAURANT": "Ресторан",
+      "SALON": "Салон",
+      "COWORKING": "Коворкинг",
+      "SPORT": "Спорт",
+      "MEDICAL": "Медицина",
+      "CUSTOM": "Другое"
+    },
+    "filters": {
+      "title": "Фильтры",
+      "all": "Все",
+      "ratingHeading": "Рейтинг",
+      "ratingAny": "Любой",
+      "ratingValue": "{value}+ ★",
+      "sortHeading": "Сортировка",
+      "sort": {
+        "newest": "По новизне",
+        "rating": "По рейтингу",
+        "az": "А → Я",
+        "za": "Я → А"
+      },
+      "extraHeading": "Дополнительно",
+      "onlineBooking": "Онлайн-запись",
+      "hasPhoto": "Есть фото",
+      "searchTag": "«{query}»",
+      "resetAll": "Сбросить всё"
+    },
+    "errorState": {
+      "title": "Не удалось загрузить заведения",
+      "subtitle": "Проверьте подключение к интернету",
+      "retry": "Попробовать снова"
+    },
+    "emptyState": {
+      "title": "Ничего не найдено",
+      "withFiltersSubtitle": "Попробуйте изменить или убрать часть фильтров",
+      "resetFilters": "Сбросить все фильтры",
+      "noBusinessesYet": "Пока нет заведений в каталоге"
+    },
+    "results": {
+      "count": "{count, plural, one {# заведение} few {# заведения} many {# заведений} other {# заведений}}",
+      "byRating": " · по рейтингу"
+    },
+    "pagination": {
+      "back": "Назад",
+      "next": "Вперёд",
+      "pageOf": "Стр. {page} / {totalPages}"
+    },
+    "bookCta": "Забронировать"
+  }
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   max?: number
@@ -12,21 +13,24 @@ interface Props {
 
 const QUICK_VALUES = [1, 2, 3, 4, 6, 8]
 
-function getHint(businessType?: string): string {
-  if (businessType === 'RESTAURANT') return 'Мы подберём стол для вас'
-  if (businessType === 'HOTEL') return 'Укажите количество гостей для подбора номера'
-  return 'Выберите количество участников'
-}
-
-export default function GuestCountStep({ max = 20, label = 'Количество гостей', businessType, onSelect, onBack }: Props) {
+export default function GuestCountStep({ max = 20, label, businessType, onSelect, onBack }: Props) {
+  const t = useTranslations('Booking.guestCount')
   const [count, setCount] = useState(1)
+
+  const getHint = (businessType?: string): string => {
+    if (businessType === 'RESTAURANT') return t('hintRestaurant')
+    if (businessType === 'HOTEL') return t('hintHotel')
+    return t('hintDefault')
+  }
+
+  const resolvedLabel = label ?? t('defaultLabel')
 
   const quickValues = QUICK_VALUES.filter(v => v <= max)
   const showCounter = max > 8
 
   return (
     <div>
-      <h3 className="font-semibold text-gray-900 mb-1">{label}</h3>
+      <h3 className="font-semibold text-gray-900 mb-1">{resolvedLabel}</h3>
       <p className="text-sm text-gray-400 mb-6">{getHint(businessType)}</p>
 
       <div className="flex flex-wrap gap-2 mb-6">
@@ -46,7 +50,7 @@ export default function GuestCountStep({ max = 20, label = 'Количество
 
       {showCounter && (
         <>
-          <p className="text-xs text-gray-400 mb-3">Другое количество:</p>
+          <p className="text-xs text-gray-400 mb-3">{t('otherCount')}</p>
           <div className="flex items-center justify-center gap-6 py-4">
             <button onClick={() => setCount(c => Math.max(1, c - 1))}
               className="w-12 h-12 rounded-full bg-gray-100 text-xl font-bold hover:bg-gray-200 flex items-center justify-center">
@@ -61,11 +65,11 @@ export default function GuestCountStep({ max = 20, label = 'Количество
 
           <div className="flex gap-3 mt-6">
             <button onClick={onBack} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
-              ← Назад
+              {t('back')}
             </button>
             <button onClick={() => onSelect(count)}
               className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">
-              Далее →
+              {t('next')}
             </button>
           </div>
         </>
@@ -74,7 +78,7 @@ export default function GuestCountStep({ max = 20, label = 'Количество
       {!showCounter && (
         <div className="mt-2">
           <button onClick={onBack} className="w-full py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
-            ← Назад
+            {t('back')}
           </button>
         </div>
       )}

@@ -1,0 +1,64 @@
+{
+  "Explore": {
+    "searchPlaceholder": "Мекемелерді іздеу...",
+    "login": "Кіру",
+    "types": {
+      "HOTEL": "Қонақүйлер",
+      "RESTAURANT": "Мейрамханалар",
+      "SALON": "Салондар",
+      "COWORKING": "Коворкинг",
+      "SPORT": "Спорт",
+      "MEDICAL": "Медицина",
+      "CUSTOM": "Басқа"
+    },
+    "cardTypes": {
+      "HOTEL": "Қонақүй",
+      "RESTAURANT": "Мейрамхана",
+      "SALON": "Салон",
+      "COWORKING": "Коворкинг",
+      "SPORT": "Спорт",
+      "MEDICAL": "Медицина",
+      "CUSTOM": "Басқа"
+    },
+    "filters": {
+      "title": "Сүзгілер",
+      "all": "Барлығы",
+      "ratingHeading": "Рейтинг",
+      "ratingAny": "Кез келген",
+      "ratingValue": "{value}+ ★",
+      "sortHeading": "Сұрыптау",
+      "sort": {
+        "newest": "Жаңалығы бойынша",
+        "rating": "Рейтинг бойынша",
+        "az": "А → Я",
+        "za": "Я → А"
+      },
+      "extraHeading": "Қосымша",
+      "onlineBooking": "Онлайн жазылу",
+      "hasPhoto": "Суреті бар",
+      "searchTag": "«{query}»",
+      "resetAll": "Барлығын тазалау"
+    },
+    "errorState": {
+      "title": "Мекемелерді жүктеу мүмкін болмады",
+      "subtitle": "Интернет байланысын тексеріңіз",
+      "retry": "Қайта көру"
+    },
+    "emptyState": {
+      "title": "Ештеңе табылмады",
+      "withFiltersSubtitle": "Сүзгілердің бір бөлігін өзгертіп немесе алып тастап көріңіз",
+      "resetFilters": "Барлық сүзгілерді тазалау",
+      "noBusinessesYet": "Каталогда әзірге мекемелер жоқ"
+    },
+    "results": {
+      "count": "{count} мекеме",
+      "byRating": " · рейтинг бойынша"
+    },
+    "pagination": {
+      "back": "Артқа",
+      "next": "Алға",
+      "pageOf": "Бет {page} / {totalPages}"
+    },
+    "bookCta": "Брондау"
+  }
+}

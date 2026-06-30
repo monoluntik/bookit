@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
-const MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']
-const DAYS = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс']
+import { useTranslations } from 'next-intl'
 
 function toISO(d: Date) {
   return d.toISOString().slice(0, 10)
@@ -19,6 +17,14 @@ interface Props {
 }
 
 export default function HotelDateRange({ onSelect, onBack }: Props) {
+  const t = useTranslations('Booking.hotelDateRange')
+  const dp = useTranslations('Booking.datePicker')
+  const MONTHS = [
+    dp('months.january'), dp('months.february'), dp('months.march'), dp('months.april'),
+    dp('months.may'), dp('months.june'), dp('months.july'), dp('months.august'),
+    dp('months.september'), dp('months.october'), dp('months.november'), dp('months.december'),
+  ]
+  const DAYS = [dp('days.mon'), dp('days.tue'), dp('days.wed'), dp('days.thu'), dp('days.fri'), dp('days.sat'), dp('days.sun')]
   const today = new Date()
   today.setHours(0,0,0,0)
   const [checkIn, setCheckIn] = useState<string>('')
@@ -58,9 +64,9 @@ export default function HotelDateRange({ onSelect, onBack }: Props) {
 
   return (
     <div>
-      <h3 className="font-semibold text-gray-900 mb-1">Выберите даты</h3>
+      <h3 className="font-semibold text-gray-900 mb-1">{t('title')}</h3>
       <p className="text-sm text-gray-400 mb-4">
-        {!checkIn ? 'Выберите дату заезда' : !checkOut ? 'Выберите дату выезда' : `${nights} ночей`}
+        {!checkIn ? t('selectCheckIn') : !checkOut ? t('selectCheckOut') : t('nights', { count: nights })}
       </p>
 
       <div className="flex items-center justify-between mb-4">
@@ -92,21 +98,21 @@ export default function HotelDateRange({ onSelect, onBack }: Props) {
 
       {checkIn && checkOut && (
         <div className="mt-4 p-3 bg-blue-50 rounded-xl text-sm text-blue-700">
-          Заезд: <strong>{new Date(checkIn).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
+          {t('checkIn')} <strong>{new Date(checkIn).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
           {' · '}
-          Выезд: <strong>{new Date(checkOut).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
-          {' · '}<strong>{nights} ночей</strong>
+          {t('checkOut')} <strong>{new Date(checkOut).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
+          {' · '}<strong>{t('nights', { count: nights })}</strong>
         </div>
       )}
 
       <div className="flex gap-3 mt-5">
         <button onClick={onBack} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
-          ← Назад
+          {t('back')}
         </button>
         <button disabled={!checkIn || !checkOut}
           onClick={() => onSelect(checkIn, checkOut, nights)}
           className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium disabled:opacity-40 hover:bg-blue-700">
-          Далее →
+          {t('next')}
         </button>
       </div>
     </div>

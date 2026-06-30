@@ -1,0 +1,83 @@
+{
+  "Profile": {
+    "header": {
+      "catalog": "Catalog",
+      "logout": "Log out"
+    },
+    "card": {
+      "forBusiness": "For business →"
+    },
+    "tabs": {
+      "bookings": "Bookings",
+      "bookingsWithCount": "Bookings ({count})",
+      "notifications": "Reminders",
+      "settings": "Details",
+      "password": "Password"
+    },
+    "bookings": {
+      "empty": "No bookings yet",
+      "findPlace": "Find a place",
+      "upcoming": "Upcoming",
+      "history": "History",
+      "guestCount": "{count, plural, one {# guest} other {# guests}}",
+      "paid": "Paid",
+      "cancel": "Cancel",
+      "review": "Rate"
+    },
+    "notifications": {
+      "title": "Booking reminders",
+      "subtitle": "Link Telegram to get reminders before your visit — timing is set by each business.",
+      "linked": "Telegram linked",
+      "unlink": "Unlink",
+      "botNotConfigured": "The Telegram bot hasn't been set up by the platform yet. Check back later.",
+      "linkButton": "Link Telegram",
+      "linkOpening": "Opening Telegram...",
+      "linkHint": "Open Telegram and tap \"Start\" in the bot's chat — this page will update automatically.",
+      "errorDefault": "Error"
+    },
+    "settings": {
+      "title": "Personal details",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "+996 700 000 000",
+      "saved": "Saved!",
+      "errorPrefix": "Error: ",
+      "submit": "Save changes",
+      "submitting": "Saving..."
+    },
+    "password": {
+      "title": "Change password",
+      "currentLabel": "Current password",
+      "newLabel": "New password",
+      "confirmLabel": "Confirm new password",
+      "mismatch": "Passwords do not match",
+      "tooShort": "Password must be at least 6 characters",
+      "changed": "Password changed!",
+      "submit": "Change password",
+      "submitting": "Changing password..."
+    },
+    "cancelModal": {
+      "title": "Cancel booking?",
+      "policyTitle": "Cancellation policy",
+      "freeCancellation": "Free up to {hours}h before start",
+      "penalty": "{percent}% penalty for later cancellation",
+      "noRefund": "No refund if cancelled less than {hours}h before",
+      "noPolicy": "No cancellation policy set.",
+      "back": "Back",
+      "confirm": "Cancel booking"
+    },
+    "myBookings": {
+      "title": "My bookings",
+      "empty": "You don't have any bookings yet",
+      "findPlace": "Find a place",
+      "upcoming": "Upcoming",
+      "past": "Past",
+      "paid": "Paid",
+      "cancel": "Cancel",
+      "cancelling": "Cancelling...",
+      "cancelConfirm": "Cancel booking?",
+      "bookAgain": "Book again →"
+    }
+  }
+}

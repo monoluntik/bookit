@@ -1,0 +1,64 @@
+{
+  "Explore": {
+    "searchPlaceholder": "Search businesses...",
+    "login": "Log in",
+    "types": {
+      "HOTEL": "Hotels",
+      "RESTAURANT": "Restaurants",
+      "SALON": "Salons",
+      "COWORKING": "Coworking",
+      "SPORT": "Sports",
+      "MEDICAL": "Medical",
+      "CUSTOM": "Other"
+    },
+    "cardTypes": {
+      "HOTEL": "Hotel",
+      "RESTAURANT": "Restaurant",
+      "SALON": "Salon",
+      "COWORKING": "Coworking",
+      "SPORT": "Sports",
+      "MEDICAL": "Medical",
+      "CUSTOM": "Other"
+    },
+    "filters": {
+      "title": "Filters",
+      "all": "All",
+      "ratingHeading": "Rating",
+      "ratingAny": "Any",
+      "ratingValue": "{value}+ ★",
+      "sortHeading": "Sort",
+      "sort": {
+        "newest": "Newest",
+        "rating": "Top rated",
+        "az": "A → Z",
+        "za": "Z → A"
+      },
+      "extraHeading": "More",
+      "onlineBooking": "Online booking",
+      "hasPhoto": "Has photo",
+      "searchTag": "\"{query}\"",
+      "resetAll": "Reset all"
+    },
+    "errorState": {
+      "title": "Couldn't load businesses",
+      "subtitle": "Check your internet connection",
+      "retry": "Try again"
+    },
+    "emptyState": {
+      "title": "Nothing found",
+      "withFiltersSubtitle": "Try changing or removing some filters",
+      "resetFilters": "Reset all filters",
+      "noBusinessesYet": "No businesses in the catalog yet"
+    },
+    "results": {
+      "count": "{count, plural, one {# business} other {# businesses}}",
+      "byRating": " · by rating"
+    },
+    "pagination": {
+      "back": "Back",
+      "next": "Next",
+      "pageOf": "Page {page} / {totalPages}"
+    },
+    "bookCta": "Book now"
+  }
+}

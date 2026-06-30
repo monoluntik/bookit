@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   onSelect: (date: string) => void
@@ -17,10 +18,14 @@ function addDays(date: Date, days: number): Date {
   return d
 }
 
-const DAY_LABELS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
-const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']
-
 export default function DatePicker({ onSelect, onBack }: Props) {
+  const t = useTranslations('Booking.datePicker')
+  const DAY_LABELS = [t('days.mon'), t('days.tue'), t('days.wed'), t('days.thu'), t('days.fri'), t('days.sat'), t('days.sun')]
+  const MONTH_NAMES = [
+    t('months.january'), t('months.february'), t('months.march'), t('months.april'),
+    t('months.may'), t('months.june'), t('months.july'), t('months.august'),
+    t('months.september'), t('months.october'), t('months.november'), t('months.december'),
+  ]
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -47,7 +52,7 @@ export default function DatePicker({ onSelect, onBack }: Props) {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Выберите дату</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">{t('title')}</h2>
       <div className="select-none">
         <div className="flex items-center justify-between mb-4">
           <button onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-600">‹</button>
@@ -86,19 +91,19 @@ export default function DatePicker({ onSelect, onBack }: Props) {
           })}
         </div>
         <p className="text-xs text-gray-400 mt-2 text-center">
-          Сегодня — {today.toLocaleDateString('ru', { day: 'numeric', month: 'long' })}
+          {t('todayIs', { date: today.toLocaleDateString('ru', { day: 'numeric', month: 'long' }) })}
         </p>
       </div>
       <div className="flex gap-3 mt-6">
         <button onClick={onBack} className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm">
-          Назад
+          {t('back')}
         </button>
         <button
           disabled={!selected}
           onClick={() => selected && onSelect(selected)}
           className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          Далее
+          {t('next')}
         </button>
       </div>
     </div>

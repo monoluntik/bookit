@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   images: string[]
@@ -8,6 +9,7 @@ interface Props {
 
 export default function GallerySection({ images }: Props) {
   const [lightbox, setLightbox] = useState<number | null>(null)
+  const t = useTranslations('Business')
 
   if (images.length === 0) return null
 
@@ -46,7 +48,7 @@ export default function GallerySection({ images }: Props) {
                 <button
                   onClick={e => { e.stopPropagation(); setLightbox(idx) }}
                   className="absolute inset-0 bg-black/50 flex items-center justify-center text-white font-semibold text-sm">
-                  +{images.length - 4} фото
+                  {t('gallery.morePhotos', { count: images.length - 4 })}
                 </button>
               )}
             </div>
@@ -60,7 +62,7 @@ export default function GallerySection({ images }: Props) {
           onClick={() => setLightbox(0)}
           className="mt-2 text-sm text-blue-600 hover:underline"
         >
-          Посмотреть все {images.length} фото →
+          {t('gallery.seeAll', { count: images.length })}
         </button>
       )}
 

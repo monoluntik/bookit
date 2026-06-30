@@ -1,18 +1,21 @@
+import { getTranslations } from 'next-intl/server'
 import { getMeta } from '@/lib/businessTypes'
 
 interface Props { resources: any[]; businessType: string }
 
-export default function StaffList({ resources, businessType }: Props) {
+export default async function StaffList({ resources, businessType }: Props) {
   if (!resources?.length) return null
   const meta = getMeta(businessType)
 
   const showAsStaff = ['SALON', 'MEDICAL'].includes(businessType)
   if (!showAsStaff) return null
 
+  const t = await getTranslations('Business')
+
   return (
     <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
       <h2 className="font-semibold text-gray-800 mb-3">
-        {businessType === 'MEDICAL' ? 'Врачи' : 'Мастера'}
+        {businessType === 'MEDICAL' ? t('staff.titleMedical') : t('staff.titleDefault')}
       </h2>
       <div className="grid gap-3 sm:grid-cols-2">
         {resources.filter(r => r.isActive).map(r => (

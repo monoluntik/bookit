@@ -1,0 +1,587 @@
+{
+  "Static": {
+    "pricing": {
+      "metaTitle": "Tariflar — Booking",
+      "hero": {
+        "title": "Shaffof tariflar",
+        "subtitle": "Yashirin to'lovlar yo'q. Faqat kerakli narsa uchun to'lang."
+      },
+      "plans": {
+        "free": {
+          "name": "Free",
+          "price": "0",
+          "period": "doimiy",
+          "description": "Boshlash uchun. Vaqt chegarasisiz barcha kerakli imkoniyatlar.",
+          "cta": "Bepul boshlash",
+          "features": {
+            "businesses": "1 ta biznes",
+            "resources": "3 tagacha resurs",
+            "bookings": "Oyiga 50 tagacha bron",
+            "bookingPage": "Bron qilish sahifasi",
+            "analytics": "Oddiy analitika",
+            "emailNotifications": "Email-bildirishnomalar"
+          },
+          "missing": {
+            "onlinePayment": "Onlayn to'lov",
+            "customDomain": "Maxsus domen",
+            "apiAccess": "API kirishi"
+          }
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "1 490",
+          "period": "som / oy",
+          "description": "Mijozlar oqimi yuqori bo'lgan o'sib boruvchi biznes uchun.",
+          "badge": "Mashhur",
+          "cta": "So'rov qoldirish",
+          "features": {
+            "businesses": "5 ta biznes",
+            "resources": "Cheksiz resurslar",
+            "bookings": "Cheksiz bronlar",
+            "emailNotifications": "Email-bildirishnomalar",
+            "onlinePayment": "Onlayn to'lov (Bakai)",
+            "advancedAnalytics": "Kengaytirilgan analitika",
+            "staffManagement": "Xodimlarni boshqarish",
+            "prioritySupport": "Ustuvor qo'llab-quvvatlash"
+          },
+          "missing": {
+            "customDomain": "Maxsus domen"
+          }
+        },
+        "business": {
+          "name": "Business",
+          "price": "4 990",
+          "period": "som / oy",
+          "description": "Bir nechta filialga ega tarmoqlar va yirik kompaniyalar uchun.",
+          "cta": "So'rov qoldirish",
+          "features": {
+            "businesses": "Cheksiz biznes",
+            "resources": "Cheksiz resurslar",
+            "bookings": "Cheksiz bronlar",
+            "emailNotifications": "Email-bildirishnomalar",
+            "onlinePayment": "Onlayn to'lov (Bakai)",
+            "fullAnalytics": "To'liq analitika + eksport",
+            "staffManagement": "Xodimlarni boshqarish",
+            "customDomain": "Maxsus domen",
+            "dedicatedSupport": "Shaxsiy qo'llab-quvvatlash",
+            "apiAccess": "API kirishi"
+          }
+        },
+        "soonBadge": "Tez orada"
+      },
+      "faq": {
+        "title": "Tez-tez beriladigan savollar",
+        "q1": { "q": "Pullik tarifga qanday o'tsam bo'ladi?", "a": "Kerakli tarifdagi tugma orqali so'rov qoldiring — biz bir ish kuni ichida bog'lanib, ulanishda yordam beramiz." },
+        "q2": { "q": "Yillik to'lovda chegirma bormi?", "a": "Ha — yillik to'lovda 20% chegirma beriladi. So'rov yuborishda bu haqda so'rang." },
+        "q3": { "q": "Tarif o'zgartirilganda ma'lumotlarim nima bo'ladi?", "a": "Barcha ma'lumotlaringiz — bronlar, mijozlar, tarix — tarifni qanday o'zgartirishingizdan qat'i nazar saqlanib qoladi." },
+        "q4": { "q": "Bepul sinab ko'rsam bo'ladimi?", "a": "Free tarif vaqt chegarasisiz mavjud. Ro'yxatdan o'tish 2 daqiqa vaqt oladi, karta talab qilinmaydi." }
+      },
+      "bottomCta": {
+        "title": "Hali ham savollaringiz bormi?",
+        "subtitle": "Bizga yozing — ish vaqtida bir soat ichida javob beramiz.",
+        "button": "Biz bilan bog'lanish"
+      },
+      "footer": {
+        "brand": "← Booking",
+        "terms": "Shartlar",
+        "privacy": "Maxfiylik",
+        "contact": "Aloqa"
+      }
+    },
+    "contact": {
+      "planLabels": {
+        "pro": "Pro — 1 490 som/oy",
+        "business": "Business — 4 990 som/oy"
+      },
+      "messageTemplate": "{plan} tarifiga ulanmoqchiman",
+      "contactsList": {
+        "email": "Email",
+        "telegram": "Telegram",
+        "address": { "label": "Manzil", "value": "Bishkek, Qirg'iziston" },
+        "hours": { "label": "Ish vaqti", "value": "Dush–Juma, 9:00–18:00" }
+      },
+      "hero": {
+        "planBadge": "🚀 {plan} tarifiga ulanish",
+        "planTitle": "So'rov qoldiring",
+        "planSubtitle": "Biz bir ish kuni ichida siz bilan bog'lanib, tarifingizni faollashtiramiz",
+        "title": "Aloqa",
+        "subtitle": "Ish vaqtida bir soat ichida javob beramiz"
+      },
+      "left": {
+        "title": "Biz bilan bog'laning",
+        "freeBoxTitle": "Bepul sinab ko'rmoqchimisiz?",
+        "freeBoxText": "Free tarif darhol mavjud — karta yoki so'rovsiz. Ro'yxatdan o'tish 2 daqiqa vaqt oladi.",
+        "freeBoxCta": "Bepul boshlash →"
+      },
+      "sent": {
+        "title": "So'rov qabul qilindi!",
+        "text": "Biz {email} manziliga bir ish kuni ichida javob beramiz.",
+        "planNote": "Tasdiqlangach, tarifingiz jamoamiz tomonidan qo'lda faollashtiriladi."
+      },
+      "form": {
+        "titlePlan": "{plan} tarifiga so'rov",
+        "titleDefault": "Bizga yozing",
+        "namePlaceholder": "Ismingiz",
+        "emailPlaceholder": "Email",
+        "phonePlaceholder": "Telefon",
+        "subjectDefault": "Mavzu",
+        "subjectUpgrade": "Pullik tarifga ulanish",
+        "subjectSupport": "Texnik qo'llab-quvvatlash",
+        "subjectBilling": "To'lov bo'yicha savol",
+        "subjectOther": "Boshqa",
+        "messagePlaceholder": "Xabaringiz...",
+        "submitSending": "Yuborilmoqda...",
+        "submitPlan": "So'rovni yuborish",
+        "submitDefault": "Yuborish"
+      },
+      "footer": {
+        "brand": "← Booking"
+      }
+    },
+    "about": {
+      "metaTitle": "Biz haqimizda — Booking",
+      "team": {
+        "product": { "name": "Mahsulot jamoasi", "desc": "Mijozlarimizning haqiqiy ehtiyojlariga asoslanib biznes uchun qulay vosita yaratamiz." },
+        "support": { "name": "Qo'llab-quvvatlash", "desc": "Tizimni sozlashda yordam beramiz va ish vaqtida savollarni bir soat ichida hal qilamiz." },
+        "security": { "name": "Xavfsizlik", "desc": "Mijozlar ma'lumotlari shifrlash bilan himoyalangan. To'lov ma'lumotlari serverlarimizda hech qachon saqlanmaydi." }
+      },
+      "hero": {
+        "title": "Booking platformasi haqida",
+        "subtitle": "Biz Qirg'izistondagi kichik va o'rta bizneslarga mijozlar bronini onlaynga o'tkazishda yordam beruvchi vosita yaratmoqdamiz — qo'ng'iroqlarsiz, messenjerlarsiz va qog'oz jurnallarsiz."
+      },
+      "mission": {
+        "title": "Bizning vazifamiz",
+        "p1": "Mamlakatdagi ko'pchilik kichik bizneslar hozirgacha WhatsApp yoki telefon orqali bron qabul qiladi. Bu mijozlar uchun noqulay va egalarning vaqtini oladi.",
+        "p2": "Biz bir kunda sozlanadigan va darhol onlayn bron qabul qilishni boshlaydigan sodda tizim yaratdik — dasturchilar yoki texnik bilim talab qilinmaydi.",
+        "founded": "Tashkil etilgan yili"
+      },
+      "values": {
+        "title": "Biz qanday ishlaymiz"
+      },
+      "cta": {
+        "title": "Biz bilan gaplashmoqchimisiz?",
+        "subtitle": "Platforma biznesingiz uchun nima qila olishi haqida batafsil aytib beramiz.",
+        "contact": "Bizga yozing",
+        "pricing": "Tariflarni ko'rish"
+      },
+      "footer": {
+        "brand": "← Booking"
+      }
+    },
+    "terms": {
+      "metaTitle": "Foydalanish shartlari — Booking",
+      "title": "Foydalanish shartlari",
+      "lastUpdated": "Oxirgi yangilanish: 2026-yil 25-iyun",
+      "section1": {
+        "title": "1. Umumiy qoidalar",
+        "body": "Ushbu Foydalanish shartlari Booking platformasi (bundan buyon — \"Xizmat\", \"Biz\") va xizmat foydalanuvchilari (bundan buyon — \"Foydalanuvchi\", \"Siz\") o'rtasidagi munosabatlarni tartibga soladi. Xizmatdan foydalanish orqali siz ushbu Shartlarga rozilik bildirasiz."
+      },
+      "section2": {
+        "title": "2. Xizmat tavsifi",
+        "body": "Booking — bu biznes egalariga internet orqali bron qabul qilish, mijozlarga esa xizmatlarni real vaqt rejimida bron qilish imkonini beruvchi onlayn bron qilish platformasidir."
+      },
+      "section3": {
+        "title": "3. Ro'yxatdan o'tish va akkaunt",
+        "items": {
+          "item1": "Xizmatdan foydalanish uchun amaldagi email manzili bilan ro'yxatdan o'tish talab qilinadi.",
+          "item2": "Siz o'z akkauntingiz ma'lumotlarining xavfsizligi uchun javobgarsiz.",
+          "item3": "Akkauntga kirish huquqini uchinchi shaxslarga berish taqiqlanadi.",
+          "item4": "Biz ushbu Shartlarni buzgan akkauntni bloklash huquqiga egamiz."
+        }
+      },
+      "section4": {
+        "title": "4. Bronlar va to'lov",
+        "items": {
+          "item1": "Bron email orqali bildirishnoma olinganidan so'ng tasdiqlangan hisoblanadi.",
+          "item2": "Bekor qilish shartlari har bir biznes tomonidan mustaqil belgilanadi.",
+          "item3": "To'lov operatsiyalari to'lov provayderi shartlariga muvofiq Bakai PayLink orqali amalga oshiriladi.",
+          "item4": "Xizmat platforma orqali ko'rsatiladigan xizmatlar sifati uchun javobgar emas."
+        }
+      },
+      "section5": {
+        "title": "5. Biznes egalari uchun",
+        "items": {
+          "item1": "Siz biznesingiz haqidagi ma'lumotning to'g'riligiga kafolat berasiz.",
+          "item2": "Noqonuniy yoki chalg'ituvchi kontent joylashtirish taqiqlanadi.",
+          "item3": "Siz tasdiqlangan bronlarni bajarishga roziligingizni bildirasiz."
+        }
+      },
+      "section6": {
+        "title": "6. Javobgarlikni cheklash",
+        "body": "Xizmat \"bor holicha\" taqdim etiladi. Qirg'iz Respublikasi qonunchiligida nazarda tutilgan hollar bundan mustasno, biz Xizmatdan foydalanish yoki foydalana olmaslik natijasida yuzaga kelgan zararlar uchun javobgar emasmiz."
+      },
+      "section7": {
+        "title": "7. Shartlarga o'zgartirishlar",
+        "body": "Biz ushbu Shartlarga o'zgartirish kiritish huquqiga egamiz. O'zgartirishlar e'lon qilingandan keyin Xizmatdan foydalanishni davom ettirish yangi Shartlarga roziligingizni bildiradi."
+      },
+      "section8": {
+        "title": "8. Aloqa",
+        "bodyPrefix": "Ushbu Shartlarga oid savollar bo'yicha: ",
+        "linkText": "aloqa sahifasi"
+      },
+      "footer": {
+        "home": "← Bosh sahifa",
+        "privacy": "Maxfiylik siyosati"
+      }
+    },
+    "privacy": {
+      "metaTitle": "Maxfiylik siyosati — Booking",
+      "title": "Maxfiylik siyosati",
+      "lastUpdated": "Oxirgi yangilanish: 2026-yil 25-iyun",
+      "section1": {
+        "title": "1. Biz qanday ma'lumotlarni to'playmiz",
+        "items": {
+          "item1": { "label": "Akkaunt ma'lumotlari:", "text": "email, ism, telefon raqami." },
+          "item2": { "label": "Bron ma'lumotlari:", "text": "tanlangan xizmatlar, vaqt, mehmonlar soni, izohlar." },
+          "item3": { "label": "To'lov ma'lumotlari:", "text": "tranzaksiya holati va summasi (karta ma'lumotlari serverlarimizda hech qachon saqlanmaydi)." },
+          "item4": { "label": "Texnik ma'lumotlar:", "text": "IP-manzil, brauzer turi, tashrif vaqti." }
+        }
+      },
+      "section2": {
+        "title": "2. Ma'lumotlardan qanday foydalanamiz",
+        "items": {
+          "item1": "Xizmatni ishlatish va bronlarni qayta ishlash uchun.",
+          "item2": "Bron tasdiqlari va bildirishnomalarini yuborish uchun.",
+          "item3": "Xizmat sifatini va texnik qo'llab-quvvatlashni yaxshilash uchun.",
+          "item4": "Firibgarlikning oldini olish va xavfsizlikni ta'minlash uchun."
+        }
+      },
+      "section3": {
+        "title": "3. Ma'lumotlarni uchinchi shaxslarga berish",
+        "intro": "Biz shaxsiy ma'lumotlaringizni quyidagi hollardan tashqari uchinchi shaxslarga sotmaymiz va bermaymiz:",
+        "items": {
+          "item1": "To'lovlarni qayta ishlash uchun to'lov provayderimiz Bakai PayLink.",
+          "item2": "Bildirishnomalarni yuborish uchun email xizmatimiz Resend.",
+          "item3": "Qirg'iz Respublikasi qonunchiligida nazarda tutilgan hollar."
+        }
+      },
+      "section4": {
+        "title": "4. Ma'lumotlarni saqlash va himoya qilish",
+        "body": "Ma'lumotlar xavfsiz serverlarda saqlanadi. Parollar shifrlangan holda saqlanadi (bcrypt). Biz ma'lumotlaringizni ruxsatsiz kirishdan himoya qilish uchun texnik va tashkiliy choralar ko'ramiz."
+      },
+      "section5": {
+        "title": "5. Sizning huquqlaringiz",
+        "items": {
+          "item1": { "label": "Kirish:", "text": "siz o'z ma'lumotlaringiz nusxasini so'rashingiz mumkin." },
+          "item2": { "label": "Tuzatish:", "text": "siz profil sozlamalarida ma'lumotlaringizni yangilashingiz mumkin." },
+          "item3": { "label": "O'chirish:", "text": "siz qo'llab-quvvatlash xizmati orqali akkaunt va ma'lumotlaringizni o'chirishni so'rashingiz mumkin." }
+        }
+      },
+      "section6": {
+        "title": "6. Cookie fayllari",
+        "body": "Biz Xizmatni ishlatish uchun zarur cookie fayllaridan foydalanamiz (sessiya, avtorizatsiya). Analitik cookie fayllari sizning roziligingizsiz ishlatilmaydi."
+      },
+      "section7": {
+        "title": "7. Aloqa",
+        "bodyPrefix": "Shaxsiy ma'lumotlarni qayta ishlash bo'yicha savollar uchun: ",
+        "linkText": "aloqa sahifasi"
+      },
+      "footer": {
+        "home": "← Bosh sahifa",
+        "terms": "Foydalanish shartlari"
+      }
+    },
+    "guide": {
+      "explore": {
+        "searchPlaceholder": "Joylarni qidirish...",
+        "filters": "Filtrlar",
+        "categories": { "all": "Barchasi", "salons": "Salonlar", "sport": "Sport", "medical": "Tibbiyot" },
+        "reviewsCount": "{count} ta sharh"
+      },
+      "bookingFlow": {
+        "steps": { "service": "Xizmat", "date": "Sana", "time": "Vaqt", "done": "Tayyor" },
+        "monthLabel": "2026-yil iyun",
+        "selectedDate": "Tanlangan sana: 26-iyun",
+        "days": { "mon": "Dush", "tue": "Sesh", "wed": "Chor", "thu": "Pay", "fri": "Juma", "sat": "Shan", "sun": "Yak" }
+      },
+      "slots": {
+        "windowTitle": "Vaqt tanlash",
+        "available": "Mavjud vaqtlar — Juma, 26-iyun",
+        "duration": "60 daqiqa",
+        "selectButton": "11:00 ni tanlash"
+      },
+      "dashboard": {
+        "windowTitle": "booking.kg/dashboard",
+        "sidebar": { "overview": "Umumiy ko'rinish", "bookings": "Bronlar", "resources": "Resurslar", "services": "Xizmatlar", "settings": "Sozlamalar" },
+        "stats": { "todayBookings": "Bugungi bronlar", "pending": "Kutilmoqda", "revenue": "Daromad" },
+        "bookingItems": {
+          "client1": "Eldiyar N.",
+          "client2": "Ruslan M.",
+          "client3": "Manas B. (qo'lda)"
+        },
+        "statusLabels": { "confirmed": "Tasdiqlangan", "manual": "qo'lda", "pending": "Kutilmoqda" }
+      },
+      "calendar": {
+        "windowTitle": "Bronlar kalendari",
+        "monthLabel": "2026-yil iyun",
+        "viewList": "Ro'yxat",
+        "viewCalendar": "Kalendar",
+        "bookingsCountFew": "2 ta bron",
+        "bookingsCountMany": "5 ta bron"
+      },
+      "ownerBooking": {
+        "windowTitle": "Qo'lda qo'shish",
+        "tabClient": "👤 Mijoz broni",
+        "tabBlock": "🔒 Vaqtni bloklash",
+        "resourceLabel": "Resurs",
+        "resourceValue": "Usta Aida ▾",
+        "clientNameLabel": "Mijoz ismi",
+        "clientNameValue": "Aigul A.",
+        "phoneLabel": "Telefon",
+        "phoneValue": "+996 700...",
+        "dateLabel": "Sana",
+        "dateValue": "26.06",
+        "startLabel": "Boshlanishi",
+        "startValue": "11:00",
+        "endLabel": "Tugashi",
+        "endValue": "12:00",
+        "submitButton": "✓ Bronni qo'shish"
+      },
+      "scheduleBlock": {
+        "windowTitle": "Dam olish kunlari va ta'tillar",
+        "masterName": "Usta Aida",
+        "businessName": "Oasis Salon",
+        "addButton": "+ Qo'shish",
+        "entries": {
+          "entry1": { "date": "28-iyun", "label": "Dam olish kuni", "reason": "Ta'til" },
+          "entry2": { "date": "5-iyul", "label": "Maxsus vaqt", "reason": "10:00–15:00" },
+          "entry3": { "date": "10-iyul", "label": "Dam olish kuni", "reason": "Bayram" }
+        },
+        "deleteButton": "O'chirish"
+      },
+      "stats": {
+        "windowTitle": "Analitika",
+        "revenueLabel": "Shu oylik daromad",
+        "bookingsLabel": "Shu oylik bronlar",
+        "weeklyChartLabel": "Hafta kunlari bo'yicha bronlar",
+        "days": { "mon": "Dush", "tue": "Sesh", "wed": "Chor", "thu": "Pay", "fri": "Juma", "sat": "Shan", "sun": "Yak" }
+      },
+      "settings": {
+        "windowTitle": "Biznes sozlamalari",
+        "nameLabel": "Nomi",
+        "nameValue": "Oasis go'zallik saloni",
+        "linkLabel": "Sizning havolangiz",
+        "typeLabel": "Turi",
+        "typeValue": "Go'zallik saloni ▾",
+        "timezoneLabel": "Vaqt zonasi",
+        "timezoneValue": "Asia/Bishkek ▾",
+        "galleryLabel": "Logotip va galereya",
+        "saveButton": "O'zgarishlarni saqlash"
+      },
+      "review": {
+        "windowTitle": "Sharhlar",
+        "reviewsCount": "33 ta sharh",
+        "reviewer1": { "name": "Aigul M.", "text": "Ajoyib xizmat! Usta Aida — haqiqiy professional." },
+        "reviewer2": { "name": "Manas B.", "text": "Bron qilish oson, navbatsiz kirdim." }
+      },
+      "cancellationPolicy": {
+        "windowTitle": "Bekor qilish siyosati",
+        "currentPolicyTitle": "Joriy siyosat",
+        "rule1": "✓ 24 soat oldin bepul bekor qilish",
+        "rule2": "✓ 12–24 soat oldin bekor qilishda 30% jarima",
+        "rule3": "✗ 12 soatdan kam vaqtda bekor qilishda pul qaytarilmaydi",
+        "fields": {
+          "freeCancel": "Bepul bekor qilish (soat)",
+          "latePenalty": "Kech bekor qilish jarimasi (%)",
+          "noRefund": "Pul qaytarilmaydi (necha soat oldin)"
+        },
+        "saveButton": "Siyosatni saqlash"
+      },
+      "toc": {
+        "businessLabel": "Biznes uchun:",
+        "customerLabel": "Mijozlar uchun:",
+        "business": {
+          "setup": "Biznesni sozlash",
+          "bookings": "Bronlarni boshqarish",
+          "calendar": "Kalendar",
+          "manual": "Qo'lda bron qilish",
+          "schedule": "Dam olish kunlari va ta'tillar",
+          "stats": "Analitika",
+          "policy": "Bekor qilish siyosati"
+        },
+        "customer": {
+          "explore": "Qidiruv va filtrlar",
+          "bookingFlow": "Bron qilish jarayoni",
+          "slots": "Vaqt tanlash",
+          "reviews": "Sharhlar"
+        }
+      },
+      "hero": {
+        "badge": "📖 Platforma bo'yicha to'liq qo'llanma",
+        "titleLine1": "Booking nimalarga",
+        "titleLine2": "qodirligi",
+        "subtitle": "Har bir funksiyaning bosqichma-bosqich tavsifi — biznes egalari va mijozlar uchun.",
+        "businessOwnerCta": "Men biznes egasiman",
+        "customerCta": "Men mijozman"
+      },
+      "businessSection": {
+        "title": "Biznes egalari uchun",
+        "subtitle": "Biznesingizni, bronlaringizni va jadvalingizni bir joyda boshqaring"
+      },
+      "customerSection": {
+        "title": "Mijozlar uchun",
+        "subtitle": "Joy toping va 30 soniyada bron qiling"
+      },
+      "sections": {
+        "setup": {
+          "badge": "1-qadam · Sozlash",
+          "title": "Biznes profilingizni 5 daqiqada yarating",
+          "desc": "Nomingizni, biznes turini, manzilingizni kiriting va o'zingizning noyob bron qilish sahifasi havolasini oling. Galereya uchun logotip va 10 tagacha rasm qo'shing — bu mijozlar ishonchini oshiradi.",
+          "checks": {
+            "check1": "Noyob slug manzili: ",
+            "check2": "Biznes nomidan avtomatik yaratiladigan slug, qo'lda tahrirlash mumkin",
+            "check3": "Turlari: Salon, Restoran, Mehmonxona, Koworking, Sport, Tibbiyot",
+            "check4": "Logotip va 10 tagacha galereya rasmini yuklash (drag & drop)",
+            "check5": "Vaqt zonasi, telefon, manzil, tavsif"
+          }
+        },
+        "bookings": {
+          "badge": "2-qadam · Bronlar",
+          "title": "Barcha bronlar bitta boshqaruv panelida",
+          "desc": "Holat va sana bo'yicha filtrlangan joriy bronlar ro'yxati. Bronlarni bir bosishda tasdiqlang, yakunlang yoki bekor qiling. Bronlarni to'g'ridan-to'g'ri kartochkadan boshqa vaqtga ko'chiring.",
+          "checks": {
+            "check1": "Holatlar: Kutilmoqda → Tasdiqlangan → Yakunlangan / Kelmadi",
+            "check2": "Sana va holat bo'yicha filtr",
+            "check3": "Bronni ko'chirish: ziddiyatlarni tekshirish bilan yangi sana va vaqtni tanlash",
+            "check4": "Har bir kartochkada mijozning ismi, telefoni va emaili",
+            "check5": "To'langan bronlarni ko'rish (summasi, to'lov sanasi)"
+          }
+        },
+        "calendar": {
+          "badge": "Ko'rinish · Kalendar",
+          "title": "Bronlaringizning vizual kalendari",
+          "desc": "Kalendar ko'rinishiga o'ting va oyning barcha bronlarini holat bo'yicha rang kodlari bilan ko'ring. Kunga bosing — shu sana uchun bronlar ro'yxatini oling.",
+          "checks": {
+            "check1": "Ranglar: sariq (kutilmoqda), ko'k (tasdiqlangan), yashil (yakunlangan), kulrang (bloklangan)",
+            "check2": "Sanaga bosish shu kun bo'yicha filtrlangan ro'yxatga o'tkazadi",
+            "check3": "Oylar bo'yicha oldinga va orqaga harakatlanish",
+            "check4": "Vaqt bloklari alohida 🔒 belgisi bilan ko'rsatiladi"
+          }
+        },
+        "manual": {
+          "badge": "Funksiya · Qo'lda bron qilish",
+          "title": "Bronni qo'lda qo'shing yoki vaqtni bloklang",
+          "desc": "Mijoz qo'ng'iroq qildimi yoki o'zi keldimi? Uning bronini boshqaruv panelidan to'g'ridan-to'g'ri qo'lda kiriting. Texnik sabablarga ko'ra bir soatni yopish kerakmi? Blok qo'ying — slot onlayn bron qilishdan yo'qoladi.",
+          "checks": {
+            "check1": "\"Mijoz broni\" rejimi: ism, telefon, xizmat, sana va vaqt",
+            "check2": "\"Bloklash\" rejimi: vaqt mijozlar uchun mavjud bo'lmay qoladi",
+            "check3": "Qo'lda kiritilgan bronlar boshqaruv panelida \"qo'lda\" belgisi bilan ajratiladi",
+            "check4": "Bloklarni bir tugma bilan o'chirish mumkin, bronlarni boshqa vaqtga ko'chirish mumkin",
+            "check5": "Ziddiyatlarni tekshirish: ustma-ust tushadigan bron yaratib bo'lmaydi"
+          }
+        },
+        "schedule": {
+          "badge": "Funksiya · Jadval",
+          "title": "Har bir xodim uchun dam olish kunlari va ta'tillar",
+          "desc": "Har qanday resurs yoki xodim uchun maxsus istisno sanalarini belgilang: to'liq dam olish kuni (mijozlar bron qila olmaydi) yoki boshqa ish vaqtlari bilan qisqartirilgan kun.",
+          "checks": {
+            "check1": "Dam olish kuni: slot onlayn bron qilishdan butunlay yo'qoladi",
+            "check2": "Maxsus vaqt: standart jadvalni vaqtincha almashtiradi",
+            "check3": "Ixtiyoriy sabab: \"ta'til\", \"kasallik\", \"bayram\"",
+            "check4": "Kelgusi va o'tgan istisnolar alohida bo'limlarga ajratilgan",
+            "check5": "Mavjud bronlar avtomatik bekor qilinmaydi"
+          }
+        },
+        "stats": {
+          "badge": "Analitika",
+          "title": "Real vaqtdagi statistika va daromad",
+          "desc": "Boshqaruv paneli biznesning asosiy ko'rsatkichlarini ko'rsatadi: daromad, bronlar soni, hafta kunlari bo'yicha yuklama va mashhur xizmatlar. Joriy oyni o'tgan oy bilan solishtiring.",
+          "checks": {
+            "check1": "Shu oylik daromad va oldingi davr bilan solishtirish",
+            "check2": "Bronlar soni, tasdiqlangan, yakunlangan",
+            "check3": "Hafta kunlari bo'yicha yuklama grafigi",
+            "check4": "Daromaddagi ulushi bilan eng mashhur 5 ta xizmat",
+            "check5": "Biznes bo'yicha filtr (agar bir nechta joyingiz bo'lsa)"
+          }
+        },
+        "policy": {
+          "badge": "Sozlama · Bekor qilish",
+          "title": "Bronni bekor qilish siyosati",
+          "desc": "Bekor qilish qoidalarini belgilang: bepul davr, jarima miqdori va \"pul qaytarilmaydi\" oynasi. Mijozlar bekor qilishni tasdiqlashdan oldin shu siyosatni ko'radi.",
+          "checks": {
+            "check1": "Bepul bekor qilish: boshlanishidan necha soat oldin ekanligini belgilang",
+            "check2": "Kech bekor qilishda foiz hisobida jarima",
+            "check3": "\"Pul qaytarilmaydi\" oynasi — necha soat oldin to'lov qaytarilmasligi",
+            "check4": "Mijoz bekor qilishdan oldin siyosatni modal oynada ko'radi",
+            "check5": "Siyosat ushbu biznesning barcha bronlariga tatbiq etiladi"
+          }
+        },
+        "explore": {
+          "badge": "1-qadam · Qidiruv",
+          "title": "Qulay filtrlar bilan joy toping",
+          "desc": "Nom bo'yicha qidiruv, tur, reyting, rasm mavjudligi va onlayn bron qilish bo'yicha filtrlarga ega barcha joylar katalogi. Yangiligi, reytingi va alifbo bo'yicha saralash.",
+          "checks": {
+            "check1": "Nom va tavsif bo'yicha real vaqtdagi qidiruv",
+            "check2": "Kategoriya bo'yicha filtr: Salon, Restoran, Mehmonxona, Sport…",
+            "check3": "Reyting bo'yicha filtr: 3★, 4★, 4.5★ va undan yuqori",
+            "check4": "\"Rasmlar bor\" va \"Onlayn bron qilish\" tugmalari",
+            "check5": "Saralash: eng yangi, reyting bo'yicha, A–Z, Z–A",
+            "check6": "Faol filtrlar × tugmasi bilan teglar shaklida ko'rsatiladi"
+          }
+        },
+        "bookingFlow": {
+          "badge": "2-qadam · Bron qilish",
+          "title": "Bosqichma-bosqich bron qilish jarayoni",
+          "desc": "Moslashuvchan bron qilish ustasi mijozni xizmat, xodim, sana va vaqtni tanlash bo'ylab boshqaradi. Har bir bosqichda tushunarli maslahatlar va orqaga qaytish imkoniyati mavjud.",
+          "checks": {
+            "check1": "Bosqichlar: Xizmat → Xodim/resurs → Sana → Vaqt → Tasdiqlash",
+            "check2": "Mehmonxonalar uchun: kirish/chiqish sanalari oralig'ini tanlash",
+            "check3": "Restoranlar uchun: mehmonlar soni",
+            "check4": "Bron qilingandan keyin mijozga email orqali tasdiq yuboriladi",
+            "check5": "Bakai PayLink orqali onlayn to'lov (agar biznes tomonidan yoqilgan bo'lsa)"
+          }
+        },
+        "slots": {
+          "badge": "3-qadam · Vaqt oraliqlari",
+          "title": "Jonli vaqt oraliqlari bilan vaqt tanlash",
+          "desc": "Faqat haqiqatda bo'sh vaqt oraliqlari — tizim band qilingan oraliqlarni, dam olish kunlarini va bloklangan vaqtni avtomatik olib tashlaydi. Har bir vaqt oralig'ining davomiyligini ko'rsatadi.",
+          "checks": {
+            "check1": "Vaqt oraliqlari xodimning jadvalidan real vaqt rejimida yaratiladi",
+            "check2": "Band qilingan, o'tgan va bloklangan vaqt oraliqlari yashirilgan",
+            "check3": "Dam olish kunlari va maxsus vaqtlar avtomatik hisobga olinadi",
+            "check4": "Har bir vaqt oralig'i ostida xizmat davomiyligi ko'rsatiladi",
+            "check5": "Agar vaqt oraliqlari bo'lmasa, boshqa sanani tanlashni taklif qiluvchi tushunarli xabar chiqadi"
+          }
+        },
+        "reviews": {
+          "badge": "Tashrifdan keyin · Sharhlar",
+          "title": "Tashrifingizdan keyin sharh qoldiring",
+          "desc": "Yakunlangan brondan so'ng mijoz reyting va izoh qoldirishi mumkin. Sharhlar joy sahifasida hammaga ko'rinadi. Egasi har bir sharhga javob berishi mumkin.",
+          "checks": {
+            "check1": "1–5 yulduzli reyting va matnli izoh",
+            "check2": "Bir tashrif uchun bitta sharh — soxta sharhlardan himoya",
+            "check3": "O'rtacha reyting katalogdagi kartochkada ko'rsatiladi",
+            "check4": "Egasi sharhga ommaviy javob berishi mumkin",
+            "check5": "Joy sahifasida baholar taqsimoti diagrammasi"
+          }
+        }
+      },
+      "bottomCta": {
+        "title": "Boshlashga tayyormisiz?",
+        "subtitle": "Bepul ro'yxatdan o'ting va bir kunda onlayn bron qilishni sozlang.",
+        "businessButton": "Biznesingizni bepul qo'shing →",
+        "customerButton": "Joy topish",
+        "note": "Yashirin to'lovlar yo'q · 5 daqiqalik sozlash · Istalgan vaqtda bekor qilish"
+      },
+      "footer": {
+        "brand": "Booking",
+        "home": "Bosh sahifa",
+        "explore": "Katalog",
+        "pricing": "Tariflar",
+        "contact": "Aloqa",
+        "copyright": "© 2026 Booking"
+      }
+    },
+    "notFound": {
+      "title": "Sahifa topilmadi",
+      "subtitle": "Bu sahifa mavjud emas yoki o'chirilgan",
+      "homeButton": "Bosh sahifaga"
+    },
+    "error": {
+      "title": "Nimadir xato ketdi",
+      "subtitle": "Kutilmagan xatolik yuz berdi. Sahifani yangilab ko'ring.",
+      "retryButton": "Qayta urinish",
+      "homeButton": "Bosh sahifaga"
+    }
+  }
+}

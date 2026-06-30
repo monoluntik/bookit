@@ -1,0 +1,120 @@
+{
+  "Home": {
+    "hero": {
+      "badge": "Free for small businesses",
+      "titleLine1": "Online booking",
+      "titleLine2": "for any business",
+      "subtitle": "Salons, restaurants, hotels, coworking spaces, gyms and clinics — accept bookings 24/7 without calls or messengers.",
+      "ctaPrimary": "Add your business for free",
+      "ctaSecondary": "Find a business",
+      "footnote": "No hidden fees · 5-minute setup"
+    },
+    "categories": {
+      "title": "Popular categories",
+      "subtitle": "Find the right place near you",
+      "types": {
+        "HOTEL": "Hotels",
+        "RESTAURANT": "Restaurants",
+        "SALON": "Beauty salons",
+        "COWORKING": "Coworking",
+        "SPORT": "Sports",
+        "MEDICAL": "Medical"
+      }
+    },
+    "features": {
+      "title": "Everything you need to run your business",
+      "subtitle": "No clutter — just what your business actually needs",
+      "items": {
+        "instantBooking": {
+          "title": "Instant booking",
+          "desc": "Clients pick a time and book in 30 seconds without calls or waiting."
+        },
+        "anyDevice": {
+          "title": "Works on any device",
+          "desc": "A responsive interface for phone, tablet and desktop."
+        },
+        "onlinePayment": {
+          "title": "Online payments",
+          "desc": "Accept prepayment via Bakai PayLink. Funds arrive instantly."
+        },
+        "emailNotifications": {
+          "title": "Email notifications",
+          "desc": "Clients receive confirmation immediately after booking."
+        },
+        "analytics": {
+          "title": "Analytics and statistics",
+          "desc": "Track occupancy, revenue and popular services in real time."
+        },
+        "staffManagement": {
+          "title": "Staff management",
+          "desc": "Add employees, assign roles, and manage schedules."
+        }
+      }
+    },
+    "steps": {
+      "title": "Launch in a single day",
+      "subtitle": "No technical knowledge or developers required",
+      "items": {
+        "registerBusiness": {
+          "title": "Register your business",
+          "desc": "Create an account and fill in your company profile in 5 minutes."
+        },
+        "addResources": {
+          "title": "Add resources and schedule",
+          "desc": "List your staff, tables or rooms and set working hours."
+        },
+        "shareLink": {
+          "title": "Share your link",
+          "desc": "Send clients a link to your booking page."
+        },
+        "acceptBookings": {
+          "title": "Accept bookings",
+          "desc": "Manage bookings from a convenient dashboard."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Trusted by businesses",
+      "subtitle": "Reviews from business owners",
+      "items": {
+        "aigul": {
+          "name": "Aigul M.",
+          "role": "Beauty salon owner",
+          "text": "I used to keep a notebook for appointments. Now everything is online — clients pick their own time and I see all bookings in one place."
+        },
+        "daniyar": {
+          "name": "Daniyar K.",
+          "role": "Coworking space manager",
+          "text": "We set it up in a single day. Online payment was a great touch — no more reminding clients to pay."
+        },
+        "nurzhan": {
+          "name": "Nurzhan A.",
+          "role": "Fitness club director",
+          "text": "The system adapts to how we work. Trainers can see their own schedule directly in the dashboard."
+        }
+      }
+    },
+    "ctaSection": {
+      "title": "Get started for free right now",
+      "subtitle": "Free plan forever. Upgrade when you need more features.",
+      "ctaPrimary": "Create a free account",
+      "ctaSecondary": "View pricing"
+    },
+    "footer": {
+      "tagline": "An online booking platform for small and medium businesses.",
+      "productHeading": "Product",
+      "findBusiness": "Find a business",
+      "guide": "Platform guide",
+      "pricing": "Pricing",
+      "forBusiness": "For business",
+      "companyHeading": "Company",
+      "about": "About us",
+      "contact": "Contact",
+      "legalHeading": "Legal",
+      "terms": "Terms of use",
+      "privacy": "Privacy policy",
+      "copyright": "© 2026 Booking. All rights reserved.",
+      "location": "Bishkek, Kyrgyzstan"
+    }
+  }
+}

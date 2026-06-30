@@ -1,0 +1,83 @@
+{
+  "Profile": {
+    "header": {
+      "catalog": "Каталог",
+      "logout": "Шығу"
+    },
+    "card": {
+      "forBusiness": "Бизнес үшін →"
+    },
+    "tabs": {
+      "bookings": "Брондар",
+      "bookingsWithCount": "Брондар ({count})",
+      "notifications": "Еске салулар",
+      "settings": "Деректер",
+      "password": "Құпия сөз"
+    },
+    "bookings": {
+      "empty": "Әзірге брон жоқ",
+      "findPlace": "Мекеме табу",
+      "upcoming": "Алдағы",
+      "history": "Тарих",
+      "guestCount": "{count} адам",
+      "paid": "Төленді",
+      "cancel": "Бас тарту",
+      "review": "Бағалау"
+    },
+    "notifications": {
+      "title": "Брондар туралы еске салулар",
+      "subtitle": "Барар алдында еске салу алу үшін Telegram-ды байланыстырыңыз — уақыт параметрлерін әр бизнес өзі белгілейді.",
+      "linked": "Telegram байланыстырылды",
+      "unlink": "Байланысты үзу",
+      "botNotConfigured": "Telegram-бот платформа тарапынан әлі бапталмаған. Кейінірек қайта кіріңіз.",
+      "linkButton": "Telegram-ды байланыстыру",
+      "linkOpening": "Telegram ашылуда...",
+      "linkHint": "Telegram-ды ашып, бот чатында «Start» түймесін басыңыз — бет автоматты түрде жаңарады.",
+      "errorDefault": "Қате"
+    },
+    "settings": {
+      "title": "Жеке деректер",
+      "nameLabel": "Атыңыз",
+      "emailLabel": "Email",
+      "phoneLabel": "Телефон",
+      "phonePlaceholder": "+996 700 000 000",
+      "saved": "Сақталды!",
+      "errorPrefix": "Қате: ",
+      "submit": "Өзгерістерді сақтау",
+      "submitting": "Сақталуда..."
+    },
+    "password": {
+      "title": "Құпия сөзді өзгерту",
+      "currentLabel": "Ағымдағы құпия сөз",
+      "newLabel": "Жаңа құпия сөз",
+      "confirmLabel": "Жаңа құпия сөзді қайталаңыз",
+      "mismatch": "Құпия сөздер сәйкес келмейді",
+      "tooShort": "Құпия сөз кемінде 6 таңбадан тұруы керек",
+      "changed": "Құпия сөз өзгертілді!",
+      "submit": "Құпия сөзді өзгерту",
+      "submitting": "Құпия сөз өзгертілуде..."
+    },
+    "cancelModal": {
+      "title": "Бронды бас тартасыз ба?",
+      "policyTitle": "Бас тарту саясаты",
+      "freeCancellation": "Басталуына {hours} сағат қалғанда тегін",
+      "penalty": "Кеш бас тартқанда {percent}% айыппұл",
+      "noRefund": "Басталуына {hours} сағаттан аз қалғанда ақша қайтарылмайды",
+      "noPolicy": "Бас тарту саясаты белгіленбеген.",
+      "back": "Артқа",
+      "confirm": "Бронды бас тарту"
+    },
+    "myBookings": {
+      "title": "Менің брондарым",
+      "empty": "Сізде әзірге брон жоқ",
+      "findPlace": "Мекеме табу",
+      "upcoming": "Алдағы",
+      "past": "Өткен",
+      "paid": "Төленді",
+      "cancel": "Бас тарту",
+      "cancelling": "Бас тартылуда...",
+      "cancelConfirm": "Бронды бас тартасыз ба?",
+      "bookAgain": "Қайта брондау →"
+    }
+  }
+}

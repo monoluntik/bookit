@@ -1,0 +1,86 @@
+{
+  "Business": {
+    "meta": {
+      "notFoundTitle": "Табылмады",
+      "titleSuffix": "онлайн жазылу",
+      "descriptionFallback": "{name} мекемесіне онлайн жазылыңыз. Жылдам, ыңғайлы, қоңырауссыз."
+    },
+    "typeMeta": {
+      "HOTEL": { "label": "Қонақүй", "bookingVerb": "Нөмір брондау" },
+      "RESTAURANT": { "label": "Мейрамхана", "bookingVerb": "Үстел брондау" },
+      "SALON": { "label": "Сұлулық салоны", "bookingVerb": "Жазылу" },
+      "COWORKING": { "label": "Коворкинг", "bookingVerb": "Орын брондау" },
+      "SPORT": { "label": "Спорт", "bookingVerb": "Брондау" },
+      "MEDICAL": { "label": "Медицина", "bookingVerb": "Қабылдауға жазылу" },
+      "CUSTOM": { "label": "Басқа", "bookingVerb": "Брондау" }
+    },
+    "nav": {
+      "back": "← Артқа",
+      "brand": "Booking",
+      "logout": "Шығу",
+      "login": "Кіру"
+    },
+    "actions": {
+      "call": "Қоңырау шалу",
+      "share": "Бөлісу",
+      "copied": "Көшірілді"
+    },
+    "gallery": {
+      "morePhotos": "+{count} сурет",
+      "seeAll": "Барлық {count} суретті көру →"
+    },
+    "rooms": {
+      "title": "Нөмірлер",
+      "capacityLabel": "қонақ",
+      "titleCoworking": "Жұмыс кеңістіктері",
+      "capacityLabelCoworking": "орын",
+      "titleDefault": "Ресурстар",
+      "capacityLabelDefault": "орын",
+      "upTo": "{count} {label} дейін"
+    },
+    "services": {
+      "titleSalon": "Қызметтер мен бағалар",
+      "titleMedical": "Қабылдау және процедуралар",
+      "titleSport": "Жаттығу түрлері",
+      "titleCoworking": "Тарифтер",
+      "titleRestaurant": "Брондау",
+      "titleHotel": "Санаттар",
+      "titleCustom": "Қызметтер",
+      "titleDefault": "Қызметтер",
+      "durationMinutes": "{minutes} мин",
+      "free": "Тегін",
+      "currency": "сом"
+    },
+    "staff": {
+      "titleMedical": "Дәрігерлер",
+      "titleDefault": "Шеберлер"
+    },
+    "stickyCta": {
+      "defaultLabel": "Жазылу"
+    },
+    "booking": {
+      "sectionTitle": "{verb}",
+      "notConfigured": "Онлайн брондау әлі орнатылмаған"
+    },
+    "reviews": {
+      "title": "Пікірлер",
+      "loading": "Пікірлер жүктелуде...",
+      "empty": "Әзірге пікір жоқ",
+      "reviewCount": "{count, plural, one {# пікір} other {# пікір}}",
+      "anonymousCustomer": "Клиент",
+      "ownerReply": "Мекеменің жауабы",
+      "replyPlaceholder": "Клиентке жауабыңыз...",
+      "replySubmitting": "Жіберілуде...",
+      "replySubmit": "Жауап беру",
+      "replyCancel": "Бас тарту",
+      "replyAction": "Жауап беру →",
+      "yourRating": "Сіздің бағаңыз",
+      "commentPlaceholder": "Сапарыңыз туралы айтып беріңіз (міндетті емес)",
+      "selectRatingError": "Бағаны таңдаңыз",
+      "genericError": "Қате",
+      "thankYou": "Пікіріңізге рахмет!",
+      "submitting": "Жіберілуде...",
+      "submit": "Пікір қалдыру"
+    }
+  }
+}

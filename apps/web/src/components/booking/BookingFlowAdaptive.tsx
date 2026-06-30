@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import { getMeta } from '@/lib/businessTypes'
@@ -21,25 +22,25 @@ interface FlowDef {
   labels: string[]
 }
 
-function getFlow(type: string, hasServices: boolean): FlowDef {
+function getFlow(type: string, hasServices: boolean, s: ReturnType<typeof useTranslations>): FlowDef {
   switch (type) {
     case 'HOTEL':
-      return { steps: ['resource', 'dateRange', 'guests', 'form', 'done'], labels: ['Номер', 'Даты', 'Гости', 'Данные', 'Готово'] }
+      return { steps: ['resource', 'dateRange', 'guests', 'form', 'done'], labels: [s('room'), s('dates'), s('guests'), s('details'), s('done')] }
     case 'RESTAURANT':
-      return { steps: ['guests', 'resource', 'date', 'slot', 'form', 'done'], labels: ['Гости', 'Стол', 'Дата', 'Время', 'Данные', 'Готово'] }
+      return { steps: ['guests', 'resource', 'date', 'slot', 'form', 'done'], labels: [s('guests'), s('table'), s('date'), s('time'), s('details'), s('done')] }
     case 'SALON':
-      if (hasServices) return { steps: ['service', 'resource', 'date', 'slot', 'form', 'done'], labels: ['Услуга', 'Мастер', 'Дата', 'Время', 'Данные', 'Готово'] }
-      return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: ['Мастер', 'Дата', 'Время', 'Данные', 'Готово'] }
+      if (hasServices) return { steps: ['service', 'resource', 'date', 'slot', 'form', 'done'], labels: [s('service'), s('master'), s('date'), s('time'), s('details'), s('done')] }
+      return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: [s('master'), s('date'), s('time'), s('details'), s('done')] }
     case 'MEDICAL':
-      if (hasServices) return { steps: ['resource', 'service', 'date', 'slot', 'form', 'done'], labels: ['Врач', 'Приём', 'Дата', 'Время', 'Данные', 'Готово'] }
-      return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: ['Врач', 'Дата', 'Время', 'Данные', 'Готово'] }
+      if (hasServices) return { steps: ['resource', 'service', 'date', 'slot', 'form', 'done'], labels: [s('doctor'), s('appointment'), s('date'), s('time'), s('details'), s('done')] }
+      return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: [s('doctor'), s('date'), s('time'), s('details'), s('done')] }
     case 'SPORT':
-      return { steps: ['resource', 'date', 'duration', 'slot', 'form', 'done'], labels: ['Корт', 'Дата', 'Длит.', 'Время', 'Данные', 'Готово'] }
+      return { steps: ['resource', 'date', 'duration', 'slot', 'form', 'done'], labels: [s('court'), s('date'), s('durationShort'), s('time'), s('details'), s('done')] }
     case 'COWORKING':
-      return { steps: ['resource', 'date', 'duration', 'slot', 'guests', 'form', 'done'], labels: ['Место', 'Дата', 'Длит.', 'Время', 'Гости', 'Данные', 'Готово'] }
+      return { steps: ['resource', 'date', 'duration', 'slot', 'guests', 'form', 'done'], labels: [s('place'), s('date'), s('durationShort'), s('time'), s('guests'), s('details'), s('done')] }
     default:
-      if (hasServices) return { steps: ['resource', 'service', 'date', 'slot', 'form', 'done'], labels: ['Выбор', 'Услуга', 'Дата', 'Время', 'Данные', 'Готово'] }
-      return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: ['Выбор', 'Дата', 'Время', 'Данные', 'Готово'] }
+      if (hasServices) return { steps: ['resource', 'service', 'date', 'slot', 'form', 'done'], labels: [s('choice'), s('service'), s('date'), s('time'), s('details'), s('done')] }
+      return { steps: ['resource', 'date', 'slot', 'form', 'done'], labels: [s('choice'), s('date'), s('time'), s('details'), s('done')] }
   }
 }
 
@@ -50,6 +51,8 @@ interface Props { business: any }
 
 export default function BookingFlowAdaptive({ business }: Props) {
   const { token } = useAuth()
+  const t = useTranslations('Booking')
+  const s = useTranslations('Booking.flow.steps')
   const meta = getMeta(business.type)
   const [services, setServices] = useState<any[]>([])
 
@@ -68,7 +71,7 @@ export default function BookingFlowAdaptive({ business }: Props) {
     api.getServices(business.id).then(setServices).catch(() => setServices([]))
   }, [business.id])
 
-  const flow = getFlow(business.type, services.length > 0)
+  const flow = getFlow(business.type, services.length > 0, s)
   const [stepIdx, setStepIdx] = useState(0)
   const step = flow.steps[stepIdx]
   const next = () => setStepIdx(i => i + 1)
@@ -110,7 +113,7 @@ export default function BookingFlowAdaptive({ business }: Props) {
       {step === 'guests' && (
         <GuestCountStep
           max={selectedResource?.capacity ?? 20}
-          label={business.type === 'HOTEL' ? 'Количество гостей' : business.type === 'RESTAURANT' ? 'Сколько вас будет?' : 'Количество человек'}
+          label={business.type === 'HOTEL' ? t('flow.guestCountLabel.hotel') : business.type === 'RESTAURANT' ? t('flow.guestCountLabel.restaurant') : t('flow.guestCountLabel.default')}
           businessType={business.type}
           onSelect={c => { setGuestCount(c); next() }}
           onBack={back}

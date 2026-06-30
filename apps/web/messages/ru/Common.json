@@ -1,0 +1,24 @@
+{
+  "Common": {
+    "brand": "Booking",
+    "nav": {
+      "explore": "Каталог",
+      "guide": "Гайд",
+      "pricing": "Тарифы",
+      "login": "Войти",
+      "register": "Регистрация",
+      "forBusiness": "Бизнесу",
+      "dashboard": "Дашборд",
+      "profile": "Профиль",
+      "logout": "Выйти",
+      "menu": "Меню",
+      "close": "Закрыть"
+    },
+    "bottomNav": {
+      "home": "Главная",
+      "explore": "Каталог",
+      "bookings": "Брони",
+      "profile": "Профиль"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { getMeta } from '@/lib/businessTypes'
 
 const BG: Record<string, string> = {
@@ -13,10 +13,15 @@ const BG: Record<string, string> = {
 
 interface Props { business: any }
 
-export default function BusinessHero({ business }: Props) {
+export default async function BusinessHero({ business }: Props) {
+  const t = await getTranslations('Business')
   const meta = getMeta(business.type)
   const bg = BG[business.type] ?? BG.CUSTOM
   const hasCover = Boolean(business.logoUrl)
+  const typeLabel = t.has(`typeMeta.${business.type}.label`)
+    ? t(`typeMeta.${business.type}.label` as any)
+    : t('typeMeta.CUSTOM.label')
+  const reviewCount = t('reviews.reviewCount', { count: business.reviewCount })
 
   if (hasCover) {
     return (
@@ -32,14 +37,14 @@ export default function BusinessHero({ business }: Props) {
         <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
           <div className="flex items-center gap-1.5 mb-1 opacity-80">
             <span className="text-lg">{meta.icon}</span>
-            <span className="text-xs font-semibold uppercase tracking-widest">{meta.label}</span>
+            <span className="text-xs font-semibold uppercase tracking-widest">{typeLabel}</span>
           </div>
           <h1 className="text-2xl font-bold mb-1 drop-shadow-sm">{business.name}</h1>
           {business.avgRating > 0 && (
             <div className="flex items-center gap-1.5 mt-2">
               <span className="text-yellow-400 text-sm">{'★'.repeat(Math.round(business.avgRating))}</span>
               <span className="text-sm font-semibold text-white">{business.avgRating.toFixed(1)}</span>
-              <span className="text-xs opacity-70">({business.reviewCount} {business.reviewCount === 1 ? 'отзыв' : 'отзывов'})</span>
+              <span className="text-xs opacity-70">({reviewCount})</span>
             </div>
           )}
           {business.description && (
@@ -63,14 +68,14 @@ export default function BusinessHero({ business }: Props) {
       <div className="relative">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-2xl">{meta.icon}</span>
-          <span className="text-xs font-semibold uppercase tracking-widest opacity-80">{meta.label}</span>
+          <span className="text-xs font-semibold uppercase tracking-widest opacity-80">{typeLabel}</span>
         </div>
         <h1 className="text-2xl font-bold mb-1">{business.name}</h1>
         {business.avgRating > 0 && (
           <div className="flex items-center gap-1.5 mt-2">
             <span className="text-yellow-400 text-sm">{'★'.repeat(Math.round(business.avgRating))}</span>
             <span className="text-sm font-semibold text-white">{business.avgRating.toFixed(1)}</span>
-            <span className="text-xs opacity-70">({business.reviewCount} {business.reviewCount === 1 ? 'отзыв' : 'отзывов'})</span>
+            <span className="text-xs opacity-70">({reviewCount})</span>
           </div>
         )}
         {business.description && (

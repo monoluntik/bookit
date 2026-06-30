@@ -1,17 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
-const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  PENDING:   { label: 'Ожидает',      color: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
-  CONFIRMED: { label: 'Подтверждена', color: 'bg-green-50 text-green-700 border-green-200' },
-  CANCELLED: { label: 'Отменена',     color: 'bg-red-50 text-red-500 border-red-200' },
-  COMPLETED: { label: 'Завершена',    color: 'bg-blue-50 text-blue-600 border-blue-200' },
-  NO_SHOW:   { label: 'Не пришёл',    color: 'bg-gray-100 text-gray-500 border-gray-200' },
+const STATUS_COLOR_MAP: Record<string, string> = {
+  PENDING:   'bg-yellow-50 text-yellow-700 border-yellow-200',
+  CONFIRMED: 'bg-green-50 text-green-700 border-green-200',
+  CANCELLED: 'bg-red-50 text-red-500 border-red-200',
+  COMPLETED: 'bg-blue-50 text-blue-600 border-blue-200',
+  NO_SHOW:   'bg-gray-100 text-gray-500 border-gray-200',
 }
 
 const TRANSITIONS: Record<string, string[]> = {
@@ -33,6 +34,15 @@ function fmt(iso: string, opts: Intl.DateTimeFormatOptions) {
 }
 
 export default function BookingCard({ booking, onStatusChange, onDelete }: Props) {
+  const t = useTranslations('Dashboard.bookings')
+  const tc = useTranslations('Dashboard.bookings.card')
+  const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+    PENDING:   { label: t('statusLabels.PENDING'),   color: STATUS_COLOR_MAP.PENDING },
+    CONFIRMED: { label: t('statusLabels.CONFIRMED'), color: STATUS_COLOR_MAP.CONFIRMED },
+    CANCELLED: { label: t('statusLabels.CANCELLED'), color: STATUS_COLOR_MAP.CANCELLED },
+    COMPLETED: { label: t('statusLabels.COMPLETED'), color: STATUS_COLOR_MAP.COMPLETED },
+    NO_SHOW:   { label: t('statusLabels.NO_SHOW'),   color: STATUS_COLOR_MAP.NO_SHOW },
+  }
   const { token } = useAuth()
   const { success, error: showError } = useToast()
   const [loading, setLoading]           = useState(false)
@@ -51,9 +61,9 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
 
   const rescheduleTimeError =
     rescheduleStart && rescheduleEnd && rescheduleStart >= rescheduleEnd
-      ? 'Время окончания должно быть позже начала'
+      ? tc('endAfterStart')
       : rescheduleDate && rescheduleDate < today
-        ? 'Нельзя перенести в прошлое'
+        ? tc('noPastReschedule')
         : null
 
   const handleAction = async (status: string) => {
@@ -70,7 +80,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
         headers: { Authorization: `Bearer ${token}` },
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error) }
-      success(isBlock ? 'Блокировка удалена' : 'Бронь удалена')
+      success(isBlock ? tc('successBlockDeleted') : tc('successBookingDeleted'))
       onDelete(booking.id)
     } catch (err: any) {
       showError(err.message)
@@ -91,11 +101,11 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
         body: JSON.stringify({ startAt, endAt }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Ошибка')
+      if (!res.ok) throw new Error(data.error ?? tc('errorGeneric'))
       booking.startAt = data.startAt
       booking.endAt   = data.endAt
       setShowReschedule(false)
-      success('Время обновлено')
+      success(tc('successTimeUpdated'))
     } catch (err: any) {
       showError(err.message)
     } finally {
@@ -120,7 +130,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="text-base">🔒</span>
-              <span className="font-medium text-gray-500">Заблокировано</span>
+              <span className="font-medium text-gray-500">{tc('blocked')}</span>
             </div>
             <div className="text-xs text-gray-400 mt-0.5">
               {booking.resource?.name} · {fmt(booking.startAt, { hour: '2-digit', minute: '2-digit' })}–{fmt(booking.endAt, { hour: '2-digit', minute: '2-digit' })}
@@ -134,13 +144,13 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
             {canReschedule && (
               <button onClick={() => setShowReschedule(v => !v)}
                 className="text-xs px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 hover:bg-white">
-                Перенести
+                {tc('reschedule')}
               </button>
             )}
             {onDelete && (
               <button onClick={handleDelete}
                 className="text-xs px-2.5 py-1 rounded-full border border-red-200 text-red-400 hover:bg-red-50">
-                Удалить
+                {tc('delete')}
               </button>
             )}
           </div>
@@ -150,7 +160,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
           date={rescheduleDate} start={rescheduleStart} end={rescheduleEnd}
           setDate={setRescheduleDate} setStart={setRescheduleStart} setEnd={setRescheduleEnd}
           today={today} error={rescheduleTimeError} saving={rescheduleSaving} onSubmit={handleReschedule}
-          onCancel={() => setShowReschedule(false)}
+          onCancel={() => setShowReschedule(false)} tc={tc}
         />}
       </div>
     )
@@ -175,12 +185,12 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
           <div className="flex items-center gap-2">
             <span className="font-semibold text-gray-900 truncate">
               {isManual
-                ? (booking.guestName || 'Клиент (вручную)')
-                : (booking.customer?.name ?? booking.guestName ?? 'Клиент')}
+                ? (booking.guestName || tc('manualCustomer'))
+                : (booking.customer?.name ?? booking.guestName ?? tc('defaultCustomer'))}
             </span>
             {isManual && (
               <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide bg-purple-50 text-purple-600 border border-purple-100 px-1.5 py-0.5 rounded-full">
-                вручную
+                {tc('manualBadge')}
               </span>
             )}
           </div>
@@ -200,7 +210,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
           )}
           {booking.payment?.status === 'PAID' && (
             <div className="text-xs text-green-600 mt-1">
-              ✓ Оплачено {Number(booking.payment.amount).toLocaleString('ru')} с
+              {tc('paid', { amount: Number(booking.payment.amount).toLocaleString('ru') })}
             </div>
           )}
         </div>
@@ -219,13 +229,13 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
           {canReschedule && !loading && (
             <button onClick={() => setShowReschedule(v => !v)}
               className="text-xs px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50">
-              Перенести
+              {tc('reschedule')}
             </button>
           )}
           {isManual && onDelete && !loading && (
             <button onClick={handleDelete}
               className="text-xs px-2.5 py-1 rounded-full border border-red-200 text-red-400 hover:bg-red-50">
-              Удалить
+              {tc('delete')}
             </button>
           )}
           {loading && <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />}
@@ -236,34 +246,35 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
         date={rescheduleDate} start={rescheduleStart} end={rescheduleEnd}
         setDate={setRescheduleDate} setStart={setRescheduleStart} setEnd={setRescheduleEnd}
         today={today} error={rescheduleTimeError} saving={rescheduleSaving} onSubmit={handleReschedule}
-        onCancel={() => setShowReschedule(false)}
+        onCancel={() => setShowReschedule(false)} tc={tc}
       />}
     </div>
   )
 }
 
-function RescheduleForm({ date, start, end, setDate, setStart, setEnd, today, error, saving, onSubmit, onCancel }: {
+function RescheduleForm({ date, start, end, setDate, setStart, setEnd, today, error, saving, onSubmit, onCancel, tc }: {
   date: string; start: string; end: string
   setDate: (v: string) => void; setStart: (v: string) => void; setEnd: (v: string) => void
   today: string; error: string | null; saving: boolean
   onSubmit: (e: React.FormEvent) => void; onCancel: () => void
+  tc: (key: string, values?: Record<string, any>) => string
 }) {
   return (
     <form onSubmit={onSubmit} className="px-4 pb-4 pt-3 border-t border-gray-100 bg-gray-50">
       <div className="flex flex-wrap gap-3 items-end">
         <div>
-          <label className="text-xs text-gray-500 block mb-1">Дата</label>
+          <label className="text-xs text-gray-500 block mb-1">{tc('date')}</label>
           <input type="date" required min={today} value={date} onChange={e => setDate(e.target.value)}
             className="px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
         </div>
         <div>
-          <label className="text-xs text-gray-500 block mb-1">Начало</label>
+          <label className="text-xs text-gray-500 block mb-1">{tc('start')}</label>
           <input type="time" required value={start} onChange={e => setStart(e.target.value)}
             className={`px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2
               ${error ? 'border-red-300 focus:ring-red-300' : 'border-gray-200 focus:ring-blue-300'}`} />
         </div>
         <div>
-          <label className="text-xs text-gray-500 block mb-1">Конец</label>
+          <label className="text-xs text-gray-500 block mb-1">{tc('end')}</label>
           <input type="time" required value={end} onChange={e => setEnd(e.target.value)}
             className={`px-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2
               ${error ? 'border-red-300 focus:ring-red-300' : 'border-gray-200 focus:ring-blue-300'}`} />
@@ -271,11 +282,11 @@ function RescheduleForm({ date, start, end, setDate, setStart, setEnd, today, er
         <div className="flex gap-2">
           <button type="submit" disabled={saving || !!error}
             className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
-            {saving ? '...' : 'Сохранить'}
+            {saving ? '...' : tc('save')}
           </button>
           <button type="button" onClick={onCancel}
             className="px-4 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-white">
-            Отмена
+            {tc('cancel')}
           </button>
         </div>
       </div>

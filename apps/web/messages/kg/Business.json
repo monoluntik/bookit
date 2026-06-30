@@ -1,0 +1,86 @@
+{
+  "Business": {
+    "meta": {
+      "notFoundTitle": "Табылган жок",
+      "titleSuffix": "онлайн жазылуу",
+      "descriptionFallback": "{name} жайына онлайн жазылыңыз. Тез, ыңгайлуу, чалуусуз."
+    },
+    "typeMeta": {
+      "HOTEL": { "label": "Мейманкана", "bookingVerb": "Бөлмө брондоо" },
+      "RESTAURANT": { "label": "Ресторан", "bookingVerb": "Стол брондоо" },
+      "SALON": { "label": "Сулуулук салону", "bookingVerb": "Жазылуу" },
+      "COWORKING": { "label": "Коворкинг", "bookingVerb": "Орун брондоо" },
+      "SPORT": { "label": "Спорт", "bookingVerb": "Брондоо" },
+      "MEDICAL": { "label": "Медицина", "bookingVerb": "Кабылдоого жазылуу" },
+      "CUSTOM": { "label": "Башка", "bookingVerb": "Брондоо" }
+    },
+    "nav": {
+      "back": "← Артка",
+      "brand": "Booking",
+      "logout": "Чыгуу",
+      "login": "Кирүү"
+    },
+    "actions": {
+      "call": "Чалуу",
+      "share": "Бөлүшүү",
+      "copied": "Көчүрүлдү"
+    },
+    "gallery": {
+      "morePhotos": "+{count} сүрөт",
+      "seeAll": "Бардык {count} сүрөттү көрүү →"
+    },
+    "rooms": {
+      "title": "Бөлмөлөр",
+      "capacityLabel": "конок",
+      "titleCoworking": "Жумуш мейкиндиктери",
+      "capacityLabelCoworking": "орун",
+      "titleDefault": "Ресурстар",
+      "capacityLabelDefault": "орун",
+      "upTo": "{count} {label} чейин"
+    },
+    "services": {
+      "titleSalon": "Кызматтар жана баалар",
+      "titleMedical": "Кабылдоо жана процедуралар",
+      "titleSport": "Машыгуу түрлөрү",
+      "titleCoworking": "Тарифтер",
+      "titleRestaurant": "Брондоо",
+      "titleHotel": "Категориялар",
+      "titleCustom": "Кызматтар",
+      "titleDefault": "Кызматтар",
+      "durationMinutes": "{minutes} мүн",
+      "free": "Акысыз",
+      "currency": "сом"
+    },
+    "staff": {
+      "titleMedical": "Дарыгерлер",
+      "titleDefault": "Усталар"
+    },
+    "stickyCta": {
+      "defaultLabel": "Жазылуу"
+    },
+    "booking": {
+      "sectionTitle": "{verb}",
+      "notConfigured": "Онлайн-брондоо азырынча орнотулган эмес"
+    },
+    "reviews": {
+      "title": "Пикирлер",
+      "loading": "Пикирлер жүктөлүүдө...",
+      "empty": "Азырынча пикир жок",
+      "reviewCount": "{count, plural, one {# пикир} other {# пикир}}",
+      "anonymousCustomer": "Кардар",
+      "ownerReply": "Мекеменин жообу",
+      "replyPlaceholder": "Кардарга жообуңуз...",
+      "replySubmitting": "Жөнөтүлүүдө...",
+      "replySubmit": "Жооп берүү",
+      "replyCancel": "Жокко чыгаруу",
+      "replyAction": "Жооп берүү →",
+      "yourRating": "Сиздин баалооңуз",
+      "commentPlaceholder": "Сапарыңыз жөнүндө айтып бериңиз (милдеттүү эмес)",
+      "selectRatingError": "Баалоону тандаңыз",
+      "genericError": "Ката",
+      "thankYou": "Пикириңиз үчүн рахмат!",
+      "submitting": "Жөнөтүлүүдө...",
+      "submit": "Пикир калтыруу"
+    }
+  }
+}

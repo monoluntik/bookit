@@ -1,0 +1,155 @@
+{
+  "Admin": {
+    "nav": {
+      "overview": "Обзор",
+      "users": "Колдонуучулар",
+      "businesses": "Бизнестер",
+      "reviews": "Пикирлер",
+      "dashboard": "Башкаруу панели",
+      "site": "Сайт"
+    },
+    "overview": {
+      "title": "Платформанын обзору",
+      "kpi": {
+        "users": "Колдонуучулар",
+        "businesses": "Бизнестер",
+        "bookings": "Брондор",
+        "revenueTotal": "Кирешe (баары)",
+        "newThisMonth": "+{count} ай ичинде",
+        "ofTotal": "{count} баарынан",
+        "thisMonth": "{count} ай ичинде",
+        "revenueThisMonth": "{amount} сом ай ичинде"
+      },
+      "charts": {
+        "bookingsLast30Days": "Акыркы 30 күндөгү брондор",
+        "totalReviews": "Бардык пикирлер: {count}",
+        "businessesByType": "Категориялар боюнча бизнестер"
+      },
+      "types": {
+        "hotel": "Мейманканалар",
+        "restaurant": "Ресторандар",
+        "salon": "Салондор",
+        "coworking": "Коворкинг",
+        "sport": "Спорт",
+        "medical": "Медицина",
+        "custom": "Башка"
+      },
+      "roles": {
+        "customer": "Кардарлар",
+        "owner": "Ээлер",
+        "admin": "Админдер"
+      },
+      "usersByRole": "Ролдор боюнча колдонуучулар",
+      "recentBookings": {
+        "title": "Акыркы брондор",
+        "defaultCustomer": "Кардар",
+        "noService": "Кызматсыз"
+      }
+    },
+    "users": {
+      "title": "Колдонуучулар",
+      "totalCount": "{count} баары",
+      "searchPlaceholder": "Аты же email боюнча издөө...",
+      "searchButton": "Издөө",
+      "allRoles": "Бардык ролдор",
+      "roles": {
+        "customer": "Кардар",
+        "owner": "Ээ",
+        "admin": "Админ",
+        "customers": "Кардарлар",
+        "owners": "Ээлер",
+        "admins": "Админдер"
+      },
+      "table": {
+        "user": "Колдонуучу",
+        "role": "Ролу",
+        "activity": "Брондор / Бизнестер",
+        "registered": "Катталган",
+        "status": "Абалы"
+      },
+      "activitySummary": "{bookings} брон · {businesses} бизнес",
+      "status": {
+        "active": "Активдүү",
+        "blocked": "Бөгөттөлгөн"
+      },
+      "actions": {
+        "block": "Бөгөттөө",
+        "unblock": "Бөгөттөн чыгаруу"
+      },
+      "loading": "Жүктөлүүдө...",
+      "pagination": {
+        "pageOf": "{page} / {totalPages} бет",
+        "prev": "← Артка",
+        "next": "Алдыга →"
+      },
+      "toasts": {
+        "blocked": "Колдонуучу бөгөттөлдү",
+        "unblocked": "Колдонуучу бөгөттөн чыгарылды",
+        "roleChanged": "Ролу өзгөртүлдү",
+        "error": "Ката"
+      }
+    },
+    "businesses": {
+      "title": "Бизнестер",
+      "totalCount": "{count} баары",
+      "searchPlaceholder": "Аталышы же slug боюнча издөө...",
+      "searchButton": "Издөө",
+      "allTypes": "Бардык түрлөр",
+      "allStatuses": "Бардык абалдар",
+      "activeFilter": "Активдүү",
+      "inactiveFilter": "Активдүү эмес",
+      "types": {
+        "hotel": "Мейманкана",
+        "restaurant": "Ресторан",
+        "salon": "Салон",
+        "coworking": "Коворкинг",
+        "sport": "Спорт",
+        "medical": "Медицина",
+        "custom": "Башка"
+      },
+      "status": {
+        "active": "Активдүү",
+        "hidden": "Жашырылган"
+      },
+      "fields": {
+        "bookingsCount": "{count} брон",
+        "reviewsCount": "{count} пикир",
+        "resourcesCount": "{count} ресурс"
+      },
+      "actions": {
+        "open": "Ачуу ↗",
+        "hide": "Жашыруу",
+        "activate": "Активдештирүү"
+      },
+      "pagination": {
+        "pageOf": "{page} / {totalPages} бет",
+        "prev": "← Артка",
+        "next": "Алдыга →"
+      },
+      "toasts": {
+        "activated": "Бизнес активдештирилди",
+        "deactivated": "Бизнес деактивдештирилди",
+        "error": "Ката"
+      }
+    },
+    "reviews": {
+      "title": "Пикирлер",
+      "totalCount": "{count} баары",
+      "deleteConfirm": "Бул пикирди өчүрөсүзбү?",
+      "ownerReply": "Ээсинин жообу:",
+      "defaultCustomer": "Кардар",
+      "actions": {
+        "delete": "Өчүрүү"
+      },
+      "pagination": {
+        "pageOf": "{page} / {totalPages} бет",
+        "prev": "← Артка",
+        "next": "Алдыга →"
+      },
+      "toasts": {
+        "deleted": "Пикир өчүрүлдү",
+        "deleteError": "Өчүрүү катасы"
+      }
+    }
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "Booking": {
+    "flow": {
+      "steps": {
+        "room": "Xona",
+        "dates": "Sanalar",
+        "guests": "Mehmonlar",
+        "details": "Ma'lumotlar",
+        "done": "Tayyor",
+        "table": "Stol",
+        "date": "Sana",
+        "time": "Vaqt",
+        "service": "Xizmat",
+        "master": "Usta",
+        "doctor": "Shifokor",
+        "appointment": "Qabul",
+        "court": "Kort",
+        "durationShort": "Davom.",
+        "place": "Joy",
+        "choice": "Tanlov"
+      },
+      "guestCountLabel": {
+        "hotel": "Mehmonlar soni",
+        "restaurant": "Nechtasiz?",
+        "default": "Odamlar soni"
+      }
+    },
+    "guestCount": {
+      "defaultLabel": "Mehmonlar soni",
+      "hintRestaurant": "Siz uchun stol tanlaymiz",
+      "hintHotel": "Xonani tanlash uchun mehmonlar sonini ko'rsating",
+      "hintDefault": "Ishtirokchilar sonini tanlang",
+      "otherCount": "Boshqa son:",
+      "back": "← Orqaga",
+      "next": "Keyingi →"
+    },
+    "resourceSelector": {
+      "defaultLabel": "Resurs",
+      "selectLabel": "{label} tanlang",
+      "noTablesForGuests": "{count} kishi uchun stol yo'q.",
+      "tryFewerGuests": "Mehmonlar sonini kamaytirib ko'ring.",
+      "back": "← Orqaga",
+      "specialization": "Mutaxassislik: ",
+      "upToGuestsHotel": "👤 {count} kishigacha",
+      "upToGuests": "{count} kishigacha",
+      "fromPrice": "{price} so'mdan"
+    },
+    "serviceSelector": {
+      "title": "Xizmatni tanlang",
+      "priceSom": "{price} so'm",
+      "durationMinutes": "{count} daq",
+      "durationHours": "{count} soat",
+      "durationHoursHalf": "{hours}.5 soat",
+      "durationHoursMinutes": "{hours} soat {minutes} daq",
+      "back": "← Orqaga",
+      "skipService": "Xizmatsiz (faqat vaqt)"
+    },
+    "datePicker": {
+      "title": "Sanani tanlang",
+      "days": {
+        "mon": "Dush",
+        "tue": "Sesh",
+        "wed": "Chor",
+        "thu": "Pay",
+        "fri": "Jum",
+        "sat": "Shan",
+        "sun": "Yak"
+      },
+      "months": {
+        "january": "Yanvar",
+        "february": "Fevral",
+        "march": "Mart",
+        "april": "Aprel",
+        "may": "May",
+        "june": "Iyun",
+        "july": "Iyul",
+        "august": "Avgust",
+        "september": "Sentyabr",
+        "october": "Oktyabr",
+        "november": "Noyabr",
+        "december": "Dekabr"
+      },
+      "todayIs": "Bugun — {date}",
+      "back": "Orqaga",
+      "next": "Keyingi"
+    },
+    "hotelDateRange": {
+      "title": "Sanalarni tanlang",
+      "selectCheckIn": "Kirish sanasini tanlang",
+      "selectCheckOut": "Chiqish sanasini tanlang",
+      "nights": "{count} kecha",
+      "checkIn": "Kirish:",
+      "checkOut": "Chiqish:",
+      "back": "← Orqaga",
+      "next": "Keyingi →"
+    },
+    "duration": {
+      "title": "Davomiylikni tanlang",
+      "subtitle": "Sizga qancha vaqt kerakligini ko'rsating",
+      "minutes": "{count} daq",
+      "hours": "{count} soat",
+      "hoursHalf": "{hours}.5 soat",
+      "hoursMinutes": "{hours} soat {minutes} daq",
+      "priceCalculatedOnSite": "Narxi joyida hisoblanadi",
+      "back": "← Orqaga"
+    },
+    "slotPicker": {
+      "title": "Vaqtni tanlang",
+      "loadError": "Slotlarni yuklab bo'lmadi",
+      "retry": "Qayta urinish",
+      "noSlotsToday": "Bugungi yozuvlar tugadi",
+      "noSlotsTodayHint": "Qolgan barcha slotlar band yoki o'tib ketgan",
+      "noSlotsDate": "Bu sanada bo'sh slot yo'q",
+      "noSlotsDateHint": "Boshqa kunni tanlab ko'ring",
+      "chooseAnotherDay": "Boshqa kunni tanlash →",
+      "showNextDay": "📅 Keyingi kunni ko'rsatish",
+      "minutes": "{count} daq",
+      "hours": "{count} soat",
+      "hoursMinutes": "{hours} soat {minutes} daq",
+      "back": "Orqaga",
+      "selectTime": "Vaqtni tanlang",
+      "selectSlot": "{time} tanlash"
+    },
+    "form": {
+      "title": "Sizning ma'lumotlaringiz",
+      "nights": "{count} kecha",
+      "guestsShort": "{count} kishi",
+      "priceSom": "{price} so'm",
+      "login": "Kirish",
+      "register": "Ro'yxatdan o'tish",
+      "namePlaceholder": "Ism",
+      "phonePlaceholder": "Telefon (ixtiyoriy)",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Parol",
+      "notesPlaceholder": "Izoh (ixtiyoriy)",
+      "back": "Orqaga",
+      "submitting": "Yaratilmoqda...",
+      "submit": "Band qilish",
+      "genericError": "Nimadir noto'g'ri ketdi"
+    },
+    "confirmation": {
+      "title": "Bron tasdiqlandi!",
+      "subtitle": "Tafsilotlar email manzilingizga yuborildi",
+      "place": "Joy",
+      "resource": "Resurs",
+      "service": "Xizmat",
+      "date": "Sana",
+      "nightsLabel": "Kechalar",
+      "time": "Vaqt",
+      "guests": "Mehmonlar",
+      "total": "Jami",
+      "status": "Holat",
+      "statusPending": "Tasdiqlanishini kutmoqda",
+      "bookingNumber": "Bron raqami",
+      "priceSom": "{price} so'm",
+      "addToCalendar": "📅 Kalendarga qo'shish",
+      "processingPayment": "To'lovga o'tilmoqda...",
+      "pay": "{price} so'm to'lash",
+      "newBooking": "Yangi bron",
+      "calendarResource": "Resurs: {resource}",
+      "calendarBookingNumber": "Bron raqami: {id}"
+    },
+    "success": {
+      "title": "To'lov amalga oshdi!",
+      "subtitle": "Bron tasdiqlandi. Tafsilotlar email manzilingizga yuborildi.",
+      "home": "Bosh sahifaga"
+    },
+    "failed": {
+      "title": "To'lov amalga oshmadi",
+      "subtitle": "Qaytadan urinib ko'ring yoki boshqa to'lov usulini tanlang.",
+      "retry": "Qaytadan urinish",
+      "home": "Bosh sahifaga"
+    },
+    "paymentResult": {
+      "checking": "To'lov tekshirilmoqda...",
+      "pending": "Tasdiqlanishini kutmoqda",
+      "pendingHint": "Bank to'lovni hali qayta ishlamoqda"
+    },
+    "payMock": {
+      "sandboxLabel": "Bakai Bank — Dev Sandbox",
+      "priceSom": "{price} so'm",
+      "transactionNumber": "Tranzaksiya #{txId}",
+      "processing": "Qayta ishlanmoqda...",
+      "paySuccess": "✓ To'lash (muvaffaqiyatli)",
+      "payReject": "✗ To'lovni rad etish",
+      "testNotice": "Bu test sahifasi. Prodda Bakai'ga yo'naltirilasiz."
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "Admin": {
+    "nav": {
+      "overview": "Обзор",
+      "users": "Юзеры",
+      "businesses": "Бизнесы",
+      "reviews": "Отзывы",
+      "dashboard": "Дашборд",
+      "site": "Сайт"
+    },
+    "overview": {
+      "title": "Обзор платформы",
+      "kpi": {
+        "users": "Пользователей",
+        "businesses": "Бизнесов",
+        "bookings": "Броней",
+        "revenueTotal": "Выручка (всего)",
+        "newThisMonth": "+{count} за месяц",
+        "ofTotal": "из {count} всего",
+        "thisMonth": "{count} за месяц",
+        "revenueThisMonth": "{amount} с за месяц"
+      },
+      "charts": {
+        "bookingsLast30Days": "Брони за последние 30 дней",
+        "totalReviews": "Всего отзывов: {count}",
+        "businessesByType": "Бизнесы по категориям"
+      },
+      "types": {
+        "hotel": "Отели",
+        "restaurant": "Рестораны",
+        "salon": "Салоны",
+        "coworking": "Коворкинг",
+        "sport": "Спорт",
+        "medical": "Медицина",
+        "custom": "Другое"
+      },
+      "roles": {
+        "customer": "Клиенты",
+        "owner": "Владельцы",
+        "admin": "Админы"
+      },
+      "usersByRole": "Пользователи по ролям",
+      "recentBookings": {
+        "title": "Последние брони",
+        "defaultCustomer": "Клиент",
+        "noService": "Без услуги"
+      }
+    },
+    "users": {
+      "title": "Пользователи",
+      "totalCount": "{count} всего",
+      "searchPlaceholder": "Поиск по имени или email...",
+      "searchButton": "Найти",
+      "allRoles": "Все роли",
+      "roles": {
+        "customer": "Клиент",
+        "owner": "Владелец",
+        "admin": "Админ",
+        "customers": "Клиенты",
+        "owners": "Владельцы",
+        "admins": "Админы"
+      },
+      "table": {
+        "user": "Пользователь",
+        "role": "Роль",
+        "activity": "Брони / Бизнесы",
+        "registered": "Регистрация",
+        "status": "Статус"
+      },
+      "activitySummary": "{bookings} броней · {businesses} бизнесов",
+      "status": {
+        "active": "Активен",
+        "blocked": "Заблок."
+      },
+      "actions": {
+        "block": "Блок.",
+        "unblock": "Разблок."
+      },
+      "loading": "Загрузка...",
+      "pagination": {
+        "pageOf": "Страница {page} из {totalPages}",
+        "prev": "← Назад",
+        "next": "Вперёд →"
+      },
+      "toasts": {
+        "blocked": "Пользователь заблокирован",
+        "unblocked": "Пользователь разблокирован",
+        "roleChanged": "Роль изменена",
+        "error": "Ошибка"
+      }
+    },
+    "businesses": {
+      "title": "Бизнесы",
+      "totalCount": "{count} всего",
+      "searchPlaceholder": "Поиск по названию или slug...",
+      "searchButton": "Найти",
+      "allTypes": "Все типы",
+      "allStatuses": "Все статусы",
+      "activeFilter": "Активные",
+      "inactiveFilter": "Неактивные",
+      "types": {
+        "hotel": "Отель",
+        "restaurant": "Ресторан",
+        "salon": "Салон",
+        "coworking": "Коворкинг",
+        "sport": "Спорт",
+        "medical": "Медицина",
+        "custom": "Другое"
+      },
+      "status": {
+        "active": "Активен",
+        "hidden": "Скрыт"
+      },
+      "fields": {
+        "bookingsCount": "{count} броней",
+        "reviewsCount": "{count} отзывов",
+        "resourcesCount": "{count} ресурсов"
+      },
+      "actions": {
+        "open": "Открыть ↗",
+        "hide": "Скрыть",
+        "activate": "Активировать"
+      },
+      "pagination": {
+        "pageOf": "Страница {page} из {totalPages}",
+        "prev": "← Назад",
+        "next": "Вперёд →"
+      },
+      "toasts": {
+        "activated": "Бизнес активирован",
+        "deactivated": "Бизнес деактивирован",
+        "error": "Ошибка"
+      }
+    },
+    "reviews": {
+      "title": "Отзывы",
+      "totalCount": "{count} всего",
+      "deleteConfirm": "Удалить этот отзыв?",
+      "ownerReply": "Ответ владельца:",
+      "defaultCustomer": "Клиент",
+      "actions": {
+        "delete": "Удалить"
+      },
+      "pagination": {
+        "pageOf": "Страница {page} из {totalPages}",
+        "prev": "← Назад",
+        "next": "Вперёд →"
+      },
+      "toasts": {
+        "deleted": "Отзыв удалён",
+        "deleteError": "Ошибка удаления"
+      }
+    }
+  }
+}

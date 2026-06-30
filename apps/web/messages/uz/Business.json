@@ -1,0 +1,86 @@
+{
+  "Business": {
+    "meta": {
+      "notFoundTitle": "Topilmadi",
+      "titleSuffix": "onlayn yozilish",
+      "descriptionFallback": "{name} muassasasiga onlayn yoziling. Tez, qulay, qo'ng'iroqsiz."
+    },
+    "typeMeta": {
+      "HOTEL": { "label": "Mehmonxona", "bookingVerb": "Xona band qilish" },
+      "RESTAURANT": { "label": "Restoran", "bookingVerb": "Stol band qilish" },
+      "SALON": { "label": "Go'zallik saloni", "bookingVerb": "Yozilish" },
+      "COWORKING": { "label": "Koworking", "bookingVerb": "O'rin band qilish" },
+      "SPORT": { "label": "Sport", "bookingVerb": "Band qilish" },
+      "MEDICAL": { "label": "Tibbiyot", "bookingVerb": "Qabulga yozilish" },
+      "CUSTOM": { "label": "Boshqa", "bookingVerb": "Band qilish" }
+    },
+    "nav": {
+      "back": "← Orqaga",
+      "brand": "Booking",
+      "logout": "Chiqish",
+      "login": "Kirish"
+    },
+    "actions": {
+      "call": "Qo'ng'iroq qilish",
+      "share": "Ulashish",
+      "copied": "Nusxalandi"
+    },
+    "gallery": {
+      "morePhotos": "+{count} rasm",
+      "seeAll": "Barcha {count} rasmni ko'rish →"
+    },
+    "rooms": {
+      "title": "Xonalar",
+      "capacityLabel": "mehmon",
+      "titleCoworking": "Ish maydonlari",
+      "capacityLabelCoworking": "o'rin",
+      "titleDefault": "Resurslar",
+      "capacityLabelDefault": "o'rin",
+      "upTo": "{count} {label} gacha"
+    },
+    "services": {
+      "titleSalon": "Xizmatlar va narxlar",
+      "titleMedical": "Qabul va muolajalar",
+      "titleSport": "Mashg'ulot turlari",
+      "titleCoworking": "Tariflar",
+      "titleRestaurant": "Band qilish",
+      "titleHotel": "Toifalar",
+      "titleCustom": "Xizmatlar",
+      "titleDefault": "Xizmatlar",
+      "durationMinutes": "{minutes} daq",
+      "free": "Bepul",
+      "currency": "so'm"
+    },
+    "staff": {
+      "titleMedical": "Shifokorlar",
+      "titleDefault": "Ustalar"
+    },
+    "stickyCta": {
+      "defaultLabel": "Yozilish"
+    },
+    "booking": {
+      "sectionTitle": "{verb}",
+      "notConfigured": "Onlayn band qilish hali sozlanmagan"
+    },
+    "reviews": {
+      "title": "Sharhlar",
+      "loading": "Sharhlar yuklanmoqda...",
+      "empty": "Hozircha sharhlar yo'q",
+      "reviewCount": "{count, plural, one {# sharh} other {# sharh}}",
+      "anonymousCustomer": "Mijoz",
+      "ownerReply": "Muassasa javobi",
+      "replyPlaceholder": "Mijozga javobingiz...",
+      "replySubmitting": "Yuborilmoqda...",
+      "replySubmit": "Javob berish",
+      "replyCancel": "Bekor qilish",
+      "replyAction": "Javob berish →",
+      "yourRating": "Sizning bahoyingiz",
+      "commentPlaceholder": "Tashrifingiz haqida gapirib bering (ixtiyoriy)",
+      "selectRatingError": "Bahoni tanlang",
+      "genericError": "Xatolik",
+      "thankYou": "Sharhingiz uchun rahmat!",
+      "submitting": "Yuborilmoqda...",
+      "submit": "Sharh qoldirish"
+    }
+  }
+}

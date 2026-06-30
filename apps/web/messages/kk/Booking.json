@@ -1,0 +1,189 @@
+{
+  "Booking": {
+    "flow": {
+      "steps": {
+        "room": "Нөмір",
+        "dates": "Күндер",
+        "guests": "Қонақтар",
+        "details": "Мәліметтер",
+        "done": "Дайын",
+        "table": "Үстел",
+        "date": "Күн",
+        "time": "Уақыт",
+        "service": "Қызмет",
+        "master": "Маман",
+        "doctor": "Дәрігер",
+        "appointment": "Қабылдау",
+        "court": "Корт",
+        "durationShort": "Ұзақт.",
+        "place": "Орын",
+        "choice": "Таңдау"
+      },
+      "guestCountLabel": {
+        "hotel": "Қонақтар саны",
+        "restaurant": "Қанша боласыздар?",
+        "default": "Адамдар саны"
+      }
+    },
+    "guestCount": {
+      "defaultLabel": "Қонақтар саны",
+      "hintRestaurant": "Сізге үстел таңдап береміз",
+      "hintHotel": "Нөмірді таңдау үшін қонақтар санын көрсетіңіз",
+      "hintDefault": "Қатысушылар санын таңдаңыз",
+      "otherCount": "Басқа сан:",
+      "back": "← Артқа",
+      "next": "Келесі →"
+    },
+    "resourceSelector": {
+      "defaultLabel": "Ресурс",
+      "selectLabel": "{label} таңдаңыз",
+      "noTablesForGuests": "{count} адамға үстел жоқ.",
+      "tryFewerGuests": "Қонақтар санын азайтып көріңіз.",
+      "back": "← Артқа",
+      "specialization": "Мамандық: ",
+      "upToGuestsHotel": "👤 {count} адамға дейін",
+      "upToGuests": "{count} адамға дейін",
+      "fromPrice": "{price} сомнан"
+    },
+    "serviceSelector": {
+      "title": "Қызметті таңдаңыз",
+      "priceSom": "{price} сом",
+      "durationMinutes": "{count} мин",
+      "durationHours": "{count} сағ",
+      "durationHoursHalf": "{hours}.5 сағ",
+      "durationHoursMinutes": "{hours} сағ {minutes} мин",
+      "back": "← Артқа",
+      "skipService": "Қызметсіз (тек уақыт)"
+    },
+    "datePicker": {
+      "title": "Күнді таңдаңыз",
+      "days": {
+        "mon": "Дс",
+        "tue": "Сс",
+        "wed": "Ср",
+        "thu": "Бс",
+        "fri": "Жм",
+        "sat": "Сб",
+        "sun": "Жс"
+      },
+      "months": {
+        "january": "Қаңтар",
+        "february": "Ақпан",
+        "march": "Наурыз",
+        "april": "Сәуір",
+        "may": "Мамыр",
+        "june": "Маусым",
+        "july": "Шілде",
+        "august": "Тамыз",
+        "september": "Қыркүйек",
+        "october": "Қазан",
+        "november": "Қараша",
+        "december": "Желтоқсан"
+      },
+      "todayIs": "Бүгін — {date}",
+      "back": "Артқа",
+      "next": "Келесі"
+    },
+    "hotelDateRange": {
+      "title": "Күндерді таңдаңыз",
+      "selectCheckIn": "Кіру күнін таңдаңыз",
+      "selectCheckOut": "Шығу күнін таңдаңыз",
+      "nights": "{count} түн",
+      "checkIn": "Кіру:",
+      "checkOut": "Шығу:",
+      "back": "← Артқа",
+      "next": "Келесі →"
+    },
+    "duration": {
+      "title": "Ұзақтығын таңдаңыз",
+      "subtitle": "Қанша уақыт керек екенін көрсетіңіз",
+      "minutes": "{count} мин",
+      "hours": "{count} сағ",
+      "hoursHalf": "{hours}.5 сағ",
+      "hoursMinutes": "{hours} сағ {minutes} мин",
+      "priceCalculatedOnSite": "Бағасы орнында есептеледі",
+      "back": "← Артқа"
+    },
+    "slotPicker": {
+      "title": "Уақытты таңдаңыз",
+      "loadError": "Слоттарды жүктеу мүмкін болмады",
+      "retry": "Қайта көру",
+      "noSlotsToday": "Бүгінге жазылу аяқталды",
+      "noSlotsTodayHint": "Барлық қалған слоттар бос емес немесе өтіп кетті",
+      "noSlotsDate": "Бұл күнге бос слот жоқ",
+      "noSlotsDateHint": "Басқа күнді таңдап көріңіз",
+      "chooseAnotherDay": "Басқа күнді таңдау →",
+      "showNextDay": "📅 Келесі күнді көрсету",
+      "minutes": "{count} мин",
+      "hours": "{count} сағ",
+      "hoursMinutes": "{hours} сағ {minutes} мин",
+      "back": "Артқа",
+      "selectTime": "Уақытты таңдаңыз",
+      "selectSlot": "{time} таңдау"
+    },
+    "form": {
+      "title": "Сіздің мәліметтеріңіз",
+      "nights": "{count} түн",
+      "guestsShort": "{count} адам",
+      "priceSom": "{price} сом",
+      "login": "Кіру",
+      "register": "Тіркелу",
+      "namePlaceholder": "Аты",
+      "phonePlaceholder": "Телефон (міндетті емес)",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Құпия сөз",
+      "notesPlaceholder": "Ескертпе (міндетті емес)",
+      "back": "Артқа",
+      "submitting": "Жасалуда...",
+      "submit": "Брондау",
+      "genericError": "Бірдеңе дұрыс болмады"
+    },
+    "confirmation": {
+      "title": "Брон расталды!",
+      "subtitle": "Мәліметтер сіздің email мекенжайыңызға жіберілді",
+      "place": "Орын",
+      "resource": "Ресурс",
+      "service": "Қызмет",
+      "date": "Күн",
+      "nightsLabel": "Түндер",
+      "time": "Уақыт",
+      "guests": "Қонақтар",
+      "total": "Барлығы",
+      "status": "Күй",
+      "statusPending": "Растауды күтуде",
+      "bookingNumber": "Брон нөмірі",
+      "priceSom": "{price} сом",
+      "addToCalendar": "📅 Күнтізбеге қосу",
+      "processingPayment": "Төлемге өтуде...",
+      "pay": "{price} сом төлеу",
+      "newBooking": "Жаңа брондау",
+      "calendarResource": "Ресурс: {resource}",
+      "calendarBookingNumber": "Брон нөмірі: {id}"
+    },
+    "success": {
+      "title": "Төлем өтті!",
+      "subtitle": "Брондау расталды. Мәліметтер email мекенжайыңызға жіберілді.",
+      "home": "Басты бетке"
+    },
+    "failed": {
+      "title": "Төлем өтпеді",
+      "subtitle": "Қайта көріңіз немесе басқа төлем әдісін таңдаңыз.",
+      "retry": "Қайта көру",
+      "home": "Басты бетке"
+    },
+    "paymentResult": {
+      "checking": "Төлем тексерілуде...",
+      "pending": "Растауды күтуде",
+      "pendingHint": "Банк төлемді әлі өңдеуде"
+    },
+    "payMock": {
+      "sandboxLabel": "Bakai Bank — Dev Sandbox",
+      "priceSom": "{price} сом",
+      "transactionNumber": "Транзакция #{txId}",
+      "processing": "Өңделуде...",
+      "paySuccess": "✓ Төлеу (сәтті)",
+      "payReject": "✗ Төлемнен бас тарту",
+      "testNotice": "Бұл сынақ беті. Prod-та Bakai-ге бағытталасыз."
+    }
+  }
+}

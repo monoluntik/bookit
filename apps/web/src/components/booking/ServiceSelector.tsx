@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   services: any[]
@@ -10,21 +11,22 @@ interface Props {
   required?: boolean
 }
 
-function formatDuration(minutes: number): string {
-  if (minutes < 60) return `${minutes} мин`
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  if (m === 0) return `${h} ч`
-  if (m === 30) return `${h}.5 ч`
-  return `${h} ч ${m} мин`
-}
-
 export default function ServiceSelector({ services, onSelect, onSkip, onBack, required = true }: Props) {
+  const t = useTranslations('Booking.serviceSelector')
   const [selected, setSelected] = useState<string | null>(null)
+
+  const formatDuration = (minutes: number): string => {
+    if (minutes < 60) return t('durationMinutes', { count: minutes })
+    const h = Math.floor(minutes / 60)
+    const m = minutes % 60
+    if (m === 0) return t('durationHours', { count: h })
+    if (m === 30) return t('durationHoursHalf', { hours: h })
+    return t('durationHoursMinutes', { hours: h, minutes: m })
+  }
 
   return (
     <div>
-      <h3 className="font-semibold text-gray-900 mb-4">Выберите услугу</h3>
+      <h3 className="font-semibold text-gray-900 mb-4">{t('title')}</h3>
       <div className="space-y-2 mb-4">
         {services.map(s => {
           const isSelected = selected === s.id
@@ -43,7 +45,7 @@ export default function ServiceSelector({ services, onSelect, onSkip, onBack, re
                   {s.description && <div className="text-sm text-gray-400 mt-0.5">{s.description}</div>}
                 </div>
                 <div className="text-right shrink-0 ml-4">
-                  <div className="text-sm font-semibold text-blue-700">{Number(s.price).toLocaleString('ru')} сом</div>
+                  <div className="text-sm font-semibold text-blue-700">{t('priceSom', { price: Number(s.price).toLocaleString('ru') })}</div>
                   {s.durationMinutes && (
                     <span className="inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
                       {formatDuration(s.durationMinutes)}
@@ -57,11 +59,11 @@ export default function ServiceSelector({ services, onSelect, onSkip, onBack, re
       </div>
       <div className="flex gap-3">
         <button onClick={onBack} className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
-          ← Назад
+          {t('back')}
         </button>
         {!required && (
           <button onClick={onSkip} className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-400 hover:bg-gray-50">
-            Без услуги (только время)
+            {t('skipService')}
           </button>
         )}
       </div>

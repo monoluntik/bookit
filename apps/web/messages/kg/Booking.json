@@ -1,0 +1,189 @@
+{
+  "Booking": {
+    "flow": {
+      "steps": {
+        "room": "Номер",
+        "dates": "Күндөр",
+        "guests": "Коноктор",
+        "details": "Маалымат",
+        "done": "Даяр",
+        "table": "Үстөл",
+        "date": "Күн",
+        "time": "Убакыт",
+        "service": "Кызмат",
+        "master": "Мастер",
+        "doctor": "Дарыгер",
+        "appointment": "Кабыл алуу",
+        "court": "Корт",
+        "durationShort": "Узакт.",
+        "place": "Жай",
+        "choice": "Тандоо"
+      },
+      "guestCountLabel": {
+        "hotel": "Коноктордун саны",
+        "restaurant": "Канча кишисиздер?",
+        "default": "Адамдардын саны"
+      }
+    },
+    "guestCount": {
+      "defaultLabel": "Коноктордун саны",
+      "hintRestaurant": "Биз силер үчүн үстөл тандайбыз",
+      "hintHotel": "Номерди тандоо үчүн коноктордун санын көрсөтүңүз",
+      "hintDefault": "Катышуучулардын санын тандаңыз",
+      "otherCount": "Башка сан:",
+      "back": "← Артка",
+      "next": "Кийинки →"
+    },
+    "resourceSelector": {
+      "defaultLabel": "Ресурс",
+      "selectLabel": "{label} тандаңыз",
+      "noTablesForGuests": "{count} кишиге үстөл жок.",
+      "tryFewerGuests": "Коноктордун санын азайтып көрүңүз.",
+      "back": "← Артка",
+      "specialization": "Адистик: ",
+      "upToGuestsHotel": "👤 {count} кишиге чейин",
+      "upToGuests": "{count} кишиге чейин",
+      "fromPrice": "{price} сомдон"
+    },
+    "serviceSelector": {
+      "title": "Кызматты тандаңыз",
+      "priceSom": "{price} сом",
+      "durationMinutes": "{count} мүн",
+      "durationHours": "{count} саат",
+      "durationHoursHalf": "{hours}.5 саат",
+      "durationHoursMinutes": "{hours} саат {minutes} мүн",
+      "back": "← Артка",
+      "skipService": "Кызматсыз (жөн гана убакыт)"
+    },
+    "datePicker": {
+      "title": "Күндү тандаңыз",
+      "days": {
+        "mon": "Дүй",
+        "tue": "Шей",
+        "wed": "Шар",
+        "thu": "Бей",
+        "fri": "Жум",
+        "sat": "Ише",
+        "sun": "Жек"
+      },
+      "months": {
+        "january": "Январь",
+        "february": "Февраль",
+        "march": "Март",
+        "april": "Апрель",
+        "may": "Май",
+        "june": "Июнь",
+        "july": "Июль",
+        "august": "Август",
+        "september": "Сентябрь",
+        "october": "Октябрь",
+        "november": "Ноябрь",
+        "december": "Декабрь"
+      },
+      "todayIs": "Бүгүн — {date}",
+      "back": "Артка",
+      "next": "Кийинки"
+    },
+    "hotelDateRange": {
+      "title": "Күндөрдү тандаңыз",
+      "selectCheckIn": "Кирүү күнүн тандаңыз",
+      "selectCheckOut": "Чыгуу күнүн тандаңыз",
+      "nights": "{count} түн",
+      "checkIn": "Кирүү:",
+      "checkOut": "Чыгуу:",
+      "back": "← Артка",
+      "next": "Кийинки →"
+    },
+    "duration": {
+      "title": "Узактыкты тандаңыз",
+      "subtitle": "Канча убакыт керек экенин көрсөтүңүз",
+      "minutes": "{count} мүн",
+      "hours": "{count} саат",
+      "hoursHalf": "{hours}.5 саат",
+      "hoursMinutes": "{hours} саат {minutes} мүн",
+      "priceCalculatedOnSite": "Баасы орунда эсептелет",
+      "back": "← Артка"
+    },
+    "slotPicker": {
+      "title": "Убактыны тандаңыз",
+      "loadError": "Слоттарды жүктөө мүмкүн болгон жок",
+      "retry": "Кайра аракет кылуу",
+      "noSlotsToday": "Бүгүнгө жазылуу аяктады",
+      "noSlotsTodayHint": "Бардык калган слоттор бош эмес же өтүп кетти",
+      "noSlotsDate": "Бул күнгө бош слот жок",
+      "noSlotsDateHint": "Башка күндү тандап көрүңүз",
+      "chooseAnotherDay": "Башка күндү тандоо →",
+      "showNextDay": "📅 Кийинки күндү көрсөтүү",
+      "minutes": "{count} мүн",
+      "hours": "{count} саат",
+      "hoursMinutes": "{hours} саат {minutes} мүн",
+      "back": "Артка",
+      "selectTime": "Убактыны тандаңыз",
+      "selectSlot": "{time} тандоо"
+    },
+    "form": {
+      "title": "Сиздин маалыматыңыз",
+      "nights": "{count} түн",
+      "guestsShort": "{count} киши",
+      "priceSom": "{price} сом",
+      "login": "Кирүү",
+      "register": "Катталуу",
+      "namePlaceholder": "Аты",
+      "phonePlaceholder": "Телефон (милдеттүү эмес)",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Сырсөз",
+      "notesPlaceholder": "Эскертүү (милдеттүү эмес)",
+      "back": "Артка",
+      "submitting": "Түзүлүүдө...",
+      "submit": "Брондоо",
+      "genericError": "Бир нерсе туура эмес кетти"
+    },
+    "confirmation": {
+      "title": "Брон ырасталды!",
+      "subtitle": "Маалымат сиздин email дарегиңизге жөнөтүлдү",
+      "place": "Жай",
+      "resource": "Ресурс",
+      "service": "Кызмат",
+      "date": "Күн",
+      "nightsLabel": "Түндөр",
+      "time": "Убакыт",
+      "guests": "Коноктор",
+      "total": "Жалпы",
+      "status": "Абал",
+      "statusPending": "Ырастоону күтүүдө",
+      "bookingNumber": "Брон номери",
+      "priceSom": "{price} сом",
+      "addToCalendar": "📅 Календарга кошуу",
+      "processingPayment": "Төлөмгө өтүүдө...",
+      "pay": "{price} сом төлөө",
+      "newBooking": "Жаңы брондоо",
+      "calendarResource": "Ресурс: {resource}",
+      "calendarBookingNumber": "Брон номери: {id}"
+    },
+    "success": {
+      "title": "Төлөм өттү!",
+      "subtitle": "Брондоо ырасталды. Маалымат email дарегиңизге жөнөтүлдү.",
+      "home": "Башкы бетке"
+    },
+    "failed": {
+      "title": "Төлөм өтпөдү",
+      "subtitle": "Кайра аракет кылыңыз же башка төлөм ыкмасын тандаңыз.",
+      "retry": "Кайра аракет кылуу",
+      "home": "Башкы бетке"
+    },
+    "paymentResult": {
+      "checking": "Төлөм текшерилүүдө...",
+      "pending": "Ырастоону күтүүдө",
+      "pendingHint": "Банк төлөмдү дагы иштетип жатат"
+    },
+    "payMock": {
+      "sandboxLabel": "Bakai Bank — Dev Sandbox",
+      "priceSom": "{price} сом",
+      "transactionNumber": "Транзакция #{txId}",
+      "processing": "Иштетилүүдө...",
+      "paySuccess": "✓ Төлөө (ийгиликтүү)",
+      "payReject": "✗ Төлөмдү четке кагуу",
+      "testNotice": "Бул сыноо бети. Prod чөйрөсүндө Bakai'ге багытталат."
+    }
+  }
+}

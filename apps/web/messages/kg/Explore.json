@@ -1,0 +1,64 @@
+{
+  "Explore": {
+    "searchPlaceholder": "Мекемелерди издөө...",
+    "login": "Кирүү",
+    "types": {
+      "HOTEL": "Мейманканалар",
+      "RESTAURANT": "Ресторандар",
+      "SALON": "Салондор",
+      "COWORKING": "Коворкинг",
+      "SPORT": "Спорт",
+      "MEDICAL": "Медицина",
+      "CUSTOM": "Башка"
+    },
+    "cardTypes": {
+      "HOTEL": "Мейманкана",
+      "RESTAURANT": "Ресторан",
+      "SALON": "Салон",
+      "COWORKING": "Коворкинг",
+      "SPORT": "Спорт",
+      "MEDICAL": "Медицина",
+      "CUSTOM": "Башка"
+    },
+    "filters": {
+      "title": "Чыпкалар",
+      "all": "Баары",
+      "ratingHeading": "Рейтинг",
+      "ratingAny": "Бардыгы",
+      "ratingValue": "{value}+ ★",
+      "sortHeading": "Иргөө",
+      "sort": {
+        "newest": "Жаңылыгы боюнча",
+        "rating": "Рейтинг боюнча",
+        "az": "А → Я",
+        "za": "Я → А"
+      },
+      "extraHeading": "Кошумча",
+      "onlineBooking": "Онлайн жазылуу",
+      "hasPhoto": "Сүрөтү бар",
+      "searchTag": "«{query}»",
+      "resetAll": "Баарын тазалоо"
+    },
+    "errorState": {
+      "title": "Мекемелерди жүктөп болбоду",
+      "subtitle": "Интернет байланышын текшериңиз",
+      "retry": "Кайра аракет кылуу"
+    },
+    "emptyState": {
+      "title": "Эч нерсе табылган жок",
+      "withFiltersSubtitle": "Чыпкалардын бир бөлүгүн өзгөртүп же алып салып көрүңүз",
+      "resetFilters": "Бардык чыпкаларды тазалоо",
+      "noBusinessesYet": "Каталогдо азырынча мекемелер жок"
+    },
+    "results": {
+      "count": "{count} мекеме",
+      "byRating": " · рейтинг боюнча"
+    },
+    "pagination": {
+      "back": "Артка",
+      "next": "Алдыга",
+      "pageOf": "Бет {page} / {totalPages}"
+    },
+    "bookCta": "Брондоо"
+  }
+}

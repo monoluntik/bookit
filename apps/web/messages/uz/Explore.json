@@ -1,0 +1,64 @@
+{
+  "Explore": {
+    "searchPlaceholder": "Joylarni qidirish...",
+    "login": "Kirish",
+    "types": {
+      "HOTEL": "Mehmonxonalar",
+      "RESTAURANT": "Restoranlar",
+      "SALON": "Salonlar",
+      "COWORKING": "Koworking",
+      "SPORT": "Sport",
+      "MEDICAL": "Tibbiyot",
+      "CUSTOM": "Boshqa"
+    },
+    "cardTypes": {
+      "HOTEL": "Mehmonxona",
+      "RESTAURANT": "Restoran",
+      "SALON": "Salon",
+      "COWORKING": "Koworking",
+      "SPORT": "Sport",
+      "MEDICAL": "Tibbiyot",
+      "CUSTOM": "Boshqa"
+    },
+    "filters": {
+      "title": "Filtrlar",
+      "all": "Barchasi",
+      "ratingHeading": "Reyting",
+      "ratingAny": "Har qanday",
+      "ratingValue": "{value}+ ★",
+      "sortHeading": "Saralash",
+      "sort": {
+        "newest": "Yangiligi bo'yicha",
+        "rating": "Reyting bo'yicha",
+        "az": "A → Z",
+        "za": "Z → A"
+      },
+      "extraHeading": "Qo'shimcha",
+      "onlineBooking": "Onlayn yozilish",
+      "hasPhoto": "Rasm bor",
+      "searchTag": "«{query}»",
+      "resetAll": "Hammasini tozalash"
+    },
+    "errorState": {
+      "title": "Joylarni yuklab bo'lmadi",
+      "subtitle": "Internet aloqasini tekshiring",
+      "retry": "Qayta urinish"
+    },
+    "emptyState": {
+      "title": "Hech narsa topilmadi",
+      "withFiltersSubtitle": "Ba'zi filtrlarni o'zgartirib yoki olib tashlab ko'ring",
+      "resetFilters": "Barcha filtrlarni tozalash",
+      "noBusinessesYet": "Katalogda hali joylar yo'q"
+    },
+    "results": {
+      "count": "{count} joy",
+      "byRating": " · reyting bo'yicha"
+    },
+    "pagination": {
+      "back": "Orqaga",
+      "next": "Oldinga",
+      "pageOf": "Sahifa {page} / {totalPages}"
+    },
+    "bookCta": "Bron qilish"
+  }
+}

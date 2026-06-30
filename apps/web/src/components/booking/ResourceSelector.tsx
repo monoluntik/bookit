@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   resources: any[]
@@ -16,11 +17,13 @@ export default function ResourceSelector({
   resources,
   onSelect,
   onBack,
-  label = 'Ресурс',
+  label,
   resourceIcon = '📋',
   businessType,
   minCapacity,
 }: Props) {
+  const t = useTranslations('Booking.resourceSelector')
+  const resolvedLabel = label ?? t('defaultLabel')
   const active = resources.filter(r => r.isActive !== false)
   const filtered = minCapacity && minCapacity > 0
     ? active.filter(r => !r.capacity || r.capacity >= minCapacity)
@@ -39,17 +42,17 @@ export default function ResourceSelector({
   if (filtered.length === 0) {
     return (
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Выберите {label.toLowerCase()}</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">{t('selectLabel', { label: resolvedLabel.toLowerCase() })}</h2>
         <div className="text-center py-10 bg-gray-50 rounded-xl">
           <div className="text-3xl mb-3">😔</div>
           <p className="text-gray-600 font-medium text-sm">
-            Нет столов на {minCapacity} {minCapacity === 1 ? 'человека' : 'человек'}.
+            {t('noTablesForGuests', { count: minCapacity ?? 0 })}
           </p>
-          <p className="text-xs text-gray-400 mt-1">Попробуйте уменьшить количество гостей.</p>
+          <p className="text-xs text-gray-400 mt-1">{t('tryFewerGuests')}</p>
           {onBack && (
             <button onClick={onBack}
               className="mt-4 px-4 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
-              ← Назад
+              {t('back')}
             </button>
           )}
         </div>
@@ -59,7 +62,7 @@ export default function ResourceSelector({
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Выберите {label.toLowerCase()}</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">{t('selectLabel', { label: resolvedLabel.toLowerCase() })}</h2>
       <div className="grid gap-3">
         {filtered.map((r) => (
           <button
@@ -73,14 +76,14 @@ export default function ResourceSelector({
                 <div className="font-medium text-gray-900 group-hover:text-blue-700">{r.name}</div>
                 {r.description && (
                   <div className="text-sm text-gray-500 mt-0.5">
-                    {businessType === 'MEDICAL' && <span className="text-gray-400">Специализация: </span>}
+                    {businessType === 'MEDICAL' && <span className="text-gray-400">{t('specialization')}</span>}
                     {r.description}
                   </div>
                 )}
                 <div className="flex flex-wrap items-center gap-2 mt-1">
                   {r.capacity && r.capacity > 1 && (
                     <span className={`text-xs ${businessType === 'HOTEL' ? 'bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full' : 'text-gray-400'}`}>
-                      {businessType === 'HOTEL' ? `👤 до ${r.capacity} чел.` : `до ${r.capacity} чел.`}
+                      {businessType === 'HOTEL' ? t('upToGuestsHotel', { count: r.capacity }) : t('upToGuests', { count: r.capacity })}
                     </span>
                   )}
                   {r.schedules?.length > 0 && (
@@ -93,7 +96,7 @@ export default function ResourceSelector({
               <div className="text-right shrink-0 ml-2">
                 {r.basePrice && (
                   <div className="text-sm font-semibold text-blue-700">
-                    от {Number(r.basePrice).toLocaleString('ru')} сом
+                    {t('fromPrice', { price: Number(r.basePrice).toLocaleString('ru') })}
                   </div>
                 )}
                 <span className="text-blue-400 group-hover:text-blue-600 block mt-1">→</span>

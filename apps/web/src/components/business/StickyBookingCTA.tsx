@@ -1,9 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
-export default function StickyBookingCTA({ label = 'Записаться' }: { label?: string }) {
+export default function StickyBookingCTA({ label }: { label?: string }) {
   const [show, setShow] = useState(false)
+  const t = useTranslations('Business')
+  const displayLabel = label ?? t('stickyCta.defaultLabel')
 
   useEffect(() => {
     const bookingSection = document.getElementById('booking')
@@ -25,7 +28,7 @@ export default function StickyBookingCTA({ label = 'Записаться' }: { l
         onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
         className="pointer-events-auto px-8 py-3.5 bg-blue-600 text-white rounded-2xl font-semibold text-sm shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all flex items-center gap-2"
       >
-        📅 {label}
+        📅 {displayLabel}
       </button>
     </div>
   )

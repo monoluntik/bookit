@@ -1,0 +1,83 @@
+{
+  "Profile": {
+    "header": {
+      "catalog": "Katalog",
+      "logout": "Chiqish"
+    },
+    "card": {
+      "forBusiness": "Biznes uchun →"
+    },
+    "tabs": {
+      "bookings": "Bronlar",
+      "bookingsWithCount": "Bronlar ({count})",
+      "notifications": "Eslatmalar",
+      "settings": "Ma'lumotlar",
+      "password": "Parol"
+    },
+    "bookings": {
+      "empty": "Hozircha bronlar yo'q",
+      "findPlace": "Joy topish",
+      "upcoming": "Yaqinlashayotgan",
+      "history": "Tarix",
+      "guestCount": "{count} kishi",
+      "paid": "To'langan",
+      "cancel": "Bekor qilish",
+      "review": "Baholash"
+    },
+    "notifications": {
+      "title": "Bronlar haqida eslatmalar",
+      "subtitle": "Tashrifdan oldin eslatma olish uchun Telegram'ni bog'lang — vaqt sozlamalarini har bir biznes o'zi belgilaydi.",
+      "linked": "Telegram bog'landi",
+      "unlink": "Bog'lanishni uzish",
+      "botNotConfigured": "Telegram-bot platforma tomonidan hali sozlanmagan. Keyinroq qayta kiring.",
+      "linkButton": "Telegram'ni bog'lash",
+      "linkOpening": "Telegram ochilmoqda...",
+      "linkHint": "Telegram'ni oching va bot bilan chatda \"Start\" tugmasini bosing — sahifa avtomatik yangilanadi.",
+      "errorDefault": "Xatolik"
+    },
+    "settings": {
+      "title": "Shaxsiy ma'lumotlar",
+      "nameLabel": "Ismingiz",
+      "emailLabel": "Email",
+      "phoneLabel": "Telefon",
+      "phonePlaceholder": "+996 700 000 000",
+      "saved": "Saqlandi!",
+      "errorPrefix": "Xatolik: ",
+      "submit": "O'zgarishlarni saqlash",
+      "submitting": "Saqlanmoqda..."
+    },
+    "password": {
+      "title": "Parolni o'zgartirish",
+      "currentLabel": "Joriy parol",
+      "newLabel": "Yangi parol",
+      "confirmLabel": "Yangi parolni qaytadan kiriting",
+      "mismatch": "Parollar mos kelmadi",
+      "tooShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak",
+      "changed": "Parol o'zgartirildi!",
+      "submit": "Parolni o'zgartirish",
+      "submitting": "Parol o'zgartirilmoqda..."
+    },
+    "cancelModal": {
+      "title": "Bronni bekor qilasizmi?",
+      "policyTitle": "Bekor qilish siyosati",
+      "freeCancellation": "Boshlanishiga {hours} soat qolganda bepul",
+      "penalty": "Kech bekor qilganda {percent}% jarima",
+      "noRefund": "Boshlanishiga {hours} soatdan kam qolganda pul qaytarilmaydi",
+      "noPolicy": "Bekor qilish siyosati belgilanmagan.",
+      "back": "Orqaga",
+      "confirm": "Bronni bekor qilish"
+    },
+    "myBookings": {
+      "title": "Mening bronlarim",
+      "empty": "Sizda hozircha bronlar yo'q",
+      "findPlace": "Joy topish",
+      "upcoming": "Yaqinlashayotgan",
+      "past": "O'tgan",
+      "paid": "To'langan",
+      "cancel": "Bekor qilish",
+      "cancelling": "Bekor qilinmoqda...",
+      "cancelConfirm": "Bronni bekor qilasizmi?",
+      "bookAgain": "Yana bron qilish →"
+    }
+  }
+}

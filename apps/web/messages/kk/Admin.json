@@ -1,0 +1,155 @@
+{
+  "Admin": {
+    "nav": {
+      "overview": "Шолу",
+      "users": "Пайдаланушылар",
+      "businesses": "Бизнестер",
+      "reviews": "Пікірлер",
+      "dashboard": "Басқару тақтасы",
+      "site": "Сайт"
+    },
+    "overview": {
+      "title": "Платформа шолуы",
+      "kpi": {
+        "users": "Пайдаланушылар",
+        "businesses": "Бизнестер",
+        "bookings": "Брондар",
+        "revenueTotal": "Кіріс (барлығы)",
+        "newThisMonth": "+{count} осы айда",
+        "ofTotal": "{count} барлығынан",
+        "thisMonth": "{count} осы айда",
+        "revenueThisMonth": "{amount} сом осы айда"
+      },
+      "charts": {
+        "bookingsLast30Days": "Соңғы 30 күндегі брондар",
+        "totalReviews": "Барлық пікірлер: {count}",
+        "businessesByType": "Санаттар бойынша бизнестер"
+      },
+      "types": {
+        "hotel": "Қонақүйлер",
+        "restaurant": "Мейрамханалар",
+        "salon": "Салондар",
+        "coworking": "Коворкинг",
+        "sport": "Спорт",
+        "medical": "Медицина",
+        "custom": "Басқа"
+      },
+      "roles": {
+        "customer": "Клиенттер",
+        "owner": "Иелері",
+        "admin": "Әкімшілер"
+      },
+      "usersByRole": "Рөлдер бойынша пайдаланушылар",
+      "recentBookings": {
+        "title": "Соңғы брондар",
+        "defaultCustomer": "Клиент",
+        "noService": "Қызметсіз"
+      }
+    },
+    "users": {
+      "title": "Пайдаланушылар",
+      "totalCount": "барлығы {count}",
+      "searchPlaceholder": "Аты немесе email бойынша іздеу...",
+      "searchButton": "Іздеу",
+      "allRoles": "Барлық рөлдер",
+      "roles": {
+        "customer": "Клиент",
+        "owner": "Иесі",
+        "admin": "Әкімші",
+        "customers": "Клиенттер",
+        "owners": "Иелері",
+        "admins": "Әкімшілер"
+      },
+      "table": {
+        "user": "Пайдаланушы",
+        "role": "Рөлі",
+        "activity": "Брондар / Бизнестер",
+        "registered": "Тіркелген күні",
+        "status": "Күйі"
+      },
+      "activitySummary": "{bookings} брон · {businesses} бизнес",
+      "status": {
+        "active": "Белсенді",
+        "blocked": "Бұғатталған"
+      },
+      "actions": {
+        "block": "Бұғаттау",
+        "unblock": "Бұғаттан шығару"
+      },
+      "loading": "Жүктелуде...",
+      "pagination": {
+        "pageOf": "{page} / {totalPages} бет",
+        "prev": "← Артқа",
+        "next": "Алға →"
+      },
+      "toasts": {
+        "blocked": "Пайдаланушы бұғатталды",
+        "unblocked": "Пайдаланушы бұғаттан шығарылды",
+        "roleChanged": "Рөл өзгертілді",
+        "error": "Қате"
+      }
+    },
+    "businesses": {
+      "title": "Бизнестер",
+      "totalCount": "барлығы {count}",
+      "searchPlaceholder": "Атауы немесе slug бойынша іздеу...",
+      "searchButton": "Іздеу",
+      "allTypes": "Барлық түрлер",
+      "allStatuses": "Барлық күйлер",
+      "activeFilter": "Белсенді",
+      "inactiveFilter": "Белсенді емес",
+      "types": {
+        "hotel": "Қонақүй",
+        "restaurant": "Мейрамхана",
+        "salon": "Салон",
+        "coworking": "Коворкинг",
+        "sport": "Спорт",
+        "medical": "Медицина",
+        "custom": "Басқа"
+      },
+      "status": {
+        "active": "Белсенді",
+        "hidden": "Жасырын"
+      },
+      "fields": {
+        "bookingsCount": "{count} брон",
+        "reviewsCount": "{count} пікір",
+        "resourcesCount": "{count} ресурс"
+      },
+      "actions": {
+        "open": "Ашу ↗",
+        "hide": "Жасыру",
+        "activate": "Белсендіру"
+      },
+      "pagination": {
+        "pageOf": "{page} / {totalPages} бет",
+        "prev": "← Артқа",
+        "next": "Алға →"
+      },
+      "toasts": {
+        "activated": "Бизнес белсендірілді",
+        "deactivated": "Бизнес өшірілді",
+        "error": "Қате"
+      }
+    },
+    "reviews": {
+      "title": "Пікірлер",
+      "totalCount": "барлығы {count}",
+      "deleteConfirm": "Бұл пікірді жоясыз ба?",
+      "ownerReply": "Иесінің жауабы:",
+      "defaultCustomer": "Клиент",
+      "actions": {
+        "delete": "Жою"
+      },
+      "pagination": {
+        "pageOf": "{page} / {totalPages} бет",
+        "prev": "← Артқа",
+        "next": "Алға →"
+      },
+      "toasts": {
+        "deleted": "Пікір жойылды",
+        "deleteError": "Жою кезінде қате"
+      }
+    }
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "Booking": {
+    "flow": {
+      "steps": {
+        "room": "Номер",
+        "dates": "Даты",
+        "guests": "Гости",
+        "details": "Данные",
+        "done": "Готово",
+        "table": "Стол",
+        "date": "Дата",
+        "time": "Время",
+        "service": "Услуга",
+        "master": "Мастер",
+        "doctor": "Врач",
+        "appointment": "Приём",
+        "court": "Корт",
+        "durationShort": "Длит.",
+        "place": "Место",
+        "choice": "Выбор"
+      },
+      "guestCountLabel": {
+        "hotel": "Количество гостей",
+        "restaurant": "Сколько вас будет?",
+        "default": "Количество человек"
+      }
+    },
+    "guestCount": {
+      "defaultLabel": "Количество гостей",
+      "hintRestaurant": "Мы подберём стол для вас",
+      "hintHotel": "Укажите количество гостей для подбора номера",
+      "hintDefault": "Выберите количество участников",
+      "otherCount": "Другое количество:",
+      "back": "← Назад",
+      "next": "Далее →"
+    },
+    "resourceSelector": {
+      "defaultLabel": "Ресурс",
+      "selectLabel": "Выберите {label}",
+      "noTablesForGuests": "Нет столов на {count} {count, plural, one {человека} other {человек}}.",
+      "tryFewerGuests": "Попробуйте уменьшить количество гостей.",
+      "back": "← Назад",
+      "specialization": "Специализация: ",
+      "upToGuestsHotel": "👤 до {count} чел.",
+      "upToGuests": "до {count} чел.",
+      "fromPrice": "от {price} сом"
+    },
+    "serviceSelector": {
+      "title": "Выберите услугу",
+      "priceSom": "{price} сом",
+      "durationMinutes": "{count} мин",
+      "durationHours": "{count} ч",
+      "durationHoursHalf": "{hours}.5 ч",
+      "durationHoursMinutes": "{hours} ч {minutes} мин",
+      "back": "← Назад",
+      "skipService": "Без услуги (только время)"
+    },
+    "datePicker": {
+      "title": "Выберите дату",
+      "days": {
+        "mon": "Пн",
+        "tue": "Вт",
+        "wed": "Ср",
+        "thu": "Чт",
+        "fri": "Пт",
+        "sat": "Сб",
+        "sun": "Вс"
+      },
+      "months": {
+        "january": "Январь",
+        "february": "Февраль",
+        "march": "Март",
+        "april": "Апрель",
+        "may": "Май",
+        "june": "Июнь",
+        "july": "Июль",
+        "august": "Август",
+        "september": "Сентябрь",
+        "october": "Октябрь",
+        "november": "Ноябрь",
+        "december": "Декабрь"
+      },
+      "todayIs": "Сегодня — {date}",
+      "back": "Назад",
+      "next": "Далее"
+    },
+    "hotelDateRange": {
+      "title": "Выберите даты",
+      "selectCheckIn": "Выберите дату заезда",
+      "selectCheckOut": "Выберите дату выезда",
+      "nights": "{count, plural, one {# ночь} few {# ночи} many {# ночей} other {# ночей}}",
+      "checkIn": "Заезд:",
+      "checkOut": "Выезд:",
+      "back": "← Назад",
+      "next": "Далее →"
+    },
+    "duration": {
+      "title": "Выберите длительность",
+      "subtitle": "Укажите, сколько времени вам нужно",
+      "minutes": "{count} мин",
+      "hours": "{count} ч",
+      "hoursHalf": "{hours}.5 ч",
+      "hoursMinutes": "{hours} ч {minutes} мин",
+      "priceCalculatedOnSite": "Стоимость рассчитывается на месте",
+      "back": "← Назад"
+    },
+    "slotPicker": {
+      "title": "Выберите время",
+      "loadError": "Не удалось загрузить слоты",
+      "retry": "Попробовать снова",
+      "noSlotsToday": "На сегодня записи закончились",
+      "noSlotsTodayHint": "Все оставшиеся слоты заняты или уже прошли",
+      "noSlotsDate": "На эту дату нет свободных слотов",
+      "noSlotsDateHint": "Попробуйте другой день",
+      "chooseAnotherDay": "Выбрать другой день →",
+      "showNextDay": "📅 Показать следующий день",
+      "minutes": "{count} мин",
+      "hours": "{count} ч",
+      "hoursMinutes": "{hours} ч {minutes} мин",
+      "back": "Назад",
+      "selectTime": "Выберите время",
+      "selectSlot": "Выбрать {time}"
+    },
+    "form": {
+      "title": "Ваши данные",
+      "nights": "{count, plural, one {# ночь} few {# ночи} many {# ночей} other {# ночей}}",
+      "guestsShort": "{count} чел.",
+      "priceSom": "{price} сом",
+      "login": "Войти",
+      "register": "Регистрация",
+      "namePlaceholder": "Имя",
+      "phonePlaceholder": "Телефон (необязательно)",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Пароль",
+      "notesPlaceholder": "Примечание (необязательно)",
+      "back": "Назад",
+      "submitting": "Создаём...",
+      "submit": "Забронировать",
+      "genericError": "Что-то пошло не так"
+    },
+    "confirmation": {
+      "title": "Бронь подтверждена!",
+      "subtitle": "Детали отправлены на ваш email",
+      "place": "Место",
+      "resource": "Ресурс",
+      "service": "Услуга",
+      "date": "Дата",
+      "nightsLabel": "Ночей",
+      "time": "Время",
+      "guests": "Гостей",
+      "total": "Итого",
+      "status": "Статус",
+      "statusPending": "Ожидает подтверждения",
+      "bookingNumber": "Номер брони",
+      "priceSom": "{price} сом",
+      "addToCalendar": "📅 Добавить в календарь",
+      "processingPayment": "Переходим к оплате...",
+      "pay": "Оплатить {price} сом",
+      "newBooking": "Новое бронирование",
+      "calendarResource": "Ресурс: {resource}",
+      "calendarBookingNumber": "Номер брони: {id}"
+    },
+    "success": {
+      "title": "Оплата прошла!",
+      "subtitle": "Бронирование подтверждено. Детали отправлены на email.",
+      "home": "На главную"
+    },
+    "failed": {
+      "title": "Оплата не прошла",
+      "subtitle": "Попробуйте ещё раз или выберите другой способ оплаты.",
+      "retry": "Попробовать снова",
+      "home": "На главную"
+    },
+    "paymentResult": {
+      "checking": "Проверяем оплату...",
+      "pending": "Ожидаем подтверждения",
+      "pendingHint": "Банк ещё обрабатывает платёж"
+    },
+    "payMock": {
+      "sandboxLabel": "Bakai Bank — Dev Sandbox",
+      "priceSom": "{price} сом",
+      "transactionNumber": "Транзакция #{txId}",
+      "processing": "Обработка...",
+      "paySuccess": "✓ Оплатить (успешно)",
+      "payReject": "✗ Отклонить платёж",
+      "testNotice": "Это тестовая страница. В prod будет перенаправление на Bakai."
+    }
+  }
+}

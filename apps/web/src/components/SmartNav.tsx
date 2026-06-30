@@ -1,14 +1,16 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link, useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/context/AuthContext'
-import { useRouter } from 'next/navigation'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function SmartNav() {
   const { user, logout } = useAuth()
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const t = useTranslations('Common')
 
   useEffect(() => {
     if (!mobileOpen) return
@@ -21,32 +23,33 @@ export default function SmartNav() {
     <>
       <header className="border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-blue-600">Booking</Link>
+          <Link href="/" className="text-xl font-bold text-blue-600">{t('brand')}</Link>
           <nav className="hidden md:flex items-center gap-1">
-            <Link href="/explore" className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1.5">Каталог</Link>
-            <Link href="/guide" className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1.5">Гайд</Link>
-            <Link href="/pricing" className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1.5">Тарифы</Link>
+            <Link href="/explore" className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1.5">{t('nav.explore')}</Link>
+            <Link href="/guide" className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1.5">{t('nav.guide')}</Link>
+            <Link href="/pricing" className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1.5">{t('nav.pricing')}</Link>
           </nav>
           <div className="hidden md:flex items-center gap-2">
+            <LanguageSwitcher className="mr-1" />
             {user ? (
               <>
                 <Link href="/profile" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">
                   {user.name.split(' ')[0]}
                 </Link>
                 <Link href="/dashboard" className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-xl hover:bg-blue-700">
-                  Дашборд
+                  {t('nav.dashboard')}
                 </Link>
                 <button onClick={() => { logout(); router.push('/') }}
                   className="text-sm text-gray-400 hover:text-gray-700 px-2 py-1.5">
-                  Выйти
+                  {t('nav.logout')}
                 </button>
               </>
             ) : (
               <>
-                <Link href="/login" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">Войти</Link>
-                <Link href="/register" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">Регистрация</Link>
+                <Link href="/login" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">{t('nav.login')}</Link>
+                <Link href="/register" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">{t('nav.register')}</Link>
                 <Link href="/dashboard" className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-xl hover:bg-blue-700">
-                  Бизнесу
+                  {t('nav.forBusiness')}
                 </Link>
               </>
             )}
@@ -54,7 +57,7 @@ export default function SmartNav() {
           <button
             onClick={() => setMobileOpen(v => !v)}
             className="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-600"
-            aria-label="Меню"
+            aria-label={t('nav.menu')}
           >
             {mobileOpen ? (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,11 +75,11 @@ export default function SmartNav() {
       {mobileOpen && (
         <div className="fixed inset-0 z-50 bg-white md:hidden flex flex-col">
           <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-            <Link href="/" className="text-xl font-bold text-blue-600" onClick={() => setMobileOpen(false)}>Booking</Link>
+            <Link href="/" className="text-xl font-bold text-blue-600" onClick={() => setMobileOpen(false)}>{t('brand')}</Link>
             <button
               onClick={() => setMobileOpen(false)}
               className="p-2 rounded-lg hover:bg-gray-100 text-gray-600"
-              aria-label="Закрыть"
+              aria-label={t('nav.close')}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -86,16 +89,19 @@ export default function SmartNav() {
           <nav className="flex flex-col px-4 py-6 gap-1">
             <Link href="/explore" onClick={() => setMobileOpen(false)}
               className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-              Каталог
+              {t('nav.explore')}
             </Link>
             <Link href="/guide" onClick={() => setMobileOpen(false)}
               className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-              Гайд
+              {t('nav.guide')}
             </Link>
             <Link href="/pricing" onClick={() => setMobileOpen(false)}
               className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-              Тарифы
+              {t('nav.pricing')}
             </Link>
+            <div className="px-3 py-2">
+              <LanguageSwitcher className="w-full" />
+            </div>
             <div className="border-t border-gray-100 mt-2 pt-4 flex flex-col gap-1">
               {user ? (
                 <>
@@ -105,26 +111,26 @@ export default function SmartNav() {
                   </Link>
                   <Link href="/dashboard" onClick={() => setMobileOpen(false)}
                     className="text-base bg-blue-600 text-white px-3 py-3 rounded-xl hover:bg-blue-700 text-center font-medium">
-                    Дашборд
+                    {t('nav.dashboard')}
                   </Link>
                   <button onClick={() => { logout(); router.push('/'); setMobileOpen(false) }}
                     className="text-base text-left text-red-500 hover:text-red-700 px-3 py-3 rounded-xl hover:bg-red-50">
-                    Выйти
+                    {t('nav.logout')}
                   </button>
                 </>
               ) : (
                 <>
                   <Link href="/login" onClick={() => setMobileOpen(false)}
                     className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-                    Войти
+                    {t('nav.login')}
                   </Link>
                   <Link href="/register" onClick={() => setMobileOpen(false)}
                     className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-                    Регистрация
+                    {t('nav.register')}
                   </Link>
                   <Link href="/dashboard" onClick={() => setMobileOpen(false)}
                     className="text-base bg-blue-600 text-white px-3 py-3 rounded-xl hover:bg-blue-700 text-center font-medium">
-                    Бизнесу
+                    {t('nav.forBusiness')}
                   </Link>
                 </>
               )}

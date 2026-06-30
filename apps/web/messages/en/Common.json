@@ -1,0 +1,24 @@
+{
+  "Common": {
+    "brand": "Booking",
+    "nav": {
+      "explore": "Explore",
+      "guide": "Guide",
+      "pricing": "Pricing",
+      "login": "Log in",
+      "register": "Sign up",
+      "forBusiness": "For Business",
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "logout": "Log out",
+      "menu": "Menu",
+      "close": "Close"
+    },
+    "bottomNav": {
+      "home": "Home",
+      "explore": "Explore",
+      "bookings": "Bookings",
+      "profile": "Profile"
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "Admin": {
+    "nav": {
+      "overview": "Overview",
+      "users": "Users",
+      "businesses": "Businesses",
+      "reviews": "Reviews",
+      "dashboard": "Dashboard",
+      "site": "Site"
+    },
+    "overview": {
+      "title": "Platform overview",
+      "kpi": {
+        "users": "Users",
+        "businesses": "Businesses",
+        "bookings": "Bookings",
+        "revenueTotal": "Revenue (total)",
+        "newThisMonth": "+{count} this month",
+        "ofTotal": "of {count} total",
+        "thisMonth": "{count} this month",
+        "revenueThisMonth": "{amount} som this month"
+      },
+      "charts": {
+        "bookingsLast30Days": "Bookings over the last 30 days",
+        "totalReviews": "Total reviews: {count}",
+        "businessesByType": "Businesses by category"
+      },
+      "types": {
+        "hotel": "Hotels",
+        "restaurant": "Restaurants",
+        "salon": "Salons",
+        "coworking": "Coworking",
+        "sport": "Sport",
+        "medical": "Medical",
+        "custom": "Other"
+      },
+      "roles": {
+        "customer": "Customers",
+        "owner": "Owners",
+        "admin": "Admins"
+      },
+      "usersByRole": "Users by role",
+      "recentBookings": {
+        "title": "Recent bookings",
+        "defaultCustomer": "Customer",
+        "noService": "No service"
+      }
+    },
+    "users": {
+      "title": "Users",
+      "totalCount": "{count} total",
+      "searchPlaceholder": "Search by name or email...",
+      "searchButton": "Search",
+      "allRoles": "All roles",
+      "roles": {
+        "customer": "Customer",
+        "owner": "Owner",
+        "admin": "Admin",
+        "customers": "Customers",
+        "owners": "Owners",
+        "admins": "Admins"
+      },
+      "table": {
+        "user": "User",
+        "role": "Role",
+        "activity": "Bookings / Businesses",
+        "registered": "Registered",
+        "status": "Status"
+      },
+      "activitySummary": "{bookings} bookings · {businesses} businesses",
+      "status": {
+        "active": "Active",
+        "blocked": "Blocked"
+      },
+      "actions": {
+        "block": "Block",
+        "unblock": "Unblock"
+      },
+      "loading": "Loading...",
+      "pagination": {
+        "pageOf": "Page {page} of {totalPages}",
+        "prev": "← Back",
+        "next": "Next →"
+      },
+      "toasts": {
+        "blocked": "User blocked",
+        "unblocked": "User unblocked",
+        "roleChanged": "Role changed",
+        "error": "Error"
+      }
+    },
+    "businesses": {
+      "title": "Businesses",
+      "totalCount": "{count} total",
+      "searchPlaceholder": "Search by name or slug...",
+      "searchButton": "Search",
+      "allTypes": "All types",
+      "allStatuses": "All statuses",
+      "activeFilter": "Active",
+      "inactiveFilter": "Inactive",
+      "types": {
+        "hotel": "Hotel",
+        "restaurant": "Restaurant",
+        "salon": "Salon",
+        "coworking": "Coworking",
+        "sport": "Sport",
+        "medical": "Medical",
+        "custom": "Other"
+      },
+      "status": {
+        "active": "Active",
+        "hidden": "Hidden"
+      },
+      "fields": {
+        "bookingsCount": "{count} bookings",
+        "reviewsCount": "{count} reviews",
+        "resourcesCount": "{count} resources"
+      },
+      "actions": {
+        "open": "Open ↗",
+        "hide": "Hide",
+        "activate": "Activate"
+      },
+      "pagination": {
+        "pageOf": "Page {page} of {totalPages}",
+        "prev": "← Back",
+        "next": "Next →"
+      },
+      "toasts": {
+        "activated": "Business activated",
+        "deactivated": "Business deactivated",
+        "error": "Error"
+      }
+    },
+    "reviews": {
+      "title": "Reviews",
+      "totalCount": "{count} total",
+      "deleteConfirm": "Delete this review?",
+      "ownerReply": "Owner's reply:",
+      "defaultCustomer": "Customer",
+      "actions": {
+        "delete": "Delete"
+      },
+      "pagination": {
+        "pageOf": "Page {page} of {totalPages}",
+        "prev": "← Back",
+        "next": "Next →"
+      },
+      "toasts": {
+        "deleted": "Review deleted",
+        "deleteError": "Delete failed"
+      }
+    }
+  }
+}

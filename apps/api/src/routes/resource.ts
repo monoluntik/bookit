@@ -2,6 +2,12 @@ import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 import { zonedTimeToUtc } from '../lib/datetime'
+import { CONTENT_LOCALES } from '../lib/i18n'
+
+const translationBodySchema = z.object({
+  name: z.string().min(1).optional().nullable(),
+  description: z.string().optional().nullable(),
+})
 
 const createResourceSchema = z.object({
   businessId: z.string(),
@@ -319,5 +325,39 @@ export async function resourceRoutes(app: FastifyInstance) {
 
     await prisma.scheduleException.delete({ where: { id: exceptionId } })
     return reply.send({ ok: true })
+  })
+
+  // Protected: list translations for a resource (owner only)
+  app.get('/:id/translations', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+    const resource = await prisma.resource.findUnique({ where: { id }, include: { business: true } })
+    if (!resource) return reply.status(404).send({ error: 'Resource not found' })
+    if (resource.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const translations = await prisma.resourceTranslation.findMany({ where: { resourceId: id } })
+    return reply.send(translations)
+  })
+
+  // Protected: upsert a single-locale translation for a resource (owner only)
+  app.put('/:id/translations/:locale', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id, locale } = request.params as { id: string; locale: string }
+    if (!(CONTENT_LOCALES as readonly string[]).includes(locale)) {
+      return reply.status(400).send({ error: 'Unsupported locale' })
+    }
+    const body = translationBodySchema.safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: 'Неверные данные' })
+
+    const resource = await prisma.resource.findUnique({ where: { id }, include: { business: true } })
+    if (!resource) return reply.status(404).send({ error: 'Resource not found' })
+    if (resource.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const translation = await prisma.resourceTranslation.upsert({
+      where: { resourceId_locale: { resourceId: id, locale } },
+      create: { resourceId: id, locale, ...body.data },
+      update: body.data,
+    })
+    return reply.send(translation)
   })
 }

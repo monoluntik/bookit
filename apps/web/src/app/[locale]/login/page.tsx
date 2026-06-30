@@ -1,0 +1,82 @@
+'use client'
+
+import { useState, Suspense } from 'react'
+import { useTranslations } from 'next-intl'
+import { Link, useRouter } from '@/i18n/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
+
+function LoginForm() {
+  const t = useTranslations('Auth')
+  const { login } = useAuth()
+  const router = useRouter()
+  const params = useSearchParams()
+  const redirect = params.get('redirect') ?? '/dashboard'
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPw, setShowPw] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      await login(email, password)
+      router.push(redirect)
+    } catch (err: any) {
+      setError(err.message ?? t('login.errorDefault'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <Link href="/" className="text-3xl font-bold text-blue-600 mb-1 block">Booking</Link>
+          <p className="text-gray-500 text-sm">{t('login.subtitle')}</p>
+        </div>
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('login.emailLabel')}</label>
+            <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+              autoComplete="email"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder={t('login.emailPlaceholder')} />
+          </div>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-gray-700">{t('login.passwordLabel')}</label>
+              <Link href="/forgot-password" className="text-xs text-blue-500 hover:underline">{t('login.forgotPassword')}</Link>
+            </div>
+            <div className="relative">
+              <input type={showPw ? 'text' : 'password'} required value={password} onChange={e => setPassword(e.target.value)}
+                autoComplete="current-password"
+                className="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+              <button type="button" onClick={() => setShowPw(v => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                {showPw ? '🙈' : '👁️'}
+              </button>
+            </div>
+          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button type="submit" disabled={loading}
+            className="w-full py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-60 text-sm">
+            {loading ? t('login.submitting') : t('login.submit')}
+          </button>
+        </form>
+        <p className="text-center text-sm text-gray-400 mt-4">
+          {t('login.noAccount')}{' '}
+          <Link href="/register" className="text-blue-600 hover:underline">{t('login.registerLink')}</Link>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export default function LoginPage() {
+  return <Suspense><LoginForm /></Suspense>
+}

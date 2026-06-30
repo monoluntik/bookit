@@ -1,0 +1,83 @@
+{
+  "Profile": {
+    "header": {
+      "catalog": "Каталог",
+      "logout": "Чыгуу"
+    },
+    "card": {
+      "forBusiness": "Бизнес үчүн →"
+    },
+    "tabs": {
+      "bookings": "Брондор",
+      "bookingsWithCount": "Брондор ({count})",
+      "notifications": "Эскертүүлөр",
+      "settings": "Маалымат",
+      "password": "Сыр сөз"
+    },
+    "bookings": {
+      "empty": "Азырынча брон жок",
+      "findPlace": "Мекеме табуу",
+      "upcoming": "Жакындагылар",
+      "history": "Тарых",
+      "guestCount": "{count} адам",
+      "paid": "Төлөндү",
+      "cancel": "Жокко чыгаруу",
+      "review": "Баалоо"
+    },
+    "notifications": {
+      "title": "Брондор жөнүндө эскертүүлөр",
+      "subtitle": "Барууга чейин эскертүү алуу үчүн Telegram байланыштырыңыз — убакыт жөндөөлөрүн ар бир бизнес өзү белгилейт.",
+      "linked": "Telegram байланыштырылды",
+      "unlink": "Ажыратуу",
+      "botNotConfigured": "Telegram-бот платформа тарабынан азырынча жөндөлгөн эмес. Кийинчерээк кайра кириңиз.",
+      "linkButton": "Telegram байланыштыруу",
+      "linkOpening": "Telegram ачылууда...",
+      "linkHint": "Telegram'ды ачып, бот менен чатта «Start» баскычын басыңыз — бет автоматтык түрдө жаңыланат.",
+      "errorDefault": "Ката"
+    },
+    "settings": {
+      "title": "Жеке маалымат",
+      "nameLabel": "Атыңыз",
+      "emailLabel": "Email",
+      "phoneLabel": "Телефон",
+      "phonePlaceholder": "+996 700 000 000",
+      "saved": "Сакталды!",
+      "errorPrefix": "Ката: ",
+      "submit": "Өзгөртүүлөрдү сактоо",
+      "submitting": "Сакталууда..."
+    },
+    "password": {
+      "title": "Сыр сөздү өзгөртүү",
+      "currentLabel": "Учурдагы сыр сөз",
+      "newLabel": "Жаңы сыр сөз",
+      "confirmLabel": "Жаңы сыр сөздү кайталаңыз",
+      "mismatch": "Сыр сөздөр дал келген жок",
+      "tooShort": "Сыр сөз кеминде 6 белгиден турушу керек",
+      "changed": "Сыр сөз өзгөртүлдү!",
+      "submit": "Сыр сөздү өзгөртүү",
+      "submitting": "Сыр сөз өзгөртүлүүдө..."
+    },
+    "cancelModal": {
+      "title": "Бронду жокко чыгарасызбы?",
+      "policyTitle": "Жокко чыгаруу саясаты",
+      "freeCancellation": "Башталганга {hours} саат калганга чейин акысыз",
+      "penalty": "Кийинчерээк жокко чыгарганда {percent}% айыппул",
+      "noRefund": "Башталганга {hours} сааттан аз убакыт калганда акча кайтарылбайт",
+      "noPolicy": "Жокко чыгаруу саясаты белгиленген эмес.",
+      "back": "Артка",
+      "confirm": "Бронду жокко чыгаруу"
+    },
+    "myBookings": {
+      "title": "Менин брондорум",
+      "empty": "Сизде азырынча брон жок",
+      "findPlace": "Мекеме табуу",
+      "upcoming": "Жакындагылар",
+      "past": "Өткөндөр",
+      "paid": "Төлөндү",
+      "cancel": "Жокко чыгаруу",
+      "cancelling": "Жокко чыгарылууда...",
+      "cancelConfirm": "Бронду жокко чыгарасызбы?",
+      "bookAgain": "Кайра брондоо →"
+    }
+  }
+}

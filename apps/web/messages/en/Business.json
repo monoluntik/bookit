@@ -1,0 +1,86 @@
+{
+  "Business": {
+    "meta": {
+      "notFoundTitle": "Not found",
+      "titleSuffix": "online booking",
+      "descriptionFallback": "Book online at {name}. Fast, convenient, no calls needed."
+    },
+    "typeMeta": {
+      "HOTEL": { "label": "Hotel", "bookingVerb": "Book a room" },
+      "RESTAURANT": { "label": "Restaurant", "bookingVerb": "Book a table" },
+      "SALON": { "label": "Beauty salon", "bookingVerb": "Book an appointment" },
+      "COWORKING": { "label": "Coworking", "bookingVerb": "Book a spot" },
+      "SPORT": { "label": "Sports", "bookingVerb": "Book now" },
+      "MEDICAL": { "label": "Medical", "bookingVerb": "Book a visit" },
+      "CUSTOM": { "label": "Other", "bookingVerb": "Book now" }
+    },
+    "nav": {
+      "back": "← Back",
+      "brand": "Booking",
+      "logout": "Log out",
+      "login": "Log in"
+    },
+    "actions": {
+      "call": "Call",
+      "share": "Share",
+      "copied": "Copied"
+    },
+    "gallery": {
+      "morePhotos": "+{count} photos",
+      "seeAll": "See all {count} photos →"
+    },
+    "rooms": {
+      "title": "Rooms",
+      "capacityLabel": "guests",
+      "titleCoworking": "Workspaces",
+      "capacityLabelCoworking": "seats",
+      "titleDefault": "Resources",
+      "capacityLabelDefault": "seats",
+      "upTo": "up to {count} {label}"
+    },
+    "services": {
+      "titleSalon": "Services & prices",
+      "titleMedical": "Visits & procedures",
+      "titleSport": "Activities",
+      "titleCoworking": "Plans",
+      "titleRestaurant": "Booking",
+      "titleHotel": "Categories",
+      "titleCustom": "Services",
+      "titleDefault": "Services",
+      "durationMinutes": "{minutes} min",
+      "free": "Free",
+      "currency": "som"
+    },
+    "staff": {
+      "titleMedical": "Doctors",
+      "titleDefault": "Specialists"
+    },
+    "stickyCta": {
+      "defaultLabel": "Book now"
+    },
+    "booking": {
+      "sectionTitle": "{verb}",
+      "notConfigured": "Online booking isn't set up yet"
+    },
+    "reviews": {
+      "title": "Reviews",
+      "loading": "Loading reviews...",
+      "empty": "No reviews yet",
+      "reviewCount": "{count, plural, one {# review} other {# reviews}}",
+      "anonymousCustomer": "Customer",
+      "ownerReply": "Business reply",
+      "replyPlaceholder": "Your reply to the customer...",
+      "replySubmitting": "Sending...",
+      "replySubmit": "Reply",
+      "replyCancel": "Cancel",
+      "replyAction": "Reply →",
+      "yourRating": "Your rating",
+      "commentPlaceholder": "Tell us about your visit (optional)",
+      "selectRatingError": "Please select a rating",
+      "genericError": "Error",
+      "thankYou": "Thanks for your review!",
+      "submitting": "Sending...",
+      "submit": "Submit review"
+    }
+  }
+}

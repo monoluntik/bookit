@@ -1,0 +1,24 @@
+{
+  "Common": {
+    "brand": "Booking",
+    "nav": {
+      "explore": "Каталог",
+      "guide": "Нұсқаулық",
+      "pricing": "Тарифтер",
+      "login": "Кіру",
+      "register": "Тіркелу",
+      "forBusiness": "Бизнеске",
+      "dashboard": "Басқару тақтасы",
+      "profile": "Профиль",
+      "logout": "Шығу",
+      "menu": "Мәзір",
+      "close": "Жабу"
+    },
+    "bottomNav": {
+      "home": "Басты бет",
+      "explore": "Каталог",
+      "bookings": "Брондар",
+      "profile": "Профиль"
+    }
+  }
+}

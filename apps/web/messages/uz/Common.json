@@ -1,0 +1,24 @@
+{
+  "Common": {
+    "brand": "Booking",
+    "nav": {
+      "explore": "Katalog",
+      "guide": "Qo'llanma",
+      "pricing": "Tariflar",
+      "login": "Kirish",
+      "register": "Ro'yxatdan o'tish",
+      "forBusiness": "Biznes uchun",
+      "dashboard": "Boshqaruv paneli",
+      "profile": "Profil",
+      "logout": "Chiqish",
+      "menu": "Menyu",
+      "close": "Yopish"
+    },
+    "bottomNav": {
+      "home": "Bosh sahifa",
+      "explore": "Katalog",
+      "bookings": "Bronlar",
+      "profile": "Profil"
+    }
+  }
+}

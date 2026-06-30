@@ -104,6 +104,52 @@ model Business {
   services           Service[]
   reviews            Review[]
   reminderRules      ReminderRule[]
+  translations       BusinessTranslation[]
+}
+
+// ─── Content translations (business-authored, customer-facing copy) ─────────
+// Original content lives on Business/Resource/Service in the owner's language
+// (Russian in practice). These tables hold owner-provided translations for
+// the other supported locales; en/kg/uz/kk falls back to the original field
+// when no translation row exists for that locale.
+
+model BusinessTranslation {
+  id          String   @id @default(cuid())
+  locale      String
+  name        String?
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, locale])
+}
+
+model ResourceTranslation {
+  id          String   @id @default(cuid())
+  locale      String
+  name        String?
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([resourceId, locale])
+}
+
+model ServiceTranslation {
+  id          String   @id @default(cuid())
+  locale      String
+  name        String?
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, locale])
 }
 
 // ─── Reminders (Telegram) ────────────────────────────────────────────────────
@@ -190,6 +236,7 @@ model Resource {
   schedules Schedule[]
   bookings  Booking[]
   services  Service[]
+  translations ResourceTranslation[]
 }
 
 // ─── Schedule (availability rules) ──────────────────────────────────────────
@@ -239,6 +286,7 @@ model Service {
   resource   Resource? @relation(fields: [resourceId], references: [id])
 
   bookings Booking[]
+  translations ServiceTranslation[]
 }
 
 // ─── Cancellation policy ─────────────────────────────────────────────────────

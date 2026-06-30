@@ -2,6 +2,12 @@ import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 import { BusinessTypeValues } from '../types/enums'
+import { resolveContentLocale, withTranslation, CONTENT_LOCALES } from '../lib/i18n'
+
+const translationBodySchema = z.object({
+  name: z.string().min(1).optional().nullable(),
+  description: z.string().optional().nullable(),
+})
 
 const createBusinessSchema = z.object({
   name: z.string().min(1),
@@ -24,14 +30,20 @@ export async function businessRoutes(app: FastifyInstance) {
   // Public: get business by slug
   app.get('/:slug', async (request, reply) => {
     const { slug } = request.params as { slug: string }
+    const locale = resolveContentLocale((request.query as { locale?: string }).locale)
     const business = await prisma.business.findUnique({
       where: { slug, isActive: true },
       include: {
         resources: {
           where: { isActive: true },
-          include: { schedules: { where: { isActive: true } }, services: { where: { isActive: true } } },
+          include: {
+            schedules: { where: { isActive: true } },
+            services: { where: { isActive: true }, include: { translations: { where: { locale } } } },
+            translations: { where: { locale } },
+          },
         },
         cancellationPolicy: true,
+        translations: { where: { locale } },
       },
     })
     if (!business) return reply.status(404).send({ error: 'Business not found' })
@@ -42,7 +54,17 @@ export async function businessRoutes(app: FastifyInstance) {
     const avgRating = reviews.length > 0
       ? Math.round((reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10) / 10
       : 0
-    return reply.send({ ...business, avgRating, reviewCount: reviews.length })
+
+    const { translations, resources, ...rest } = business
+    const localized = {
+      ...withTranslation(rest, translations[0]),
+      resources: resources.map(({ translations: rTr, services, ...r }) => ({
+        ...withTranslation(r, rTr[0]),
+        services: services.map(({ translations: sTr, ...s }) => withTranslation(s, sTr[0])),
+      })),
+    }
+
+    return reply.send({ ...localized, avgRating, reviewCount: reviews.length })
   })
 
   // Protected: get my businesses — registered BEFORE /:slug to avoid conflict
@@ -63,8 +85,9 @@ export async function businessRoutes(app: FastifyInstance) {
   app.get('/', async (request, reply) => {
     const query = request.query as {
       type?: string; page?: string; limit?: string; query?: string
-      minRating?: string; hasPhoto?: string; onlineOnly?: string; sort?: string
+      minRating?: string; hasPhoto?: string; onlineOnly?: string; sort?: string; locale?: string
     }
+    const locale = resolveContentLocale(query.locale)
     const page = Math.max(1, Number(query.page ?? 1))
     const limit = Math.min(50, Number(query.limit ?? 20))
 
@@ -136,6 +159,7 @@ export async function businessRoutes(app: FastifyInstance) {
           id: true, slug: true, name: true, type: true,
           description: true, logoUrl: true, address: true,
           _count: { select: { reviews: true } },
+          translations: { where: { locale } },
         },
         orderBy,
       }),
@@ -154,8 +178,10 @@ export async function businessRoutes(app: FastifyInstance) {
     const ratingMap = Object.fromEntries(ratings.map(r => [r.businessId, r._avg.rating ?? 0]))
 
     let businesses = businessRows.map(b => ({
-      id: b.id, slug: b.slug, name: b.name, type: b.type,
-      description: b.description, logoUrl: b.logoUrl, address: b.address,
+      ...withTranslation(
+        { id: b.id, slug: b.slug, name: b.name, type: b.type, description: b.description, logoUrl: b.logoUrl, address: b.address },
+        b.translations[0],
+      ),
       reviewCount: b._count.reviews,
       avgRating: ratingMap[b.id] ?? 0,
     }))
@@ -276,5 +302,39 @@ export async function businessRoutes(app: FastifyInstance) {
     // Never return Bakai credentials to client
     const { bakaiUsername: _u, bakaiPassword: _p, ...safe } = updated as any
     return reply.send({ ...safe, hasBakaiCredentials: !!(updated as any).bakaiUsername })
+  })
+
+  // Protected: list translations for a business (owner only)
+  app.get('/:id/translations', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+    const business = await prisma.business.findUnique({ where: { id } })
+    if (!business) return reply.status(404).send({ error: 'Not found' })
+    if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const translations = await prisma.businessTranslation.findMany({ where: { businessId: id } })
+    return reply.send(translations)
+  })
+
+  // Protected: upsert a single-locale translation for a business (owner only)
+  app.put('/:id/translations/:locale', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id, locale } = request.params as { id: string; locale: string }
+    if (!(CONTENT_LOCALES as readonly string[]).includes(locale)) {
+      return reply.status(400).send({ error: 'Unsupported locale' })
+    }
+    const body = translationBodySchema.safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: 'Неверные данные' })
+
+    const business = await prisma.business.findUnique({ where: { id } })
+    if (!business) return reply.status(404).send({ error: 'Not found' })
+    if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const translation = await prisma.businessTranslation.upsert({
+      where: { businessId_locale: { businessId: id, locale } },
+      create: { businessId: id, locale, ...body.data },
+      update: body.data,
+    })
+    return reply.send(translation)
   })
 }

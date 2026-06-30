@@ -1,17 +1,19 @@
+import { getTranslations } from 'next-intl/server'
 import { getMeta } from '@/lib/businessTypes'
 
 interface Props { resources: any[]; businessType: string }
 
-export default function RoomsList({ resources, businessType }: Props) {
+export default async function RoomsList({ resources, businessType }: Props) {
   if (!resources?.length) return null
   if (!['HOTEL', 'COWORKING'].includes(businessType)) return null
 
+  const t = await getTranslations('Business')
   const meta = getMeta(businessType)
-  const labels: Record<string, { title: string; capacityLabel: string }> = {
-    HOTEL: { title: 'Номера', capacityLabel: 'гостей' },
-    COWORKING: { title: 'Рабочие пространства', capacityLabel: 'мест' },
-  }
-  const info = labels[businessType] ?? { title: 'Ресурсы', capacityLabel: 'мест' }
+  const info = businessType === 'HOTEL'
+    ? { title: t('rooms.title'), capacityLabel: t('rooms.capacityLabel') }
+    : businessType === 'COWORKING'
+      ? { title: t('rooms.titleCoworking'), capacityLabel: t('rooms.capacityLabelCoworking') }
+      : { title: t('rooms.titleDefault'), capacityLabel: t('rooms.capacityLabelDefault') }
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
@@ -28,7 +30,7 @@ export default function RoomsList({ resources, businessType }: Props) {
               </div>
               {r.capacity && r.capacity > 1 && (
                 <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full shrink-0">
-                  до {r.capacity} {info.capacityLabel}
+                  {t('rooms.upTo', { count: r.capacity, label: info.capacityLabel })}
                 </span>
               )}
             </div>

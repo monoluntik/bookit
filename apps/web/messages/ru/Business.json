@@ -1,0 +1,86 @@
+{
+  "Business": {
+    "meta": {
+      "notFoundTitle": "Не найдено",
+      "titleSuffix": "онлайн запись",
+      "descriptionFallback": "Запишитесь онлайн в {name}. Быстро, удобно, без звонков."
+    },
+    "typeMeta": {
+      "HOTEL": { "label": "Отель", "bookingVerb": "Забронировать номер" },
+      "RESTAURANT": { "label": "Ресторан", "bookingVerb": "Забронировать стол" },
+      "SALON": { "label": "Салон красоты", "bookingVerb": "Записаться" },
+      "COWORKING": { "label": "Коворкинг", "bookingVerb": "Забронировать место" },
+      "SPORT": { "label": "Спорт", "bookingVerb": "Забронировать" },
+      "MEDICAL": { "label": "Медицина", "bookingVerb": "Записаться на приём" },
+      "CUSTOM": { "label": "Другое", "bookingVerb": "Забронировать" }
+    },
+    "nav": {
+      "back": "← Назад",
+      "brand": "Booking",
+      "logout": "Выйти",
+      "login": "Войти"
+    },
+    "actions": {
+      "call": "Позвонить",
+      "share": "Поделиться",
+      "copied": "Скопировано"
+    },
+    "gallery": {
+      "morePhotos": "+{count} фото",
+      "seeAll": "Посмотреть все {count} фото →"
+    },
+    "rooms": {
+      "title": "Номера",
+      "capacityLabel": "гостей",
+      "titleCoworking": "Рабочие пространства",
+      "capacityLabelCoworking": "мест",
+      "titleDefault": "Ресурсы",
+      "capacityLabelDefault": "мест",
+      "upTo": "до {count} {label}"
+    },
+    "services": {
+      "titleSalon": "Услуги и цены",
+      "titleMedical": "Приём и процедуры",
+      "titleSport": "Виды занятий",
+      "titleCoworking": "Тарифы",
+      "titleRestaurant": "Бронирование",
+      "titleHotel": "Категории",
+      "titleCustom": "Услуги",
+      "titleDefault": "Услуги",
+      "durationMinutes": "{minutes} мин",
+      "free": "Бесплатно",
+      "currency": "с"
+    },
+    "staff": {
+      "titleMedical": "Врачи",
+      "titleDefault": "Мастера"
+    },
+    "stickyCta": {
+      "defaultLabel": "Записаться"
+    },
+    "booking": {
+      "sectionTitle": "{verb}",
+      "notConfigured": "Онлайн-бронирование ещё не настроено"
+    },
+    "reviews": {
+      "title": "Отзывы",
+      "loading": "Загрузка отзывов...",
+      "empty": "Отзывов пока нет",
+      "reviewCount": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзывов}}",
+      "anonymousCustomer": "Клиент",
+      "ownerReply": "Ответ заведения",
+      "replyPlaceholder": "Ваш ответ клиенту...",
+      "replySubmitting": "Отправляем...",
+      "replySubmit": "Ответить",
+      "replyCancel": "Отмена",
+      "replyAction": "Ответить →",
+      "yourRating": "Ваша оценка",
+      "commentPlaceholder": "Расскажите о вашем визите (необязательно)",
+      "selectRatingError": "Выберите оценку",
+      "genericError": "Ошибка",
+      "thankYou": "Спасибо за отзыв!",
+      "submitting": "Отправляем...",
+      "submit": "Оставить отзыв"
+    }
+  }
+}

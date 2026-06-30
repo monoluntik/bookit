@@ -1,12 +1,12 @@
-import Link from 'next/link'
+'use client'
+
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 const TYPE_ICONS: Record<string, string> = {
   HOTEL: '🏨', RESTAURANT: '🍽️', SALON: '💇', COWORKING: '💼', SPORT: '⚽', MEDICAL: '🏥', CUSTOM: '🏢',
 }
-const TYPE_LABELS: Record<string, string> = {
-  HOTEL: 'Отель', RESTAURANT: 'Ресторан', SALON: 'Салон', COWORKING: 'Коворкинг',
-  SPORT: 'Спорт', MEDICAL: 'Медицина', CUSTOM: 'Другое',
-}
+const TYPE_CARD_KEYS = ['HOTEL', 'RESTAURANT', 'SALON', 'COWORKING', 'SPORT', 'MEDICAL', 'CUSTOM']
 const TYPE_BG: Record<string, string> = {
   HOTEL: 'from-blue-100 to-blue-200',
   RESTAURANT: 'from-orange-100 to-red-100',
@@ -22,6 +22,7 @@ interface Props {
 }
 
 export default function BusinessCard({ business }: Props) {
+  const t = useTranslations('Explore')
   const hasCover = Boolean(business.logoUrl)
   const rating = business.avgRating as number | undefined
   const reviewCount = business.reviewCount as number | undefined
@@ -48,7 +49,7 @@ export default function BusinessCard({ business }: Props) {
         {/* Type badge */}
         <div className="absolute top-2 left-2">
           <span className="text-xs bg-white/90 backdrop-blur-sm text-gray-700 px-2 py-0.5 rounded-full font-medium shadow-sm">
-            {TYPE_LABELS[business.type] ?? business.type}
+            {TYPE_CARD_KEYS.includes(business.type) ? t(`cardTypes.${business.type}`) : business.type}
           </span>
         </div>
 
@@ -78,7 +79,7 @@ export default function BusinessCard({ business }: Props) {
           </p>
         )}
         <div className="mt-3 pt-3 border-t border-gray-50 text-xs text-blue-600 font-medium group-hover:text-blue-700">
-          Забронировать →
+          {t('bookCta')} →
         </div>
       </div>
     </Link>

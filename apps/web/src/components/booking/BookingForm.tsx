@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 
@@ -22,6 +23,7 @@ function formatDate(iso: string) {
 }
 
 export default function BookingForm({ resource, service, slot, guestCount, nights, onSuccess, onBack }: Props) {
+  const t = useTranslations('Booking.form')
   const { user, token: existingToken, login } = useAuth()
 
   const [tab, setTab] = useState<'login' | 'register'>('login')
@@ -65,7 +67,7 @@ export default function BookingForm({ resource, service, slot, guestCount, night
 
       onSuccess(booking)
     } catch (err: any) {
-      setError(err.message ?? 'Что-то пошло не так')
+      setError(err.message ?? t('genericError'))
     } finally {
       setLoading(false)
     }
@@ -73,7 +75,7 @@ export default function BookingForm({ resource, service, slot, guestCount, night
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-1">Ваши данные</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-1">{t('title')}</h2>
 
       {/* Summary */}
       <div className="bg-blue-50 rounded-xl p-3 mb-5 text-sm text-blue-700 space-y-0.5">
@@ -82,13 +84,13 @@ export default function BookingForm({ resource, service, slot, guestCount, night
           {service && <span className="ml-2 text-blue-500">· {service.name}</span>}
         </div>
         {nights && nights > 0 ? (
-          <div>{formatDate(slot.start)} → {formatDate(slot.end)} · <strong>{nights} ночей</strong></div>
+          <div>{formatDate(slot.start)} → {formatDate(slot.end)} · <strong>{t('nights', { count: nights })}</strong></div>
         ) : (
           <div>{formatDate(slot.start)} · {formatTime(slot.start)}–{formatTime(slot.end)}</div>
         )}
-        {guestCount && guestCount > 1 && <div>{guestCount} чел.</div>}
+        {guestCount && guestCount > 1 && <div>{t('guestsShort', { count: guestCount })}</div>}
         {service && Number(service.price) > 0 && (
-          <div className="font-semibold">{Number(service.price).toLocaleString('ru')} сом</div>
+          <div className="font-semibold">{t('priceSom', { price: Number(service.price).toLocaleString('ru') })}</div>
         )}
       </div>
 
@@ -108,30 +110,30 @@ export default function BookingForm({ resource, service, slot, guestCount, night
           <>
             {/* Auth tabs */}
             <div className="flex rounded-xl bg-gray-100 p-1">
-              {(['login', 'register'] as const).map(t => (
-                <button key={t} type="button" onClick={() => setTab(t)}
+              {(['login', 'register'] as const).map(tabKey => (
+                <button key={tabKey} type="button" onClick={() => setTab(tabKey)}
                   className={`flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors
-                    ${tab === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}>
-                  {t === 'login' ? 'Войти' : 'Регистрация'}
+                    ${tab === tabKey ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}>
+                  {tabKey === 'login' ? t('login') : t('register')}
                 </button>
               ))}
             </div>
 
             {tab === 'register' && (
               <>
-                <input required placeholder="Имя" value={form.name} onChange={set('name')}
+                <input required placeholder={t('namePlaceholder')} value={form.name} onChange={set('name')}
                   autoComplete="name"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
-                <input type="tel" placeholder="Телефон (необязательно)" value={form.phone} onChange={set('phone')}
+                <input type="tel" placeholder={t('phonePlaceholder')} value={form.phone} onChange={set('phone')}
                   autoComplete="tel"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
               </>
             )}
-            <input required type="email" placeholder="Email" value={form.email} onChange={set('email')}
+            <input required type="email" placeholder={t('emailPlaceholder')} value={form.email} onChange={set('email')}
               autoComplete="email"
               className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
             <div className="relative">
-              <input required type={showPw ? 'text' : 'password'} placeholder="Пароль" value={form.password} onChange={set('password')}
+              <input required type={showPw ? 'text' : 'password'} placeholder={t('passwordPlaceholder')} value={form.password} onChange={set('password')}
                 autoComplete={tab === 'register' ? 'new-password' : 'current-password'}
                 className="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
               <button type="button" onClick={() => setShowPw(v => !v)}
@@ -143,7 +145,7 @@ export default function BookingForm({ resource, service, slot, guestCount, night
         )}
 
         {/* Notes — always shown */}
-        <textarea placeholder="Примечание (необязательно)" value={notes}
+        <textarea placeholder={t('notesPlaceholder')} value={notes}
           onChange={e => setNotes(e.target.value)} rows={2}
           className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none" />
 
@@ -152,11 +154,11 @@ export default function BookingForm({ resource, service, slot, guestCount, night
         <div className="flex gap-3 pt-1">
           <button type="button" onClick={onBack}
             className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm">
-            Назад
+            {t('back')}
           </button>
           <button type="submit" disabled={loading} aria-busy={loading}
             className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed">
-            {loading ? 'Создаём...' : 'Забронировать'}
+            {loading ? t('submitting') : t('submit')}
           </button>
         </div>
       </form>

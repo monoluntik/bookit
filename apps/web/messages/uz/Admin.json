@@ -1,0 +1,155 @@
+{
+  "Admin": {
+    "nav": {
+      "overview": "Umumiy",
+      "users": "Foydalanuvchilar",
+      "businesses": "Bizneslar",
+      "reviews": "Sharhlar",
+      "dashboard": "Boshqaruv paneli",
+      "site": "Sayt"
+    },
+    "overview": {
+      "title": "Platforma sharhi",
+      "kpi": {
+        "users": "Foydalanuvchilar",
+        "businesses": "Bizneslar",
+        "bookings": "Bandlar",
+        "revenueTotal": "Daromad (jami)",
+        "newThisMonth": "+{count} bu oy",
+        "ofTotal": "{count} jamidan",
+        "thisMonth": "{count} bu oy",
+        "revenueThisMonth": "{amount} so'm bu oy"
+      },
+      "charts": {
+        "bookingsLast30Days": "So'nggi 30 kundagi bandlar",
+        "totalReviews": "Jami sharhlar: {count}",
+        "businessesByType": "Kategoriyalar bo'yicha bizneslar"
+      },
+      "types": {
+        "hotel": "Mehmonxonalar",
+        "restaurant": "Restoranlar",
+        "salon": "Salonlar",
+        "coworking": "Kovorking",
+        "sport": "Sport",
+        "medical": "Tibbiyot",
+        "custom": "Boshqa"
+      },
+      "roles": {
+        "customer": "Mijozlar",
+        "owner": "Egalar",
+        "admin": "Adminlar"
+      },
+      "usersByRole": "Rollar bo'yicha foydalanuvchilar",
+      "recentBookings": {
+        "title": "So'nggi bandlar",
+        "defaultCustomer": "Mijoz",
+        "noService": "Xizmatsiz"
+      }
+    },
+    "users": {
+      "title": "Foydalanuvchilar",
+      "totalCount": "jami {count} ta",
+      "searchPlaceholder": "Ism yoki email bo'yicha qidirish...",
+      "searchButton": "Qidirish",
+      "allRoles": "Barcha rollar",
+      "roles": {
+        "customer": "Mijoz",
+        "owner": "Egasi",
+        "admin": "Admin",
+        "customers": "Mijozlar",
+        "owners": "Egalar",
+        "admins": "Adminlar"
+      },
+      "table": {
+        "user": "Foydalanuvchi",
+        "role": "Roli",
+        "activity": "Bandlar / Bizneslar",
+        "registered": "Ro'yxatdan o'tgan",
+        "status": "Holati"
+      },
+      "activitySummary": "{bookings} band · {businesses} biznes",
+      "status": {
+        "active": "Faol",
+        "blocked": "Bloklangan"
+      },
+      "actions": {
+        "block": "Bloklash",
+        "unblock": "Blokdan chiqarish"
+      },
+      "loading": "Yuklanmoqda...",
+      "pagination": {
+        "pageOf": "{page} / {totalPages} sahifa",
+        "prev": "← Orqaga",
+        "next": "Oldinga →"
+      },
+      "toasts": {
+        "blocked": "Foydalanuvchi bloklandi",
+        "unblocked": "Foydalanuvchi blokdan chiqarildi",
+        "roleChanged": "Rol o'zgartirildi",
+        "error": "Xatolik"
+      }
+    },
+    "businesses": {
+      "title": "Bizneslar",
+      "totalCount": "jami {count} ta",
+      "searchPlaceholder": "Nomi yoki slug bo'yicha qidirish...",
+      "searchButton": "Qidirish",
+      "allTypes": "Barcha turlar",
+      "allStatuses": "Barcha holatlar",
+      "activeFilter": "Faol",
+      "inactiveFilter": "Faol emas",
+      "types": {
+        "hotel": "Mehmonxona",
+        "restaurant": "Restoran",
+        "salon": "Salon",
+        "coworking": "Kovorking",
+        "sport": "Sport",
+        "medical": "Tibbiyot",
+        "custom": "Boshqa"
+      },
+      "status": {
+        "active": "Faol",
+        "hidden": "Yashirilgan"
+      },
+      "fields": {
+        "bookingsCount": "{count} band",
+        "reviewsCount": "{count} sharh",
+        "resourcesCount": "{count} resurs"
+      },
+      "actions": {
+        "open": "Ochish ↗",
+        "hide": "Yashirish",
+        "activate": "Faollashtirish"
+      },
+      "pagination": {
+        "pageOf": "{page} / {totalPages} sahifa",
+        "prev": "← Orqaga",
+        "next": "Oldinga →"
+      },
+      "toasts": {
+        "activated": "Biznes faollashtirildi",
+        "deactivated": "Biznes faolsizlantirildi",
+        "error": "Xatolik"
+      }
+    },
+    "reviews": {
+      "title": "Sharhlar",
+      "totalCount": "jami {count} ta",
+      "deleteConfirm": "Ushbu sharhni o'chirasizmi?",
+      "ownerReply": "Egasining javobi:",
+      "defaultCustomer": "Mijoz",
+      "actions": {
+        "delete": "O'chirish"
+      },
+      "pagination": {
+        "pageOf": "{page} / {totalPages} sahifa",
+        "prev": "← Orqaga",
+        "next": "Oldinga →"
+      },
+      "toasts": {
+        "deleted": "Sharh o'chirildi",
+        "deleteError": "O'chirishda xatolik"
+      }
+    }
+  }
+}

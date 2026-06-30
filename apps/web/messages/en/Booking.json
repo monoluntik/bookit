@@ -1,0 +1,189 @@
+{
+  "Booking": {
+    "flow": {
+      "steps": {
+        "room": "Room",
+        "dates": "Dates",
+        "guests": "Guests",
+        "details": "Details",
+        "done": "Done",
+        "table": "Table",
+        "date": "Date",
+        "time": "Time",
+        "service": "Service",
+        "master": "Specialist",
+        "doctor": "Doctor",
+        "appointment": "Visit",
+        "court": "Court",
+        "durationShort": "Length",
+        "place": "Place",
+        "choice": "Choice"
+      },
+      "guestCountLabel": {
+        "hotel": "Number of guests",
+        "restaurant": "How many of you?",
+        "default": "Number of people"
+      }
+    },
+    "guestCount": {
+      "defaultLabel": "Number of guests",
+      "hintRestaurant": "We'll find a table for you",
+      "hintHotel": "Specify the number of guests to find a room",
+      "hintDefault": "Choose the number of participants",
+      "otherCount": "Other amount:",
+      "back": "← Back",
+      "next": "Next →"
+    },
+    "resourceSelector": {
+      "defaultLabel": "Resource",
+      "selectLabel": "Select {label}",
+      "noTablesForGuests": "No tables for {count} {count, plural, one {guest} other {guests}}.",
+      "tryFewerGuests": "Try reducing the number of guests.",
+      "back": "← Back",
+      "specialization": "Specialization: ",
+      "upToGuestsHotel": "👤 up to {count} guests",
+      "upToGuests": "up to {count} guests",
+      "fromPrice": "from {price} som"
+    },
+    "serviceSelector": {
+      "title": "Select a service",
+      "priceSom": "{price} som",
+      "durationMinutes": "{count} min",
+      "durationHours": "{count} h",
+      "durationHoursHalf": "{hours}.5 h",
+      "durationHoursMinutes": "{hours} h {minutes} min",
+      "back": "← Back",
+      "skipService": "No service (time only)"
+    },
+    "datePicker": {
+      "title": "Select a date",
+      "days": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      },
+      "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      },
+      "todayIs": "Today — {date}",
+      "back": "Back",
+      "next": "Next"
+    },
+    "hotelDateRange": {
+      "title": "Select dates",
+      "selectCheckIn": "Select check-in date",
+      "selectCheckOut": "Select check-out date",
+      "nights": "{count, plural, one {# night} other {# nights}}",
+      "checkIn": "Check-in:",
+      "checkOut": "Check-out:",
+      "back": "← Back",
+      "next": "Next →"
+    },
+    "duration": {
+      "title": "Select duration",
+      "subtitle": "Specify how much time you need",
+      "minutes": "{count} min",
+      "hours": "{count} h",
+      "hoursHalf": "{hours}.5 h",
+      "hoursMinutes": "{hours} h {minutes} min",
+      "priceCalculatedOnSite": "Price is calculated on site",
+      "back": "← Back"
+    },
+    "slotPicker": {
+      "title": "Select a time",
+      "loadError": "Failed to load slots",
+      "retry": "Try again",
+      "noSlotsToday": "No more bookings for today",
+      "noSlotsTodayHint": "All remaining slots are taken or have passed",
+      "noSlotsDate": "No available slots for this date",
+      "noSlotsDateHint": "Try another day",
+      "chooseAnotherDay": "Choose another day →",
+      "showNextDay": "📅 Show next day",
+      "minutes": "{count} min",
+      "hours": "{count} h",
+      "hoursMinutes": "{hours} h {minutes} min",
+      "back": "Back",
+      "selectTime": "Select a time",
+      "selectSlot": "Select {time}"
+    },
+    "form": {
+      "title": "Your details",
+      "nights": "{count, plural, one {# night} other {# nights}}",
+      "guestsShort": "{count} guests",
+      "priceSom": "{price} som",
+      "login": "Log in",
+      "register": "Sign up",
+      "namePlaceholder": "Name",
+      "phonePlaceholder": "Phone (optional)",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "notesPlaceholder": "Note (optional)",
+      "back": "Back",
+      "submitting": "Creating...",
+      "submit": "Book now",
+      "genericError": "Something went wrong"
+    },
+    "confirmation": {
+      "title": "Booking confirmed!",
+      "subtitle": "Details sent to your email",
+      "place": "Place",
+      "resource": "Resource",
+      "service": "Service",
+      "date": "Date",
+      "nightsLabel": "Nights",
+      "time": "Time",
+      "guests": "Guests",
+      "total": "Total",
+      "status": "Status",
+      "statusPending": "Awaiting confirmation",
+      "bookingNumber": "Booking number",
+      "priceSom": "{price} som",
+      "addToCalendar": "📅 Add to calendar",
+      "processingPayment": "Redirecting to payment...",
+      "pay": "Pay {price} som",
+      "newBooking": "New booking",
+      "calendarResource": "Resource: {resource}",
+      "calendarBookingNumber": "Booking number: {id}"
+    },
+    "success": {
+      "title": "Payment successful!",
+      "subtitle": "Booking confirmed. Details sent to your email.",
+      "home": "Go home"
+    },
+    "failed": {
+      "title": "Payment failed",
+      "subtitle": "Please try again or choose another payment method.",
+      "retry": "Try again",
+      "home": "Go home"
+    },
+    "paymentResult": {
+      "checking": "Checking payment...",
+      "pending": "Awaiting confirmation",
+      "pendingHint": "The bank is still processing the payment"
+    },
+    "payMock": {
+      "sandboxLabel": "Bakai Bank — Dev Sandbox",
+      "priceSom": "{price} som",
+      "transactionNumber": "Transaction #{txId}",
+      "processing": "Processing...",
+      "paySuccess": "✓ Pay (success)",
+      "payReject": "✗ Decline payment",
+      "testNotice": "This is a test page. In production you'll be redirected to Bakai."
+    }
+  }
+}

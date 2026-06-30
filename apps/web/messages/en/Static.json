@@ -1,0 +1,587 @@
+{
+  "Static": {
+    "pricing": {
+      "metaTitle": "Pricing — Booking",
+      "hero": {
+        "title": "Transparent pricing",
+        "subtitle": "No hidden fees. Pay only for what you need."
+      },
+      "plans": {
+        "free": {
+          "name": "Free",
+          "price": "0",
+          "period": "forever",
+          "description": "To get started. Everything you need, no time limit.",
+          "cta": "Start for free",
+          "features": {
+            "businesses": "1 business",
+            "resources": "Up to 3 resources",
+            "bookings": "Up to 50 bookings per month",
+            "bookingPage": "Booking page",
+            "analytics": "Basic analytics",
+            "emailNotifications": "Email notifications"
+          },
+          "missing": {
+            "onlinePayment": "Online payment",
+            "customDomain": "Custom domain",
+            "apiAccess": "API access"
+          }
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "1,490",
+          "period": "som / mo",
+          "description": "For a growing business with high customer flow.",
+          "badge": "Popular",
+          "cta": "Submit a request",
+          "features": {
+            "businesses": "5 businesses",
+            "resources": "Unlimited resources",
+            "bookings": "Unlimited bookings",
+            "emailNotifications": "Email notifications",
+            "onlinePayment": "Online payment (Bakai)",
+            "advancedAnalytics": "Advanced analytics",
+            "staffManagement": "Staff management",
+            "prioritySupport": "Priority support"
+          },
+          "missing": {
+            "customDomain": "Custom domain"
+          }
+        },
+        "business": {
+          "name": "Business",
+          "price": "4,990",
+          "period": "som / mo",
+          "description": "For chains and large companies with multiple locations.",
+          "cta": "Submit a request",
+          "features": {
+            "businesses": "Unlimited businesses",
+            "resources": "Unlimited resources",
+            "bookings": "Unlimited bookings",
+            "emailNotifications": "Email notifications",
+            "onlinePayment": "Online payment (Bakai)",
+            "fullAnalytics": "Full analytics + export",
+            "staffManagement": "Staff management",
+            "customDomain": "Custom domain",
+            "dedicatedSupport": "Dedicated support",
+            "apiAccess": "API access"
+          }
+        },
+        "soonBadge": "Coming soon"
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "q1": { "q": "How do I switch to a paid plan?", "a": "Submit a request using the button on the plan you want — we'll get in touch within one business day and help you get set up." },
+        "q2": { "q": "Is there a discount for annual payment?", "a": "Yes — a 20% discount applies for annual payment. Ask about it when submitting your request." },
+        "q3": { "q": "What happens to my data when I change plans?", "a": "All your data — bookings, customers, history — is preserved no matter what plan changes you make." },
+        "q4": { "q": "Can I try it for free?", "a": "The Free plan is available with no time limit. Registration takes 2 minutes, no card required." }
+      },
+      "bottomCta": {
+        "title": "Still have questions?",
+        "subtitle": "Write to us — we'll reply within an hour during business hours.",
+        "button": "Contact us"
+      },
+      "footer": {
+        "brand": "← Booking",
+        "terms": "Terms",
+        "privacy": "Privacy",
+        "contact": "Contact"
+      }
+    },
+    "contact": {
+      "planLabels": {
+        "pro": "Pro — 1,490 som/mo",
+        "business": "Business — 4,990 som/mo"
+      },
+      "messageTemplate": "I'd like to sign up for the {plan} plan",
+      "contactsList": {
+        "email": "Email",
+        "telegram": "Telegram",
+        "address": { "label": "Address", "value": "Bishkek, Kyrgyzstan" },
+        "hours": { "label": "Business hours", "value": "Mon–Fri, 9:00 AM–6:00 PM" }
+      },
+      "hero": {
+        "planBadge": "🚀 Signing up for the {plan} plan",
+        "planTitle": "Submit a request",
+        "planSubtitle": "We'll get in touch within one business day and activate your plan",
+        "title": "Contact",
+        "subtitle": "We'll reply within an hour during business hours"
+      },
+      "left": {
+        "title": "Get in touch",
+        "freeBoxTitle": "Want to try it for free?",
+        "freeBoxText": "The Free plan is available right away — no card, no request needed. Registration takes 2 minutes.",
+        "freeBoxCta": "Start for free →"
+      },
+      "sent": {
+        "title": "Request received!",
+        "text": "We'll reply to {email} within one business day.",
+        "planNote": "Once confirmed, your plan will be activated manually by our team."
+      },
+      "form": {
+        "titlePlan": "Request for the {plan} plan",
+        "titleDefault": "Write to us",
+        "namePlaceholder": "Your name",
+        "emailPlaceholder": "Email",
+        "phonePlaceholder": "Phone",
+        "subjectDefault": "Subject",
+        "subjectUpgrade": "Sign up for a paid plan",
+        "subjectSupport": "Technical support",
+        "subjectBilling": "Billing question",
+        "subjectOther": "Other",
+        "messagePlaceholder": "Your message...",
+        "submitSending": "Sending...",
+        "submitPlan": "Send request",
+        "submitDefault": "Send"
+      },
+      "footer": {
+        "brand": "← Booking"
+      }
+    },
+    "about": {
+      "metaTitle": "About us — Booking",
+      "team": {
+        "product": { "name": "Product team", "desc": "We build a convenient tool for businesses based on the real needs of our customers." },
+        "support": { "name": "Support", "desc": "We help set up the system and resolve questions within an hour during business hours." },
+        "security": { "name": "Security", "desc": "Customer data is protected by encryption. Payment data is never stored on our servers." }
+      },
+      "hero": {
+        "title": "About the Booking platform",
+        "subtitle": "We're building a tool that helps small and medium businesses in Kyrgyzstan move customer bookings online — no calls, no messengers, no paper logbooks."
+      },
+      "mission": {
+        "title": "Our mission",
+        "p1": "Most small businesses in the country still take bookings over WhatsApp or by phone. It's inconvenient for customers and takes up the owners' time.",
+        "p2": "We built a simple system that can be set up in a single day and start accepting bookings online right away — no developers or technical knowledge required.",
+        "founded": "Founded"
+      },
+      "values": {
+        "title": "How we work"
+      },
+      "cta": {
+        "title": "Want to talk to us?",
+        "subtitle": "We'll tell you more about what the platform can do for your business.",
+        "contact": "Write to us",
+        "pricing": "View pricing"
+      },
+      "footer": {
+        "brand": "← Booking"
+      }
+    },
+    "terms": {
+      "metaTitle": "Terms of Service — Booking",
+      "title": "Terms of Service",
+      "lastUpdated": "Last updated: June 25, 2026",
+      "section1": {
+        "title": "1. General provisions",
+        "body": "These Terms of Service govern the relationship between the Booking platform (hereinafter — the \"Service\", \"We\") and users of the service (hereinafter — the \"User\", \"You\"). By using the Service, you agree to these Terms."
+      },
+      "section2": {
+        "title": "2. Description of the Service",
+        "body": "Booking is an online booking platform that allows business owners to accept bookings over the internet, and allows customers to book services in real time."
+      },
+      "section3": {
+        "title": "3. Registration and account",
+        "items": {
+          "item1": "Using the Service requires registration with a valid email address.",
+          "item2": "You are responsible for keeping your account information secure.",
+          "item3": "Sharing account access with third parties is prohibited.",
+          "item4": "We may suspend an account that violates these Terms."
+        }
+      },
+      "section4": {
+        "title": "4. Bookings and payment",
+        "items": {
+          "item1": "A booking is considered confirmed once you receive an email notification.",
+          "item2": "Cancellation terms are set independently by each business.",
+          "item3": "Payment transactions are processed through Bakai PayLink under the payment provider's terms.",
+          "item4": "The Service is not responsible for the quality of services provided through the platform."
+        }
+      },
+      "section5": {
+        "title": "5. For business owners",
+        "items": {
+          "item1": "You guarantee the accuracy of the information about your business.",
+          "item2": "Posting illegal or misleading content is prohibited.",
+          "item3": "You agree to honor confirmed bookings."
+        }
+      },
+      "section6": {
+        "title": "6. Limitation of liability",
+        "body": "The Service is provided \"as is\". We are not liable for any losses arising from the use or inability to use the Service, except as required by the legislation of the Kyrgyz Republic."
+      },
+      "section7": {
+        "title": "7. Changes to the Terms",
+        "body": "We may amend these Terms. Continued use of the Service after such changes are published constitutes your agreement to the new Terms."
+      },
+      "section8": {
+        "title": "8. Contact",
+        "bodyPrefix": "For questions related to these Terms: ",
+        "linkText": "contact page"
+      },
+      "footer": {
+        "home": "← Home",
+        "privacy": "Privacy Policy"
+      }
+    },
+    "privacy": {
+      "metaTitle": "Privacy Policy — Booking",
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated: June 25, 2026",
+      "section1": {
+        "title": "1. What data we collect",
+        "items": {
+          "item1": { "label": "Account data:", "text": "email, name, phone number." },
+          "item2": { "label": "Booking data:", "text": "selected services, time, number of guests, notes." },
+          "item3": { "label": "Payment data:", "text": "transaction status and amount (card data is never stored on our servers)." },
+          "item4": { "label": "Technical data:", "text": "IP address, browser type, visit time." }
+        }
+      },
+      "section2": {
+        "title": "2. How we use the data",
+        "items": {
+          "item1": "To operate the Service and process bookings.",
+          "item2": "To send booking confirmations and notifications.",
+          "item3": "To improve the quality of the Service and technical support.",
+          "item4": "To prevent fraud and ensure security."
+        }
+      },
+      "section3": {
+        "title": "3. Sharing data with third parties",
+        "intro": "We do not sell or share your personal data with third parties, except for:",
+        "items": {
+          "item1": "Bakai PayLink, our payment provider, for processing payments.",
+          "item2": "Resend, our email service, for sending notifications.",
+          "item3": "Cases required by the legislation of the Kyrgyz Republic."
+        }
+      },
+      "section4": {
+        "title": "4. Data storage and protection",
+        "body": "Data is stored on secure servers. Passwords are stored encrypted (bcrypt). We take technical and organizational measures to protect your data from unauthorized access."
+      },
+      "section5": {
+        "title": "5. Your rights",
+        "items": {
+          "item1": { "label": "Access:", "text": "you may request a copy of your data." },
+          "item2": { "label": "Correction:", "text": "you may update your data in your profile settings." },
+          "item3": { "label": "Deletion:", "text": "you may request deletion of your account and data through support." }
+        }
+      },
+      "section6": {
+        "title": "6. Cookies",
+        "body": "We use essential cookies to operate the Service (session, authentication). Analytics cookies are not used without your consent."
+      },
+      "section7": {
+        "title": "7. Contact",
+        "bodyPrefix": "For questions about the processing of personal data: ",
+        "linkText": "contact page"
+      },
+      "footer": {
+        "home": "← Home",
+        "terms": "Terms of Service"
+      }
+    },
+    "guide": {
+      "explore": {
+        "searchPlaceholder": "Search venues...",
+        "filters": "Filters",
+        "categories": { "all": "All", "salons": "Salons", "sport": "Sport", "medical": "Medical" },
+        "reviewsCount": "{count} reviews"
+      },
+      "bookingFlow": {
+        "steps": { "service": "Service", "date": "Date", "time": "Time", "done": "Done" },
+        "monthLabel": "June 2026",
+        "selectedDate": "Selected date: June 26",
+        "days": { "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun" }
+      },
+      "slots": {
+        "windowTitle": "Time selection",
+        "available": "Available slots — Fri, June 26",
+        "duration": "60 min",
+        "selectButton": "Select 11:00"
+      },
+      "dashboard": {
+        "windowTitle": "booking.kg/dashboard",
+        "sidebar": { "overview": "Overview", "bookings": "Bookings", "resources": "Resources", "services": "Services", "settings": "Settings" },
+        "stats": { "todayBookings": "Bookings today", "pending": "Pending", "revenue": "Revenue" },
+        "bookingItems": {
+          "client1": "Eldiyar N.",
+          "client2": "Ruslan M.",
+          "client3": "Manas B. (manual)"
+        },
+        "statusLabels": { "confirmed": "Confirmed", "manual": "manual", "pending": "Pending" }
+      },
+      "calendar": {
+        "windowTitle": "Bookings calendar",
+        "monthLabel": "June 2026",
+        "viewList": "List",
+        "viewCalendar": "Calendar",
+        "bookingsCountFew": "2 bookings",
+        "bookingsCountMany": "5 bookings"
+      },
+      "ownerBooking": {
+        "windowTitle": "Add manually",
+        "tabClient": "👤 Customer booking",
+        "tabBlock": "🔒 Block time",
+        "resourceLabel": "Resource",
+        "resourceValue": "Stylist Aida ▾",
+        "clientNameLabel": "Customer name",
+        "clientNameValue": "Aigul A.",
+        "phoneLabel": "Phone",
+        "phoneValue": "+996 700...",
+        "dateLabel": "Date",
+        "dateValue": "06/26",
+        "startLabel": "Start",
+        "startValue": "11:00",
+        "endLabel": "End",
+        "endValue": "12:00",
+        "submitButton": "✓ Add booking"
+      },
+      "scheduleBlock": {
+        "windowTitle": "Days off and vacations",
+        "masterName": "Stylist Aida",
+        "businessName": "Oasis Salon",
+        "addButton": "+ Add",
+        "entries": {
+          "entry1": { "date": "June 28", "label": "Day off", "reason": "Vacation" },
+          "entry2": { "date": "July 5", "label": "Special hours", "reason": "10:00 AM–3:00 PM" },
+          "entry3": { "date": "July 10", "label": "Day off", "reason": "Holiday" }
+        },
+        "deleteButton": "Delete"
+      },
+      "stats": {
+        "windowTitle": "Analytics",
+        "revenueLabel": "Revenue this month",
+        "bookingsLabel": "Bookings this month",
+        "weeklyChartLabel": "Bookings by day of week",
+        "days": { "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun" }
+      },
+      "settings": {
+        "windowTitle": "Business settings",
+        "nameLabel": "Name",
+        "nameValue": "Oasis Beauty Salon",
+        "linkLabel": "Your link",
+        "typeLabel": "Type",
+        "typeValue": "Beauty salon ▾",
+        "timezoneLabel": "Timezone",
+        "timezoneValue": "Asia/Bishkek ▾",
+        "galleryLabel": "Logo and gallery",
+        "saveButton": "Save changes"
+      },
+      "review": {
+        "windowTitle": "Reviews",
+        "reviewsCount": "33 reviews",
+        "reviewer1": { "name": "Aigul M.", "text": "Great service! Stylist Aida is a true professional." },
+        "reviewer2": { "name": "Manas B.", "text": "Easy to book, got in without waiting in line." }
+      },
+      "cancellationPolicy": {
+        "windowTitle": "Cancellation policy",
+        "currentPolicyTitle": "Current policy",
+        "rule1": "✓ Free cancellation up to 24h before",
+        "rule2": "✓ 30% fee for cancellation 12–24h before",
+        "rule3": "✗ No refund for cancellation within 12h",
+        "fields": {
+          "freeCancel": "Free cancellation (hours)",
+          "latePenalty": "Late cancellation fee (%)",
+          "noRefund": "No refund (hours before)"
+        },
+        "saveButton": "Save policy"
+      },
+      "toc": {
+        "businessLabel": "For business:",
+        "customerLabel": "For customers:",
+        "business": {
+          "setup": "Business setup",
+          "bookings": "Managing bookings",
+          "calendar": "Calendar",
+          "manual": "Manual booking",
+          "schedule": "Days off and vacations",
+          "stats": "Analytics",
+          "policy": "Cancellation policy"
+        },
+        "customer": {
+          "explore": "Search and filters",
+          "bookingFlow": "Booking process",
+          "slots": "Time selection",
+          "reviews": "Reviews"
+        }
+      },
+      "hero": {
+        "badge": "📖 The complete platform guide",
+        "titleLine1": "Everything",
+        "titleLine2": "Booking can do",
+        "subtitle": "A step-by-step overview of every feature — for business owners and customers.",
+        "businessOwnerCta": "I'm a business owner",
+        "customerCta": "I'm a customer"
+      },
+      "businessSection": {
+        "title": "For business owners",
+        "subtitle": "Manage your business, bookings, and schedule in one place"
+      },
+      "customerSection": {
+        "title": "For customers",
+        "subtitle": "Find a venue and book in 30 seconds"
+      },
+      "sections": {
+        "setup": {
+          "badge": "Step 1 · Setup",
+          "title": "Create your business profile in 5 minutes",
+          "desc": "Add your name, business type, address, and get a unique booking page link. Add a logo and up to 10 photos for your gallery — this builds customer trust.",
+          "checks": {
+            "check1": "Unique slug address: ",
+            "check2": "Auto-generated slug from your business name, manually editable",
+            "check3": "Types: Salon, Restaurant, Hotel, Coworking, Sport, Medical",
+            "check4": "Upload a logo and up to 10 gallery photos (drag & drop)",
+            "check5": "Timezone, phone, address, description"
+          }
+        },
+        "bookings": {
+          "badge": "Step 2 · Bookings",
+          "title": "All bookings in one dashboard",
+          "desc": "A list of current bookings with filters by status and date. Confirm, complete, or cancel bookings in a single click. Reschedule bookings right from the card.",
+          "checks": {
+            "check1": "Statuses: Pending → Confirmed → Completed / No-show",
+            "check2": "Filter by date and status",
+            "check3": "Reschedule bookings: pick a new date and time with conflict checking",
+            "check4": "Customer name, phone, and email on every card",
+            "check5": "View paid bookings (amount, payment date)"
+          }
+        },
+        "calendar": {
+          "badge": "View · Calendar",
+          "title": "A visual calendar of your bookings",
+          "desc": "Switch to Calendar view to see all of the month's bookings color-coded by status. Click on a day to get a list of bookings for that date.",
+          "checks": {
+            "check1": "Colors: yellow (pending), blue (confirmed), green (completed), gray (blocked)",
+            "check2": "Clicking a date switches to the list filtered to that day",
+            "check3": "Navigate forward and backward through months",
+            "check4": "Time blocks are shown separately with a 🔒 icon"
+          }
+        },
+        "manual": {
+          "badge": "Feature · Manual booking",
+          "title": "Add a booking manually or block off time",
+          "desc": "Did a customer call or walk in? Add their booking manually right from the dashboard. Need to close an hour for technical reasons? Add a block — the slot disappears from online booking.",
+          "checks": {
+            "check1": "\"Customer booking\" mode: name, phone, service, date, and time",
+            "check2": "\"Block\" mode: the time becomes unavailable to customers",
+            "check3": "Manual bookings are flagged with a \"manual\" badge on the dashboard",
+            "check4": "Blocks can be removed with one click, bookings can be rescheduled",
+            "check5": "Conflict checking: you can't create an overlapping booking"
+          }
+        },
+        "schedule": {
+          "badge": "Feature · Schedule",
+          "title": "Days off and vacations for every staff member",
+          "desc": "Set specific exception dates for any resource or staff member: a full day off (customers can't book) or a shortened day with different working hours.",
+          "checks": {
+            "check1": "Day off: the slot disappears entirely from online booking",
+            "check2": "Special hours: temporarily replace the standard schedule",
+            "check3": "Optional reason: \"vacation\", \"sick leave\", \"holiday\"",
+            "check4": "Upcoming and past exceptions are split into separate tabs",
+            "check5": "Existing bookings are not automatically canceled"
+          }
+        },
+        "stats": {
+          "badge": "Analytics",
+          "title": "Real-time stats and revenue",
+          "desc": "The dashboard shows key business metrics: revenue, number of bookings, load by day of week, and popular services. Compare the current month to the previous one.",
+          "checks": {
+            "check1": "Revenue this month and comparison with the previous period",
+            "check2": "Number of bookings, confirmed, completed",
+            "check3": "Load chart by day of week",
+            "check4": "Top 5 popular services with share of revenue",
+            "check5": "Filter by business (if you have more than one venue)"
+          }
+        },
+        "policy": {
+          "badge": "Setting · Cancellation",
+          "title": "Booking cancellation policy",
+          "desc": "Set the cancellation rules: a free period, the fee amount, and a \"no refund\" window. Customers see this policy before confirming a cancellation.",
+          "checks": {
+            "check1": "Free cancellation: specify how many hours before the start",
+            "check2": "Percentage fee for late cancellation",
+            "check3": "\"No refund\" window — how many hours before, the payment is non-refundable",
+            "check4": "Customers see the policy in a modal before canceling",
+            "check5": "The policy applies to all bookings for this business"
+          }
+        },
+        "explore": {
+          "badge": "Step 1 · Search",
+          "title": "Find a venue with convenient filters",
+          "desc": "A catalog of all venues with search by name, filters by type, rating, photo availability, and online booking. Sort by newest, rating, and alphabetically.",
+          "checks": {
+            "check1": "Real-time search by name and description",
+            "check2": "Filter by category: Salon, Restaurant, Hotel, Sport…",
+            "check3": "Filter by rating: 3★, 4★, 4.5★ and up",
+            "check4": "\"Has photos\" and \"Online booking\" toggles",
+            "check5": "Sorting: newest, by rating, A–Z, Z–A",
+            "check6": "Active filters are shown as tags with an × button"
+          }
+        },
+        "bookingFlow": {
+          "badge": "Step 2 · Booking",
+          "title": "A step-by-step booking process",
+          "desc": "An adaptive booking wizard guides the customer through choosing a service, staff member, date, and time. Clear hints at every step, with the ability to go back.",
+          "checks": {
+            "check1": "Steps: Service → Staff/resource → Date → Time → Confirmation",
+            "check2": "For hotels: select a check-in/check-out date range",
+            "check3": "For restaurants: number of guests",
+            "check4": "Email confirmation sent to the customer after booking",
+            "check5": "Online payment via Bakai PayLink (if enabled by the business)"
+          }
+        },
+        "slots": {
+          "badge": "Step 3 · Slots",
+          "title": "Time selection with live slots",
+          "desc": "Only truly available slots — the system automatically removes booked intervals, days off, and blocked time. Shows the duration of every slot.",
+          "checks": {
+            "check1": "Slots are generated from the staff member's schedule in real time",
+            "check2": "Booked, past, and blocked slots are hidden",
+            "check3": "Days off and special hours are accounted for automatically",
+            "check4": "Service duration is shown under each slot",
+            "check5": "If there are no slots, a clear message suggests picking another date"
+          }
+        },
+        "reviews": {
+          "badge": "After the visit · Reviews",
+          "title": "Leave a review after your visit",
+          "desc": "After a completed booking, the customer can leave a rating and a comment. Reviews are visible to everyone on the venue page. The owner can reply to every review.",
+          "checks": {
+            "check1": "1–5 star rating and a text comment",
+            "check2": "One review per visit — protection against fake reviews",
+            "check3": "The average rating is shown on the card in the catalog",
+            "check4": "The owner can publicly reply to a review",
+            "check5": "A rating distribution chart on the venue page"
+          }
+        }
+      },
+      "bottomCta": {
+        "title": "Ready to get started?",
+        "subtitle": "Sign up for free and set up online booking in a single day.",
+        "businessButton": "Add your business for free →",
+        "customerButton": "Find a venue",
+        "note": "No hidden fees · 5-minute setup · Cancel anytime"
+      },
+      "footer": {
+        "brand": "Booking",
+        "home": "Home",
+        "explore": "Catalog",
+        "pricing": "Pricing",
+        "contact": "Contact",
+        "copyright": "© 2026 Booking"
+      }
+    },
+    "notFound": {
+      "title": "Page not found",
+      "subtitle": "This page doesn't exist or has been removed",
+      "homeButton": "Go home"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "subtitle": "An unexpected error occurred. Please try refreshing the page.",
+      "retryButton": "Try again",
+      "homeButton": "Go home"
+    }
+  }
+}
