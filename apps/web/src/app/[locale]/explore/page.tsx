@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import BusinessCard from '@/components/marketplace/BusinessCard'
 import { api } from '@/lib/api'
@@ -21,6 +21,7 @@ const SORT_VALUES = ['newest', 'rating', 'az', 'za'] as const
 
 function ExploreContent() {
   const t = useTranslations('Explore')
+  const locale = useLocale()
   const searchParams = useSearchParams()
   const { user } = useAuth()
   const TYPE_LABELS: Record<string, string> = Object.fromEntries(TYPE_KEYS.map(k => [k, t(`types.${k}`)]))
@@ -63,6 +64,7 @@ function ExploreContent() {
         sort,
         page,
         limit: 12,
+        locale,
       })
       setBusinesses(data.businesses ?? [])
       setTotal(data.total ?? 0)

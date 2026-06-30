@@ -143,7 +143,7 @@ export const api = {
   searchBusinesses: (params: {
     query?: string; type?: string; page?: number; limit?: number
     minRating?: number; hasPhoto?: boolean; onlineOnly?: boolean
-    sort?: 'newest' | 'az' | 'za' | 'rating'
+    sort?: 'newest' | 'az' | 'za' | 'rating'; locale?: string
   }) => {
     const q = new URLSearchParams(
       Object.fromEntries(

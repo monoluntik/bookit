@@ -18,14 +18,14 @@ interface Props {
   params: Promise<{ slug: string; locale: string }>
 }
 
-async function getBusiness(slug: string) {
-  const res = await fetch(`${API}/api/businesses/${slug}`, { cache: 'no-store' })
+async function getBusiness(slug: string, locale: string) {
+  const res = await fetch(`${API}/api/businesses/${slug}?locale=${locale}`, { cache: 'no-store' })
   if (!res.ok) return null
   return res.json()
 }
 
-async function getServices(businessId: string) {
-  const res = await fetch(`${API}/api/services/business/${businessId}`, { cache: 'no-store' })
+async function getServices(businessId: string, locale: string) {
+  const res = await fetch(`${API}/api/services/business/${businessId}?locale=${locale}`, { cache: 'no-store' })
   if (!res.ok) return []
   return res.json()
 }
@@ -33,7 +33,7 @@ async function getServices(businessId: string) {
 export async function generateMetadata({ params }: Props) {
   const { slug, locale } = await params
   const t = await getTranslations({ locale, namespace: 'Business' })
-  const business = await getBusiness(slug)
+  const business = await getBusiness(slug, locale)
   if (!business) return { title: t('meta.notFoundTitle') }
   const title = `${business.name} — ${t('meta.titleSuffix')}`
   const description = business.description
@@ -52,10 +52,10 @@ export async function generateMetadata({ params }: Props) {
 export default async function BusinessPage({ params }: Props) {
   const { slug, locale } = await params
   const t = await getTranslations({ locale, namespace: 'Business' })
-  const business = await getBusiness(slug)
+  const business = await getBusiness(slug, locale)
   if (!business) notFound()
 
-  const services = await getServices(business.id)
+  const services = await getServices(business.id, locale)
   const meta = getMeta(business.type)
   const bookingVerb = t.has(`typeMeta.${business.type}.bookingVerb`)
     ? t(`typeMeta.${business.type}.bookingVerb` as any)
