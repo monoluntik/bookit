@@ -16,6 +16,9 @@ import { staffRoutes } from './routes/staff'
 import { reviewRoutes } from './routes/review'
 import { uploadRoutes } from './routes/upload'
 import { adminRoutes } from './routes/admin'
+import { telegramRoutes } from './routes/telegram'
+import { reminderRuleRoutes } from './routes/reminder-rule'
+import { startReminderScheduler } from './lib/reminderScheduler'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -85,6 +88,8 @@ const start = async () => {
   await app.register(reviewRoutes, { prefix: '/api/reviews' })
   await app.register(uploadRoutes, { prefix: '/api/upload' })
   await app.register(adminRoutes, { prefix: '/api/admin' })
+  await app.register(telegramRoutes, { prefix: '/api/telegram' })
+  await app.register(reminderRuleRoutes, { prefix: '/api/reminder-rules' })
 
   app.get('/health', async () => ({ status: 'ok', ts: new Date().toISOString() }))
 
@@ -97,6 +102,8 @@ const start = async () => {
 
   const port = Number(process.env.PORT ?? 4000)
   await app.listen({ port, host: '0.0.0.0' })
+
+  startReminderScheduler()
 }
 
 start().catch((err) => {

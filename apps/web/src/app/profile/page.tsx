@@ -9,16 +9,23 @@ import { STATUS_COLOR, STATUS_LABEL, formatDate, formatTime } from '@/lib/busine
 import ReviewForm from '@/components/reviews/ReviewForm'
 import CustomerBottomNav from '@/components/CustomerBottomNav'
 
+const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
+
 export default function ProfilePage() {
   const { user, token, loading: authLoading, updateUser, logout } = useAuth()
   const router = useRouter()
 
   const [bookings, setBookings] = useState<any[]>([])
   const [loadingBookings, setLoadingBookings] = useState(true)
-  const [tab, setTab] = useState<'bookings' | 'settings' | 'password'>('bookings')
+  const [tab, setTab] = useState<'bookings' | 'settings' | 'password' | 'notifications'>('bookings')
   const [cancelTarget, setCancelTarget] = useState<any | null>(null)
   const [cancelPolicy, setCancelPolicy] = useState<any | null>(null)
   const [loadingPolicy, setLoadingPolicy] = useState(false)
+
+  // Telegram notifications
+  const [tgStatus, setTgStatus] = useState<{ linked: boolean; botUsername: string | null } | null>(null)
+  const [tgLinkUrl, setTgLinkUrl] = useState<string | null>(null)
+  const [tgLoading, setTgLoading] = useState(false)
 
   // Profile form
   const [profileForm, setProfileForm] = useState({ name: '', phone: '' })
@@ -43,6 +50,54 @@ export default function ProfilePage() {
     if (!token) return
     api.getMyBookings(token).then(r => setBookings(r.bookings)).finally(() => setLoadingBookings(false))
   }, [token])
+
+  const loadTgStatus = async () => {
+    if (!token) return
+    const res = await fetch(`${API}/api/telegram/status`, { headers: { Authorization: `Bearer ${token}` } })
+    if (res.ok) setTgStatus(await res.json())
+  }
+
+  useEffect(() => {
+    if (tab === 'notifications') loadTgStatus()
+  }, [tab, token])
+
+  // While waiting for the user to confirm in Telegram, poll status every 3s
+  useEffect(() => {
+    if (!tgLinkUrl || tgStatus?.linked) return
+    const id = setInterval(loadTgStatus, 3000)
+    return () => clearInterval(id)
+  }, [tgLinkUrl, tgStatus?.linked, token])
+
+  const handleLinkTelegram = async () => {
+    if (!token) return
+    setTgLoading(true)
+    try {
+      const res = await fetch(`${API}/api/telegram/link`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Ошибка')
+      setTgLinkUrl(data.url)
+      window.open(data.url, '_blank')
+    } catch {
+      // botUsername missing — handled in render via tgStatus.botUsername check
+    } finally {
+      setTgLoading(false)
+    }
+  }
+
+  const handleUnlinkTelegram = async () => {
+    if (!token) return
+    setTgLoading(true)
+    try {
+      await fetch(`${API}/api/telegram/link`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
+      setTgLinkUrl(null)
+      await loadTgStatus()
+    } finally {
+      setTgLoading(false)
+    }
+  }
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -150,6 +205,7 @@ export default function ProfilePage() {
         <div className="flex bg-white rounded-2xl shadow-sm p-1 gap-1 mb-4">
           {([
             { key: 'bookings', label: `Брони ${bookings.length > 0 ? `(${bookings.length})` : ''}` },
+            { key: 'notifications', label: 'Напоминания' },
             { key: 'settings', label: 'Данные' },
             { key: 'password', label: 'Пароль' },
           ] as const).map(t => (
@@ -195,6 +251,49 @@ export default function ProfilePage() {
                   </div>
                 )}
               </>
+            )}
+          </div>
+        )}
+
+        {/* Notifications tab */}
+        {tab === 'notifications' && (
+          <div className="bg-white rounded-2xl p-5 shadow-sm">
+            <h2 className="font-semibold text-gray-900 mb-1">Напоминания о бронях</h2>
+            <p className="text-sm text-gray-400 mb-4">
+              Привяжите Telegram, чтобы получать напоминания перед визитом — настройки времени задаёт каждый бизнес.
+            </p>
+
+            {!tgStatus ? (
+              <div className="flex justify-center py-6">
+                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : tgStatus.linked ? (
+              <div className="flex items-center justify-between bg-green-50 rounded-xl p-4">
+                <div className="flex items-center gap-2 text-sm text-green-700 font-medium">
+                  <span>✓</span>
+                  <span>Telegram привязан</span>
+                </div>
+                <button onClick={handleUnlinkTelegram} disabled={tgLoading}
+                  className="text-xs text-red-400 hover:text-red-600 disabled:opacity-60">
+                  Отвязать
+                </button>
+              </div>
+            ) : !tgStatus.botUsername ? (
+              <p className="text-sm text-gray-400 bg-gray-50 rounded-xl p-4">
+                Telegram-бот ещё не настроен платформой. Загляните позже.
+              </p>
+            ) : (
+              <div>
+                <button onClick={handleLinkTelegram} disabled={tgLoading}
+                  className="w-full py-2.5 rounded-xl bg-[#229ED9] text-white text-sm font-medium hover:opacity-90 disabled:opacity-60 flex items-center justify-center gap-2">
+                  ✈️ {tgLoading ? 'Открываем Telegram...' : 'Привязать Telegram'}
+                </button>
+                {tgLinkUrl && (
+                  <p className="text-xs text-gray-400 mt-3 text-center">
+                    Откройте Telegram и нажмите «Start» в чате с ботом — страница обновится автоматически.
+                  </p>
+                )}
+              </div>
             )}
           </div>
         )}

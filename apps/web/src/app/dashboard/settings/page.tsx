@@ -24,6 +24,16 @@ function toSlug(name: string) {
     .slice(0, 40)
 }
 
+const REMINDER_PRESETS = [
+  { label: 'За неделю', minutes: 10080 },
+  { label: 'За 3 дня', minutes: 4320 },
+  { label: 'За день', minutes: 1440 },
+  { label: 'За 3 часа', minutes: 180 },
+  { label: 'За час', minutes: 60 },
+  { label: 'За 30 минут', minutes: 30 },
+]
+const MAX_REMINDER_RULES = 5
+
 export default function SettingsPage() {
   const { token } = useAuth()
   const { success, error: showError } = useToast()
@@ -40,6 +50,10 @@ export default function SettingsPage() {
   const [paymentForm, setPaymentForm] = useState({ bakaiUsername: '', bakaiPassword: '' })
   const [showBakaiPw, setShowBakaiPw] = useState(false)
   const [paymentSaving, setPaymentSaving] = useState(false)
+  const [editingReminders, setEditingReminders] = useState<string | null>(null) // businessId
+  const [reminderRules, setReminderRules] = useState<Record<string, any[]>>({})
+  const [newRulePreset, setNewRulePreset] = useState('1440')
+  const [reminderSaving, setReminderSaving] = useState(false)
 
   // Photos state per business
   const [photoState, setPhotoState] = useState<Record<string, { logoUrl: string | null; images: string[] }>>({})
@@ -162,6 +176,71 @@ export default function SettingsPage() {
       showError(err.message ?? 'Ошибка')
     } finally {
       setPaymentSaving(false)
+    }
+  }
+
+  const loadReminderRules = async (bizId: string) => {
+    if (!token) return
+    const res = await fetch(`${API}/api/reminder-rules?businessId=${bizId}`, { headers: { Authorization: `Bearer ${token}` } })
+    if (res.ok) {
+      const data = await res.json()
+      setReminderRules(prev => ({ ...prev, [bizId]: data }))
+    }
+  }
+
+  const openEditReminders = (b: any) => {
+    setEditingReminders(b.id)
+    setEditingPayment(null)
+    setEditingBiz(null)
+    setEditPhotos(null)
+    loadReminderRules(b.id)
+  }
+
+  const handleAddRule = async (bizId: string) => {
+    if (!token) return
+    const preset = REMINDER_PRESETS.find(p => String(p.minutes) === newRulePreset)
+    if (!preset) return
+    setReminderSaving(true)
+    try {
+      const res = await fetch(`${API}/api/reminder-rules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ businessId: bizId, offsetMinutes: preset.minutes, label: preset.label }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Ошибка')
+      setReminderRules(prev => ({ ...prev, [bizId]: [...(prev[bizId] ?? []), data].sort((a, b) => a.offsetMinutes - b.offsetMinutes) }))
+      success('Напоминание добавлено')
+    } catch (err: any) {
+      showError(err.message ?? 'Ошибка')
+    } finally {
+      setReminderSaving(false)
+    }
+  }
+
+  const handleToggleRule = async (bizId: string, ruleId: string, isActive: boolean) => {
+    if (!token) return
+    const res = await fetch(`${API}/api/reminder-rules/${ruleId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ isActive }),
+    })
+    if (res.ok) {
+      setReminderRules(prev => ({
+        ...prev,
+        [bizId]: (prev[bizId] ?? []).map(r => r.id === ruleId ? { ...r, isActive } : r),
+      }))
+    }
+  }
+
+  const handleDeleteRule = async (bizId: string, ruleId: string) => {
+    if (!token) return
+    const res = await fetch(`${API}/api/reminder-rules/${ruleId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (res.ok) {
+      setReminderRules(prev => ({ ...prev, [bizId]: (prev[bizId] ?? []).filter(r => r.id !== ruleId) }))
     }
   }
 
@@ -290,6 +369,13 @@ export default function SettingsPage() {
                           ${editingPayment === b.id ? 'bg-green-600 text-white border-green-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                       >
                         {b.hasBakaiCredentials ? '💳 Оплата ✓' : '💳 Оплата'}
+                      </button>
+                      <button
+                        onClick={() => editingReminders === b.id ? setEditingReminders(null) : openEditReminders(b)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors
+                          ${editingReminders === b.id ? 'bg-purple-600 text-white border-purple-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                      >
+                        🔔 Напоминания
                       </button>
                     </div>
                   </div>
@@ -518,6 +604,70 @@ export default function SettingsPage() {
                         {paymentSaving ? 'Сохраняем...' : 'Сохранить'}
                       </button>
                     </div>
+                  </div>
+                )}
+
+                {/* Reminder rules */}
+                {editingReminders === b.id && (
+                  <div className="border-t border-gray-100 p-5 bg-gray-50 space-y-4">
+                    <div>
+                      <div className="text-sm font-medium text-gray-800 mb-1">Напоминания клиентам в Telegram</div>
+                      <p className="text-xs text-gray-400 leading-relaxed">
+                        Клиент получит сообщение в Telegram перед визитом, если привязал аккаунт в своём профиле.
+                        Можно настроить до {MAX_REMINDER_RULES} напоминаний.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      {(reminderRules[b.id] ?? []).length === 0 ? (
+                        <p className="text-xs text-gray-400">Напоминания ещё не настроены.</p>
+                      ) : (
+                        (reminderRules[b.id] ?? []).map(rule => (
+                          <div key={rule.id} className="flex items-center justify-between bg-white rounded-xl px-3.5 py-2.5">
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleToggleRule(b.id, rule.id, !rule.isActive)}
+                                className={`w-9 h-5 rounded-full relative transition-colors shrink-0
+                                  ${rule.isActive ? 'bg-purple-600' : 'bg-gray-200'}`}
+                              >
+                                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform
+                                  ${rule.isActive ? 'translate-x-4' : 'translate-x-0.5'}`} />
+                              </button>
+                              <span className={`text-sm ${rule.isActive ? 'text-gray-800' : 'text-gray-400'}`}>{rule.label}</span>
+                            </div>
+                            <button onClick={() => handleDeleteRule(b.id, rule.id)}
+                              className="text-xs text-red-400 hover:text-red-600">
+                              Удалить
+                            </button>
+                          </div>
+                        ))
+                      )}
+                    </div>
+
+                    {(reminderRules[b.id] ?? []).length < MAX_REMINDER_RULES && (
+                      <div className="flex gap-2">
+                        <select value={newRulePreset} onChange={e => setNewRulePreset(e.target.value)}
+                          className="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300">
+                          {REMINDER_PRESETS
+                            .filter(p => !(reminderRules[b.id] ?? []).some(r => r.offsetMinutes === p.minutes))
+                            .map(p => <option key={p.minutes} value={p.minutes}>{p.label}</option>)}
+                        </select>
+                        <button
+                          type="button"
+                          onClick={() => handleAddRule(b.id)}
+                          disabled={reminderSaving}
+                          className="px-4 py-2.5 rounded-xl bg-purple-600 text-white text-sm font-medium hover:bg-purple-700 disabled:opacity-60"
+                        >
+                          Добавить
+                        </button>
+                      </div>
+                    )}
+
+                    <button type="button" onClick={() => setEditingReminders(null)}
+                      className="w-full py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-white">
+                      Готово
+                    </button>
                   </div>
                 )}
               </div>
