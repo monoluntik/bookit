@@ -168,16 +168,26 @@ export async function resourceRoutes(app: FastifyInstance) {
       // for a 4h booking) instead of every available slotDurationMinutes.
       const step = forceDuration ? schedule.slotDurationMinutes : duration
 
+      const fmt = (mins: number) => `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`
+
       const [startH, startM] = start.split(':').map(Number)
       const [endH, endM] = end.split(':').map(Number)
-      let current = startH * 60 + startM
+      const openMinutes = startH * 60 + startM
       const endMinutes = endH * 60 + endM
+      let current = openMinutes
+      let lastEmitted = -1
 
       while (current + duration <= endMinutes) {
-        const slotStart = `${String(Math.floor(current / 60)).padStart(2, '0')}:${String(current % 60).padStart(2, '0')}`
-        const slotEnd = `${String(Math.floor((current + duration) / 60)).padStart(2, '0')}:${String((current + duration) % 60).padStart(2, '0')}`
-        slots.push({ start: `${date}T${slotStart}`, end: `${date}T${slotEnd}` })
+        slots.push({ start: `${date}T${fmt(current)}`, end: `${date}T${fmt(current + duration)}` })
+        lastEmitted = current
         current += step
+      }
+
+      // Guarantee a slot ending exactly at closing time, even if it falls
+      // off the step grid — closing time minus duration is always bookable.
+      const lastPossible = endMinutes - duration
+      if (lastPossible >= openMinutes && lastPossible !== lastEmitted) {
+        slots.push({ start: `${date}T${fmt(lastPossible)}`, end: `${date}T${fmt(lastPossible + duration)}` })
       }
     }
 
