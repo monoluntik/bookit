@@ -10,7 +10,7 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 export default function CancellationPolicyPage() {
   const t = useTranslations('Dashboard.cancellation')
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
@@ -23,17 +23,17 @@ export default function CancellationPolicyPage() {
   })
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
     }).finally(() => setLoading(false))
-  }, [token])
+  }, [user])
 
   useEffect(() => {
-    if (!token || !selectedBiz) return
+    if (!user || !selectedBiz) return
     fetch(`${API}/api/businesses/${selectedBiz}/cancellation-policy`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
@@ -43,16 +43,17 @@ export default function CancellationPolicyPage() {
           noRefundHours: data.noRefundHours,
         })
       })
-  }, [token, selectedBiz])
+  }, [user, selectedBiz])
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token || !selectedBiz) return
+    if (!selectedBiz) return
     setSaving(true)
     try {
       const res = await fetch(`${API}/api/businesses/${selectedBiz}/cancellation-policy`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }

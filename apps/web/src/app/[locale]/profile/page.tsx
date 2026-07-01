@@ -13,12 +13,12 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 export default function ProfilePage() {
   const t = useTranslations('Profile')
-  const { user, token, loading: authLoading, updateUser, logout } = useAuth()
+  const { user, loading: authLoading, updateUser, logout } = useAuth()
   const router = useRouter()
 
   const [bookings, setBookings] = useState<any[]>([])
   const [loadingBookings, setLoadingBookings] = useState(true)
-  const [tab, setTab] = useState<'bookings' | 'settings' | 'password' | 'notifications'>('bookings')
+  const [tab, setTab] = useState<'bookings' | 'settings' | 'notifications'>('bookings')
   const [cancelTarget, setCancelTarget] = useState<any | null>(null)
   const [cancelPolicy, setCancelPolicy] = useState<any | null>(null)
   const [loadingPolicy, setLoadingPolicy] = useState(false)
@@ -28,55 +28,46 @@ export default function ProfilePage() {
   const [tgLinkUrl, setTgLinkUrl] = useState<string | null>(null)
   const [tgLoading, setTgLoading] = useState(false)
 
-  // Profile form
-  const [profileForm, setProfileForm] = useState({ name: '', phone: '' })
+  // Profile form (phone is fixed at sign-in — only the name can be edited)
+  const [profileForm, setProfileForm] = useState({ name: '' })
   const [saving, setSaving] = useState(false)
   const [profileMsg, setProfileMsg] = useState('')
 
-  // Password form
-  const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
-  const [pwMsg, setPwMsg] = useState('')
-  const [pwError, setPwError] = useState('')
-  const [savingPw, setSavingPw] = useState(false)
-
   useEffect(() => {
-    if (!authLoading && !user) router.push('/login?redirect=/profile')
+    if (!authLoading && !user) router.push('/auth?redirect=/profile')
   }, [user, authLoading, router])
 
   useEffect(() => {
-    if (user) setProfileForm({ name: user.name, phone: user.phone ?? '' })
+    if (user) setProfileForm({ name: user.name })
   }, [user])
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBookings(token).then(r => setBookings(r.bookings)).finally(() => setLoadingBookings(false))
-  }, [token])
+    if (!user) return
+    api.getMyBookings().then(r => setBookings(r.bookings)).finally(() => setLoadingBookings(false))
+  }, [user])
 
   const loadTgStatus = async () => {
-    if (!token) return
-    const res = await fetch(`${API}/api/telegram/status`, { headers: { Authorization: `Bearer ${token}` } })
+    if (!user) return
+    const res = await fetch(`${API}/api/telegram/status`, { credentials: 'include' })
     if (res.ok) setTgStatus(await res.json())
   }
 
   useEffect(() => {
     if (tab === 'notifications') loadTgStatus()
-  }, [tab, token])
+  }, [tab, user])
 
   // While waiting for the user to confirm in Telegram, poll status every 3s
   useEffect(() => {
     if (!tgLinkUrl || tgStatus?.linked) return
     const id = setInterval(loadTgStatus, 3000)
     return () => clearInterval(id)
-  }, [tgLinkUrl, tgStatus?.linked, token])
+  }, [tgLinkUrl, tgStatus?.linked, user])
 
   const handleLinkTelegram = async () => {
-    if (!token) return
+    if (!user) return
     setTgLoading(true)
     try {
-      const res = await fetch(`${API}/api/telegram/link`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      const res = await fetch(`${API}/api/telegram/link`, { method: 'POST', credentials: 'include' })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? t('notifications.errorDefault'))
       setTgLinkUrl(data.url)
@@ -89,10 +80,10 @@ export default function ProfilePage() {
   }
 
   const handleUnlinkTelegram = async () => {
-    if (!token) return
+    if (!user) return
     setTgLoading(true)
     try {
-      await fetch(`${API}/api/telegram/link`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
+      await fetch(`${API}/api/telegram/link`, { method: 'DELETE', credentials: 'include' })
       setTgLinkUrl(null)
       await loadTgStatus()
     } finally {
@@ -102,11 +93,11 @@ export default function ProfilePage() {
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token) return
+    if (!user) return
     setSaving(true)
     setProfileMsg('')
     try {
-      const updated = await api.updateProfile({ name: profileForm.name, phone: profileForm.phone }, token)
+      const updated = await api.updateProfile({ name: profileForm.name })
       updateUser(updated)
       setProfileMsg(t('settings.saved'))
       setTimeout(() => setProfileMsg(''), 3000)
@@ -117,35 +108,14 @@ export default function ProfilePage() {
     }
   }
 
-  const handleSavePassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!token) return
-    setPwError('')
-    setPwMsg('')
-    if (pwForm.newPassword !== pwForm.confirmPassword) { setPwError(t('password.mismatch')); return }
-    if (pwForm.newPassword.length < 6) { setPwError(t('password.tooShort')); return }
-    setSavingPw(true)
-    try {
-      await api.updateProfile({ currentPassword: pwForm.currentPassword, newPassword: pwForm.newPassword }, token)
-      setPwMsg(t('password.changed'))
-      setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
-      setTimeout(() => setPwMsg(''), 3000)
-    } catch (err: any) {
-      setPwError(err.message)
-    } finally {
-      setSavingPw(false)
-    }
-  }
-
   const openCancelModal = async (booking: any) => {
     setCancelTarget(booking)
     setCancelPolicy(null)
     if (booking.business?.id) {
       setLoadingPolicy(true)
       try {
-        const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
         const res = await fetch(`${API}/api/businesses/${booking.business.id}/cancellation-policy`, {
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: 'include',
         })
         if (res.ok) setCancelPolicy(await res.json())
       } catch { /* no policy */ } finally {
@@ -155,8 +125,8 @@ export default function ProfilePage() {
   }
 
   const handleCancel = async () => {
-    if (!token || !cancelTarget) return
-    await api.updateBookingStatus(cancelTarget.id, 'CANCELLED', token)
+    if (!cancelTarget) return
+    await api.updateBookingStatus(cancelTarget.id, 'CANCELLED')
     setBookings(prev => prev.map(b => b.id === cancelTarget.id ? { ...b, status: 'CANCELLED' } : b))
     setCancelTarget(null)
   }
@@ -194,7 +164,6 @@ export default function ProfilePage() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-gray-900 text-lg">{user?.name}</div>
-            <div className="text-sm text-gray-400">{user?.email}</div>
             {user?.phone && <div className="text-sm text-gray-400">{user?.phone}</div>}
           </div>
           <Link href="/dashboard" className="text-xs text-blue-600 border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 shrink-0">
@@ -208,7 +177,6 @@ export default function ProfilePage() {
             { key: 'bookings', label: bookings.length > 0 ? t('tabs.bookingsWithCount', { count: bookings.length }) : t('tabs.bookings') },
             { key: 'notifications', label: t('tabs.notifications') },
             { key: 'settings', label: t('tabs.settings') },
-            { key: 'password', label: t('tabs.password') },
           ] as const).map(tabItem => (
             <button key={tabItem.key} onClick={() => setTab(tabItem.key)}
               className={`flex-1 py-2 rounded-xl text-sm font-medium transition-colors
@@ -239,7 +207,7 @@ export default function ProfilePage() {
                   <div className="mb-4">
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{t('bookings.upcoming')}</p>
                     <div className="space-y-2">
-                      {upcoming.map(b => <BookingRow key={b.id} b={b} token={token} onCancel={openCancelModal} />)}
+                      {upcoming.map(b => <BookingRow key={b.id} b={b} onCancel={openCancelModal} />)}
                     </div>
                   </div>
                 )}
@@ -247,7 +215,7 @@ export default function ProfilePage() {
                   <div>
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{t('bookings.history')}</p>
                     <div className="space-y-2 opacity-80">
-                      {past.map(b => <BookingRow key={b.id} b={b} token={token} onCancel={null} />)}
+                      {past.map(b => <BookingRow key={b.id} b={b} onCancel={null} />)}
                     </div>
                   </div>
                 )}
@@ -310,15 +278,9 @@ export default function ProfilePage() {
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 font-medium block mb-1">{t('settings.emailLabel')}</label>
-                <input value={user?.email ?? ''} disabled
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-100 text-sm bg-gray-50 text-gray-400 cursor-not-allowed" />
-              </div>
-              <div>
                 <label className="text-xs text-gray-500 font-medium block mb-1">{t('settings.phoneLabel')}</label>
-                <input type="tel" value={profileForm.phone} onChange={e => setProfileForm(p => ({ ...p, phone: e.target.value }))}
-                  placeholder={t('settings.phonePlaceholder')}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                <input value={user?.phone ?? ''} disabled
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-100 text-sm bg-gray-50 text-gray-400 cursor-not-allowed" />
               </div>
               {profileMsg && (
                 <p className={`text-sm ${profileMsg.startsWith(t('settings.errorPrefix')) ? 'text-red-500' : 'text-green-600'}`}>
@@ -328,39 +290,6 @@ export default function ProfilePage() {
               <button type="submit" disabled={saving}
                 className="w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
                 {saving ? t('settings.submitting') : t('settings.submit')}
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* Password tab */}
-        {tab === 'password' && (
-          <div className="bg-white rounded-2xl p-5 shadow-sm">
-            <h2 className="font-semibold text-gray-900 mb-4">{t('password.title')}</h2>
-            <form onSubmit={handleSavePassword} className="space-y-3">
-              <div>
-                <label className="text-xs text-gray-500 font-medium block mb-1">{t('password.currentLabel')}</label>
-                <input type="password" required value={pwForm.currentPassword}
-                  onChange={e => setPwForm(p => ({ ...p, currentPassword: e.target.value }))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
-              </div>
-              <div>
-                <label className="text-xs text-gray-500 font-medium block mb-1">{t('password.newLabel')}</label>
-                <input type="password" required value={pwForm.newPassword}
-                  onChange={e => setPwForm(p => ({ ...p, newPassword: e.target.value }))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
-              </div>
-              <div>
-                <label className="text-xs text-gray-500 font-medium block mb-1">{t('password.confirmLabel')}</label>
-                <input type="password" required value={pwForm.confirmPassword}
-                  onChange={e => setPwForm(p => ({ ...p, confirmPassword: e.target.value }))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
-              </div>
-              {pwError && <p className="text-sm text-red-500">{pwError}</p>}
-              {pwMsg && <p className="text-sm text-green-600">{pwMsg}</p>}
-              <button type="submit" disabled={savingPw}
-                className="w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
-                {savingPw ? t('password.submitting') : t('password.submit')}
               </button>
             </form>
           </div>
@@ -416,7 +345,7 @@ export default function ProfilePage() {
   )
 }
 
-function BookingRow({ b, token, onCancel }: { b: any; token: string | null; onCancel: ((b: any) => void) | null }) {
+function BookingRow({ b, onCancel }: { b: any; onCancel: ((b: any) => void) | null }) {
   const t = useTranslations('Profile')
   const canCancel = Boolean(onCancel) && ['PENDING', 'CONFIRMED'].includes(b.status)
   const canReview = b.status === 'COMPLETED' && !b.review
@@ -461,9 +390,9 @@ function BookingRow({ b, token, onCancel }: { b: any; token: string | null; onCa
           )}
         </div>
       </div>
-      {showReview && token && (
+      {showReview && (
         <div className="mt-3 pt-3 border-t border-gray-100">
-          <ReviewForm bookingId={b.id} token={token} onSuccess={() => setShowReview(false)} />
+          <ReviewForm bookingId={b.id} onSuccess={() => setShowReview(false)} />
         </div>
       )}
     </div>

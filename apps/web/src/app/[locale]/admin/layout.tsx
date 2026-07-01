@@ -6,7 +6,7 @@ import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/context/AuthContext'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { user, token, loading } = useAuth()
+  const { user, loading } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [checked, setChecked] = useState(false)
@@ -22,7 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (loading) return
     if (!user || user.role !== 'SUPERADMIN') {
-      router.replace('/login?redirect=/admin')
+      router.replace('/auth?redirect=/admin')
     } else {
       setChecked(true)
     }

@@ -14,7 +14,7 @@ const ROLE_COLORS: Record<string, string> = {
 }
 
 export default function AdminUsersPage() {
-  const { token } = useAuth()
+  const { user: currentUser } = useAuth()
   const { success, error: showError } = useToast()
   const t = useTranslations('Admin.users')
   const ROLE_LABELS: Record<string, string> = {
@@ -30,16 +30,16 @@ export default function AdminUsersPage() {
   const [pendingQuery, setPendingQuery] = useState('')
 
   const load = useCallback((p = 1, q = query, role = roleFilter) => {
-    if (!token) return
+    if (!currentUser) return
     setLoading(true)
     const params = new URLSearchParams({ page: String(p), limit: '30', ...(q ? { query: q } : {}), ...(role ? { role } : {}) })
-    fetch(`${API}/api/admin/users?${params}`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API}/api/admin/users?${params}`, { credentials: 'include' })
       .then(r => r.json())
       .then(d => { setUsers(d.users ?? []); setTotal(d.total ?? 0); setTotalPages(d.totalPages ?? 1); setPage(p) })
       .finally(() => setLoading(false))
-  }, [token, query, roleFilter])
+  }, [currentUser, query, roleFilter])
 
-  useEffect(() => { load(1) }, [token, roleFilter])
+  useEffect(() => { load(1) }, [currentUser, roleFilter])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,11 +48,12 @@ export default function AdminUsersPage() {
   }
 
   const toggleStatus = async (id: string, isActive: boolean) => {
-    if (!token) return
+    if (!currentUser) return
     try {
       const res = await fetch(`${API}/api/admin/users/${id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isActive }),
       })
       if (!res.ok) throw new Error('Error')
@@ -62,11 +63,12 @@ export default function AdminUsersPage() {
   }
 
   const changeRole = async (id: string, role: string) => {
-    if (!token) return
+    if (!currentUser) return
     try {
       const res = await fetch(`${API}/api/admin/users/${id}/role`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role }),
       })
       if (!res.ok) throw new Error('Error')

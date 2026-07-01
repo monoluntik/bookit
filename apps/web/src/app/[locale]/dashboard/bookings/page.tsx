@@ -118,8 +118,8 @@ function CalendarView({ bookings, onDateClick, statusLabels, dayLabels, blockLab
 
 // ── Owner booking modal ───────────────────────────────────────────────────────
 
-function OwnerBookingModal({ businesses, token, onClose, onCreated }: {
-  businesses: any[]; token: string; onClose: () => void; onCreated: (b: any) => void
+function OwnerBookingModal({ businesses, onClose, onCreated }: {
+  businesses: any[]; onClose: () => void; onCreated: (b: any) => void
 }) {
   const t = useTranslations('Dashboard.bookings.modal')
   const { success, error: showError } = useToast()
@@ -176,7 +176,8 @@ function OwnerBookingModal({ businesses, token, onClose, onCreated }: {
 
       const res = await fetch(`${API_URL}/api/bookings/owner`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
       const data = await res.json()
@@ -351,7 +352,7 @@ function BookingsContent() {
     CANCELLED: t('statusLabels.CANCELLED'), COMPLETED: t('statusLabels.COMPLETED'), NO_SHOW: t('statusLabels.NO_SHOW'),
   }
   const dayLabels = [t('calendarDays.mon'), t('calendarDays.tue'), t('calendarDays.wed'), t('calendarDays.thu'), t('calendarDays.fri'), t('calendarDays.sat'), t('calendarDays.sun')]
-  const { token } = useAuth()
+  const { user } = useAuth()
   const params = useSearchParams()
   const businessId = params.get('businessId') ?? ''
 
@@ -365,27 +366,27 @@ function BookingsContent() {
   const [showAddModal, setShowAddModal] = useState(false)
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (!selectedBiz && b.length > 0) setSelectedBiz(b[0].id)
     })
-  }, [token])
+  }, [user])
 
   useEffect(() => {
-    if (!token || !selectedBiz) return
+    if (!user || !selectedBiz) return
     setLoading(true)
-    api.getBusinessBookings(selectedBiz, token, {
+    api.getBusinessBookings(selectedBiz, {
       ...(status ? { status } : {}),
       ...(date ? { date } : {}),
     })
       .then(setBookings)
       .finally(() => setLoading(false))
-  }, [token, selectedBiz, status, date])
+  }, [user, selectedBiz, status, date])
 
   const handleStatusChange = async (bookingId: string, newStatus: string) => {
-    if (!token) return
-    await api.updateBookingStatus(bookingId, newStatus, token)
+    if (!user) return
+    await api.updateBookingStatus(bookingId, newStatus)
     setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: newStatus } : b))
   }
 
@@ -483,10 +484,9 @@ function BookingsContent() {
       )}
 
       {/* Owner booking modal */}
-      {showAddModal && token && businesses.length > 0 && (
+      {showAddModal && businesses.length > 0 && (
         <OwnerBookingModal
           businesses={businesses}
-          token={token}
           onClose={() => setShowAddModal(false)}
           onCreated={handleCreated}
         />

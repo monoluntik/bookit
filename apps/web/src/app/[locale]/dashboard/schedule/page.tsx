@@ -19,7 +19,7 @@ type Exception = {
 
 export default function SchedulePage() {
   const t = useTranslations('Dashboard.schedule')
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
 
   const [businesses, setBusinesses] = useState<any[]>([])
@@ -40,16 +40,16 @@ export default function SchedulePage() {
 
   // Load businesses
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
     })
-  }, [token])
+  }, [user])
 
   // Load resources when biz changes
   useEffect(() => {
-    if (!token || !selectedBiz) return
+    if (!user || !selectedBiz) return
     const slug = businesses.find(b => b.id === selectedBiz)?.slug
     if (!slug) return
     fetch(`${API_URL}/api/businesses/${slug}`)
@@ -59,24 +59,24 @@ export default function SchedulePage() {
         setSelectedRes(d.resources?.[0]?.id ?? '')
         setExceptions([])
       })
-  }, [selectedBiz, businesses, token])
+  }, [selectedBiz, businesses, user])
 
   // Load exceptions when resource changes
   useEffect(() => {
-    if (!token || !selectedRes) return
+    if (!user || !selectedRes) return
     setLoading(true)
     fetch(`${API_URL}/api/resources/${selectedRes}/exceptions`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     })
       .then(r => r.json())
       .then(setExceptions)
       .catch(() => setExceptions([]))
       .finally(() => setLoading(false))
-  }, [token, selectedRes])
+  }, [user, selectedRes])
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token || !selectedRes || !formDate) return
+    if (!user || !selectedRes || !formDate) return
     setSaving(true)
     try {
       const body: any = { date: formDate, isClosed: formClosed, reason: formReason || undefined }
@@ -84,7 +84,8 @@ export default function SchedulePage() {
 
       const res = await fetch(`${API_URL}/api/resources/${selectedRes}/exceptions`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
       const data = await res.json()
@@ -106,11 +107,11 @@ export default function SchedulePage() {
   }
 
   const handleDelete = async (exId: string) => {
-    if (!token || !selectedRes) return
+    if (!user || !selectedRes) return
     try {
       const res = await fetch(`${API_URL}/api/resources/${selectedRes}/exceptions/${exId}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error) }
       success(t('successExceptionDeleted'))

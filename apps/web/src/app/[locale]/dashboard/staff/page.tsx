@@ -7,39 +7,39 @@ import { api } from '@/lib/api'
 
 export default function StaffPage() {
   const t = useTranslations('Dashboard.staff')
-  const { token } = useAuth()
+  const { user } = useAuth()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
   const [staff, setStaff] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showAdd, setShowAdd] = useState(false)
-  const [form, setForm] = useState({ email: '', position: '' })
+  const [form, setForm] = useState({ phone: '', position: '' })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
     }).finally(() => setLoading(false))
-  }, [token])
+  }, [user])
 
   useEffect(() => {
-    if (!token || !selectedBiz) return
-    api.getStaff(selectedBiz, token).then(setStaff).catch(() => setStaff([]))
-  }, [token, selectedBiz])
+    if (!user || !selectedBiz) return
+    api.getStaff(selectedBiz).then(setStaff).catch(() => setStaff([]))
+  }, [user, selectedBiz])
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token) return
+    if (!user) return
     setError('')
     setSaving(true)
     try {
-      const member = await api.addStaff({ businessId: selectedBiz, email: form.email, position: form.position || undefined }, token)
+      const member = await api.addStaff({ businessId: selectedBiz, phone: form.phone, position: form.position || undefined })
       setStaff(p => [...p, member])
       setShowAdd(false)
-      setForm({ email: '', position: '' })
+      setForm({ phone: '', position: '' })
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -48,8 +48,8 @@ export default function StaffPage() {
   }
 
   const handleRemove = async (id: string, name: string) => {
-    if (!token || !confirm(t('confirmRemove', { name }))) return
-    await api.removeStaff(id, token)
+    if (!user || !confirm(t('confirmRemove', { name }))) return
+    await api.removeStaff(id)
     setStaff(p => p.filter(s => s.id !== id))
   }
 
@@ -104,8 +104,8 @@ export default function StaffPage() {
             <h2 className="font-semibold text-gray-900 mb-2">{t('modalTitle')}</h2>
             <p className="text-xs text-gray-400 mb-4">{t('modalHint')}</p>
             <form onSubmit={handleAdd} className="space-y-3">
-              <input required type="email" placeholder={t('emailPlaceholder')} value={form.email}
-                onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
+              <input required type="tel" placeholder={t('phonePlaceholder')} value={form.phone}
+                onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
               <input placeholder={t('positionPlaceholder')} value={form.position}
                 onChange={e => setForm(p => ({ ...p, position: e.target.value }))}

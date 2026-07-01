@@ -53,18 +53,28 @@ enum BookingMode {
   FREE_START
 }
 
+enum AuthChannel {
+  TELEGRAM
+  SMS
+}
+
+enum AuthChallengeStatus {
+  PENDING
+  CONFIRMED
+  EXPIRED
+}
+
 // ─── Platform users ──────────────────────────────────────────────────────────
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  phone        String?
-  role         UserRole @default(CUSTOMER)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        String   @id @default(cuid())
+  email     String?
+  name      String
+  phone     String?  @unique
+  role      UserRole @default(CUSTOMER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   telegramChatId   String? @unique
   telegramLinkToken String? @unique
@@ -73,6 +83,38 @@ model User {
   staffMemberships StaffMember[]
   bookings        Booking[]
   reviews         Review[]
+  sessions        Session[]
+}
+
+// ─── Auth (name + phone + Telegram/SMS confirmation) ────────────────────────
+
+model AuthChallenge {
+  id            String   @id @default(cuid())
+  phone         String
+  name          String
+  channel       AuthChannel
+  codeHash      String?
+  telegramToken String?  @unique
+  status        AuthChallengeStatus @default(PENDING)
+  attempts      Int      @default(0)
+  lastSentAt    DateTime?
+  userId        String?
+  createdAt     DateTime @default(now())
+  expiresAt     DateTime
+}
+
+model Session {
+  id               String    @id @default(cuid())
+  refreshTokenHash String    @unique
+  userAgent        String?
+  ip               String?
+  createdAt        DateTime  @default(now())
+  lastUsedAt       DateTime  @default(now())
+  expiresAt        DateTime
+  revokedAt        DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // ─── Business (tenant) ───────────────────────────────────────────────────────

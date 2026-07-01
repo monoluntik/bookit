@@ -10,26 +10,26 @@ import CustomerBottomNav from '@/components/CustomerBottomNav'
 
 export default function MyBookingsPage() {
   const t = useTranslations('Profile')
-  const { user, token, loading: authLoading, logout } = useAuth()
+  const { user, loading: authLoading, logout } = useAuth()
   const router = useRouter()
   const [bookings, setBookings] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [cancelling, setCancelling] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!authLoading && !user) router.push('/login?redirect=/my-bookings')
+    if (!authLoading && !user) router.push('/auth?redirect=/my-bookings')
   }, [user, authLoading, router])
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBookings(token).then(r => setBookings(r.bookings)).finally(() => setLoading(false))
-  }, [token])
+    if (!user) return
+    api.getMyBookings().then(r => setBookings(r.bookings)).finally(() => setLoading(false))
+  }, [user])
 
   const handleCancel = async (id: string) => {
-    if (!token || !confirm(t('myBookings.cancelConfirm'))) return
+    if (!user || !confirm(t('myBookings.cancelConfirm'))) return
     setCancelling(id)
     try {
-      await api.updateBookingStatus(id, 'CANCELLED', token)
+      await api.updateBookingStatus(id, 'CANCELLED')
       setBookings(prev => prev.map(b => b.id === id ? { ...b, status: 'CANCELLED' } : b))
     } finally {
       setCancelling(null)

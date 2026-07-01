@@ -7,7 +7,6 @@ import { api } from '@/lib/api'
 interface Props {
   booking: any
   business: any
-  token?: string | null
   servicePrice?: number | null
   resourcePrice?: number | null
   nights?: number
@@ -21,7 +20,7 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-export default function BookingConfirmation({ booking, business, token, servicePrice, resourcePrice, nights, guestCount }: Props) {
+export default function BookingConfirmation({ booking, business, servicePrice, resourcePrice, nights, guestCount }: Props) {
   const t = useTranslations('Booking.confirmation')
   const [paying, setPaying] = useState(false)
 
@@ -65,10 +64,10 @@ export default function BookingConfirmation({ booking, business, token, serviceP
   }
 
   const handlePay = async () => {
-    if (!token || !payableAmount) return
+    if (!payableAmount) return
     setPaying(true)
     try {
-      const { payUrl } = await api.initiatePayment(booking.id, token)
+      const { payUrl } = await api.initiatePayment(booking.id)
       window.location.href = payUrl
     } catch {
       setPaying(false)
@@ -107,7 +106,7 @@ export default function BookingConfirmation({ booking, business, token, serviceP
         {t('addToCalendar')}
       </button>
 
-      {token && payableAmount && payableAmount > 0 && (
+      {payableAmount && payableAmount > 0 && (
         <button onClick={handlePay} disabled={paying}
           className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
           {paying ? t('processingPayment') : t('pay', { price: payableAmount.toLocaleString('ru') })}

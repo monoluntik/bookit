@@ -1,10 +1,11 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
+import { normalizePhone } from '../lib/phone'
 
 const inviteSchema = z.object({
   businessId: z.string(),
-  email: z.string().email(),
+  phone: z.string().min(1),
   roleId: z.string().optional(),
   position: z.string().optional(),
 })
@@ -40,8 +41,11 @@ export async function staffRoutes(app: FastifyInstance) {
     if (!business) return reply.status(404).send({ error: 'Business not found' })
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
-    const user = await prisma.user.findUnique({ where: { email: body.data.email } })
-    if (!user) return reply.status(404).send({ error: 'Пользователь с таким email не найден. Попросите его зарегистрироваться.' })
+    const phone = normalizePhone(body.data.phone)
+    if (!phone) return reply.status(400).send({ error: 'Неверный номер телефона' })
+
+    const user = await prisma.user.findUnique({ where: { phone } })
+    if (!user) return reply.status(404).send({ error: 'Пользователь с таким телефоном не найден. Попросите его сначала войти на сайте.' })
 
     const existing = await prisma.staffMember.findFirst({
       where: { userId: user.id, businessId: body.data.businessId },

@@ -92,9 +92,9 @@ export async function paymentRoutes(app: FastifyInstance) {
         },
       })
       if (bk?.customer) {
-        sendBookingConfirmation(bk, bk.business, bk.customer.email).catch(console.error)
+        if (bk.customer.email) sendBookingConfirmation(bk, bk.business, bk.customer.email).catch(console.error)
         prisma.user.findUnique({ where: { id: bk.business.ownerId }, select: { email: true } })
-          .then(o => { if (o) sendNewBookingAlert(bk, o.email).catch(console.error) })
+          .then(o => { if (o?.email) sendNewBookingAlert(bk, o.email).catch(console.error) })
           .catch(console.error)
       }
       return reply.redirect(`${process.env.FRONTEND_URL}/booking/success?bookingId=${bookingId}`)
@@ -164,9 +164,9 @@ export async function paymentRoutes(app: FastifyInstance) {
     ])
 
     if (booking.customer) {
-      sendBookingConfirmation(booking, booking.business, booking.customer.email).catch(console.error)
+      if (booking.customer.email) sendBookingConfirmation(booking, booking.business, booking.customer.email).catch(console.error)
       prisma.user.findUnique({ where: { id: booking.business.ownerId }, select: { email: true } })
-        .then(o => { if (o) sendNewBookingAlert(booking, o.email).catch(console.error) })
+        .then(o => { if (o?.email) sendNewBookingAlert(booking, o.email).catch(console.error) })
         .catch(console.error)
     }
 

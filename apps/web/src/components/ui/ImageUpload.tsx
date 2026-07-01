@@ -8,12 +8,11 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 interface Props {
   images: string[]
   onChange: (urls: string[]) => void
-  token: string
   max?: number
   label?: string
 }
 
-export default function ImageUpload({ images, onChange, token, max = 10, label }: Props) {
+export default function ImageUpload({ images, onChange, max = 10, label }: Props) {
   const t = useTranslations('Dashboard.imageUpload')
   const resolvedLabel = label ?? t('defaultLabel')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -36,7 +35,7 @@ export default function ImageUpload({ images, onChange, token, max = 10, label }
       try {
         const res = await fetch(`${API}/api/upload`, {
           method: 'POST',
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: 'include',
           body: fd,
         })
         const data = await res.json()
@@ -48,13 +47,14 @@ export default function ImageUpload({ images, onChange, token, max = 10, label }
     }
     if (newUrls.length > 0) onChange([...images, ...newUrls])
     setUploading(false)
-  }, [images, onChange, token, max, t])
+  }, [images, onChange, max, t])
 
   const removeImage = async (url: string) => {
     onChange(images.filter(u => u !== url))
     await fetch(`${API}/api/upload`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
     }).catch(() => {})
   }

@@ -18,7 +18,7 @@ const TYPE_ICONS: Record<string, string> = {
 }
 
 export default function AdminBusinessesPage() {
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
   const t = useTranslations('Admin.businesses')
   const TYPE_LABELS: Record<string, string> = Object.fromEntries(
@@ -35,7 +35,7 @@ export default function AdminBusinessesPage() {
   const [statusFilter, setStatusFilter] = useState('')
 
   const load = useCallback((p = 1, q = query, type = typeFilter, isActive = statusFilter) => {
-    if (!token) return
+    if (!user) return
     setLoading(true)
     const params = new URLSearchParams({
       page: String(p), limit: '30',
@@ -43,7 +43,7 @@ export default function AdminBusinessesPage() {
       ...(type ? { type } : {}),
       ...(isActive !== '' ? { isActive } : {}),
     })
-    fetch(`${API}/api/admin/businesses?${params}`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API}/api/admin/businesses?${params}`, { credentials: 'include' })
       .then(r => r.json())
       .then(d => {
         setBusinesses(d.businesses ?? [])
@@ -52,9 +52,9 @@ export default function AdminBusinessesPage() {
         setPage(p)
       })
       .finally(() => setLoading(false))
-  }, [token, query, typeFilter, statusFilter])
+  }, [user, query, typeFilter, statusFilter])
 
-  useEffect(() => { load(1) }, [token, typeFilter, statusFilter])
+  useEffect(() => { load(1) }, [user, typeFilter, statusFilter])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -63,11 +63,12 @@ export default function AdminBusinessesPage() {
   }
 
   const toggleStatus = async (id: string, isActive: boolean) => {
-    if (!token) return
+    if (!user) return
     try {
       const res = await fetch(`${API}/api/admin/businesses/${id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isActive }),
       })
       if (!res.ok) throw new Error('Error')

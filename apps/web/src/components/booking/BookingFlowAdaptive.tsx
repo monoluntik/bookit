@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import { getMeta } from '@/lib/businessTypes'
 import ResourceSelector from './ResourceSelector'
@@ -64,7 +63,6 @@ function insertDurationStep(base: FlowDef, durationLabel: string): FlowDef {
 interface Props { business: any }
 
 export default function BookingFlowAdaptive({ business }: Props) {
-  const { token } = useAuth()
   const t = useTranslations('Booking')
   const s = useTranslations('Booking.flow.steps')
   const meta = getMeta(business.type)
@@ -241,7 +239,6 @@ export default function BookingFlowAdaptive({ business }: Props) {
         <BookingConfirmation
           booking={booking}
           business={business}
-          token={token}
           servicePrice={selectedService ? Number(selectedService.price) : null}
           resourcePrice={selectedResource?.basePrice ? Number(selectedResource.basePrice) : null}
           nights={nights}

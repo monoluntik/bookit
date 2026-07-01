@@ -33,7 +33,7 @@ function RatingBar({ label, count, total }: { label: string; count: number; tota
 
 export default function ReviewsPage() {
   const t = useTranslations('Dashboard.reviews')
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
@@ -46,12 +46,12 @@ export default function ReviewsPage() {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length) { setSelectedBiz(b[0].slug); setBusinessId(b[0].id) }
     })
-  }, [token])
+  }, [user])
 
   const loadReviews = (bizId: string, page = 1) => {
     setLoading(true)
@@ -74,12 +74,13 @@ export default function ReviewsPage() {
   }
 
   const submitReply = async (reviewId: string) => {
-    if (!token || !replyText[reviewId]?.trim()) return
+    if (!user || !replyText[reviewId]?.trim()) return
     setSubmitting(true)
     try {
       const res = await fetch(`${API}/api/reviews/${reviewId}/reply`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reply: replyText[reviewId] }),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }

@@ -46,8 +46,7 @@ export default function SmartNav() {
               </>
             ) : (
               <>
-                <Link href="/login" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">{t('nav.login')}</Link>
-                <Link href="/register" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">{t('nav.register')}</Link>
+                <Link href="/auth" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">{t('nav.login')}</Link>
                 <Link href="/dashboard" className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-xl hover:bg-blue-700">
                   {t('nav.forBusiness')}
                 </Link>
@@ -120,13 +119,9 @@ export default function SmartNav() {
                 </>
               ) : (
                 <>
-                  <Link href="/login" onClick={() => setMobileOpen(false)}
+                  <Link href="/auth" onClick={() => setMobileOpen(false)}
                     className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
                     {t('nav.login')}
-                  </Link>
-                  <Link href="/register" onClick={() => setMobileOpen(false)}
-                    className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-                    {t('nav.register')}
                   </Link>
                   <Link href="/dashboard" onClick={() => setMobileOpen(false)}
                     className="text-base bg-blue-600 text-white px-3 py-3 rounded-xl hover:bg-blue-700 text-center font-medium">

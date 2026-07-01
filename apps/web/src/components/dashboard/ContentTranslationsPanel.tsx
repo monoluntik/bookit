@@ -16,7 +16,6 @@ type Entity = 'businesses' | 'resources' | 'services'
 interface Props {
   entity: Entity
   id: string
-  token: string
   originalName: string
   originalDescription?: string | null
   onClose: () => void
@@ -29,7 +28,7 @@ interface TranslationRow {
   description: string | null
 }
 
-export default function ContentTranslationsPanel({ entity, id, token, originalName, originalDescription, onClose, onSaved }: Props) {
+export default function ContentTranslationsPanel({ entity, id, originalName, originalDescription, onClose, onSaved }: Props) {
   const [activeLocale, setActiveLocale] = useState('en')
   const [drafts, setDrafts] = useState<Record<string, { name: string; description: string }>>({})
   const [loading, setLoading] = useState(true)
@@ -37,7 +36,7 @@ export default function ContentTranslationsPanel({ entity, id, token, originalNa
   const [savedLocale, setSavedLocale] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch(`${API}/api/${entity}/${id}/translations`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API}/api/${entity}/${id}/translations`, { credentials: 'include' })
       .then(r => r.json())
       .then((rows: TranslationRow[]) => {
         const map: Record<string, { name: string; description: string }> = {}
@@ -48,7 +47,7 @@ export default function ContentTranslationsPanel({ entity, id, token, originalNa
         setDrafts(map)
       })
       .finally(() => setLoading(false))
-  }, [entity, id, token])
+  }, [entity, id])
 
   const handleSave = async () => {
     setSaving(true)
@@ -57,7 +56,8 @@ export default function ContentTranslationsPanel({ entity, id, token, originalNa
       const draft = drafts[activeLocale] ?? { name: '', description: '' }
       const res = await fetch(`${API}/api/${entity}/${id}/translations/${activeLocale}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: draft.name.trim() || null,
           description: draft.description.trim() || null,

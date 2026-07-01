@@ -39,7 +39,7 @@ export default function SettingsPage() {
     { label: t('remindersSection.presets.hour'), minutes: 60 },
     { label: t('remindersSection.presets.minutes30'), minutes: 30 },
   ]
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [form, setForm] = useState({ name:'', slug:'', type:'SALON', description:'', address:'', phone:'', email:'' })
@@ -64,8 +64,8 @@ export default function SettingsPage() {
   const [photoState, setPhotoState] = useState<Record<string, { logoUrl: string | null; images: string[] }>>({})
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       // Load full business data for photos
       b.forEach(async (biz: any) => {
@@ -78,17 +78,18 @@ export default function SettingsPage() {
         }
       })
     })
-  }, [token])
+  }, [user])
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token) return
+    if (!user) return
     setSaving(true)
     setCreateError('')
     try {
       const res = await fetch(`${API}/api/businesses`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
       const biz = await res.json()
@@ -104,14 +105,15 @@ export default function SettingsPage() {
   }
 
   const savePhotos = async (bizId: string) => {
-    if (!token) return
+    if (!user) return
     const state = photoState[bizId]
     if (!state) return
     setSaving(true)
     try {
       const res = await fetch(`${API}/api/businesses/${bizId}/images`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ logoUrl: state.logoUrl, images: state.images }),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('photosSection.errorGeneric')) }
@@ -138,10 +140,10 @@ export default function SettingsPage() {
   }
 
   const handleUpdate = async (bizId: string) => {
-    if (!token) return
+    if (!user) return
     setSaving(true)
     try {
-      await api.updateBusiness(bizId, editBizForm, token)
+      await api.updateBusiness(bizId, editBizForm)
       setBusinesses(prev => prev.map(b => b.id === bizId ? { ...b, ...editBizForm } : b))
       setEditingBiz(null)
       success(t('editSection.successUpdated'))
@@ -161,12 +163,13 @@ export default function SettingsPage() {
   }
 
   const handleSavePayment = async (bizId: string) => {
-    if (!token) return
+    if (!user) return
     setPaymentSaving(true)
     try {
       const res = await fetch(`${API}/api/businesses/${bizId}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bakaiUsername: paymentForm.bakaiUsername || null,
           bakaiPassword: paymentForm.bakaiPassword || null,
@@ -185,8 +188,8 @@ export default function SettingsPage() {
   }
 
   const loadReminderRules = async (bizId: string) => {
-    if (!token) return
-    const res = await fetch(`${API}/api/reminder-rules?businessId=${bizId}`, { headers: { Authorization: `Bearer ${token}` } })
+    if (!user) return
+    const res = await fetch(`${API}/api/reminder-rules?businessId=${bizId}`, { credentials: 'include' })
     if (res.ok) {
       const data = await res.json()
       setReminderRules(prev => ({ ...prev, [bizId]: data }))
@@ -202,14 +205,15 @@ export default function SettingsPage() {
   }
 
   const handleAddRule = async (bizId: string) => {
-    if (!token) return
+    if (!user) return
     const preset = REMINDER_PRESETS.find(p => String(p.minutes) === newRulePreset)
     if (!preset) return
     setReminderSaving(true)
     try {
       const res = await fetch(`${API}/api/reminder-rules`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ businessId: bizId, offsetMinutes: preset.minutes, label: preset.label }),
       })
       const data = await res.json()
@@ -224,10 +228,11 @@ export default function SettingsPage() {
   }
 
   const handleToggleRule = async (bizId: string, ruleId: string, isActive: boolean) => {
-    if (!token) return
+    if (!user) return
     const res = await fetch(`${API}/api/reminder-rules/${ruleId}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ isActive }),
     })
     if (res.ok) {
@@ -239,10 +244,10 @@ export default function SettingsPage() {
   }
 
   const handleDeleteRule = async (bizId: string, ruleId: string) => {
-    if (!token) return
+    if (!user) return
     const res = await fetch(`${API}/api/reminder-rules/${ruleId}`, {
       method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     })
     if (res.ok) {
       setReminderRules(prev => ({ ...prev, [bizId]: (prev[bizId] ?? []).filter(r => r.id !== ruleId) }))
@@ -458,7 +463,7 @@ export default function SettingsPage() {
                 )}
 
                 {/* Photo editor */}
-                {isEditingPhotos && token && (
+                {isEditingPhotos && user && (
                   <div className="border-t border-gray-100 p-5 bg-gray-50 space-y-5">
                     {/* Logo */}
                     <div>
@@ -475,7 +480,6 @@ export default function SettingsPage() {
                               ...prev,
                               [b.id]: { ...prev[b.id] ?? { images: [] }, logoUrl: urls[0] ?? null },
                             }))}
-                            token={token}
                             max={1}
                             label=""
                           />
@@ -502,7 +506,6 @@ export default function SettingsPage() {
                         ...prev,
                         [b.id]: { ...prev[b.id] ?? { logoUrl: null }, images: urls },
                       }))}
-                      token={token}
                       max={10}
                       label={t('photosSection.galleryLabel')}
                     />
@@ -579,12 +582,13 @@ export default function SettingsPage() {
                         <button
                           type="button"
                           onClick={async () => {
-                            if (!token) return
+                            if (!user) return
                             setPaymentSaving(true)
                             try {
                               await fetch(`${API}/api/businesses/${b.id}`, {
                                 method: 'PATCH',
-                                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                                credentials: 'include',
+                                headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ bakaiUsername: null, bakaiPassword: null }),
                               })
                               setBusinesses(prev => prev.map(biz => biz.id === b.id ? { ...biz, hasBakaiCredentials: false } : biz))
@@ -617,12 +621,11 @@ export default function SettingsPage() {
                 )}
 
                 {/* Content translations */}
-                {editingTranslations === b.id && token && (
+                {editingTranslations === b.id && user && (
                   <div className="border-t border-gray-100 p-5 bg-gray-50">
                     <ContentTranslationsPanel
                       entity="businesses"
                       id={b.id}
-                      token={token}
                       originalName={b.name}
                       originalDescription={b.description ?? null}
                       onClose={() => setEditingTranslations(null)}

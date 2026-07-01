@@ -5,18 +5,17 @@ import { api } from '@/lib/api'
 
 interface User {
   id: string
-  email: string
+  email?: string | null
   name: string
-  phone?: string
+  phone?: string | null
   role: string
 }
 
 interface AuthContextValue {
   user: User | null
-  token: string | null
   loading: boolean
-  login: (email: string, password: string) => Promise<void>
-  logout: () => void
+  refreshUser: () => Promise<void>
+  logout: () => Promise<void>
   updateUser: (u: Partial<User>) => void
 }
 
@@ -24,48 +23,39 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const logout = useCallback(() => {
-    localStorage.removeItem('token')
-    setToken(null)
+  const refreshUser = useCallback(async () => {
+    try {
+      const me = await api.getMe()
+      setUser(me)
+    } catch {
+      setUser(null)
+    }
+  }, [])
+
+  const logout = useCallback(async () => {
     setUser(null)
+    await api.logout().catch(() => {})
   }, [])
 
   useEffect(() => {
-    const saved = localStorage.getItem('token')
-    if (saved) {
-      setToken(saved)
-      api.getMe(saved)
-        .then(setUser)
-        .catch(() => logout())
-        .finally(() => setLoading(false))
-    } else {
-      setLoading(false)
-    }
-  }, [logout])
+    refreshUser().finally(() => setLoading(false))
+  }, [refreshUser])
 
-  // Auto-logout on 401 from any API call
+  // Auto-logout when a request fails even after a silent refresh attempt
   useEffect(() => {
-    const handler = () => logout()
+    const handler = () => setUser(null)
     window.addEventListener('auth:expired', handler)
     return () => window.removeEventListener('auth:expired', handler)
-  }, [logout])
-
-  const login = async (email: string, password: string) => {
-    const res = await api.login(email, password)
-    localStorage.setItem('token', res.token)
-    setToken(res.token)
-    setUser(res.user)
-  }
+  }, [])
 
   const updateUser = (u: Partial<User>) => {
     setUser(prev => prev ? { ...prev, ...u } : prev)
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, loading, refreshUser, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

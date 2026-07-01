@@ -7,7 +7,6 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 interface Props {
   bookingId: string
-  token: string
   onSuccess?: () => void
 }
 
@@ -32,7 +31,7 @@ function StarPicker({ value, onChange }: { value: number; onChange: (v: number) 
   )
 }
 
-export default function ReviewForm({ bookingId, token, onSuccess }: Props) {
+export default function ReviewForm({ bookingId, onSuccess }: Props) {
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
   const [loading, setLoading] = useState(false)
@@ -48,7 +47,8 @@ export default function ReviewForm({ bookingId, token, onSuccess }: Props) {
     try {
       const res = await fetch(`${API}/api/reviews`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bookingId, rating, comment: comment || undefined }),
       })
       const data = await res.json()

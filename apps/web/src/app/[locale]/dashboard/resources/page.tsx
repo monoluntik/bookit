@@ -25,7 +25,7 @@ export default function ResourcesPage() {
     { value: '180', label: t('slotOptions.min180') },
     { value: '240', label: t('slotOptions.min240') },
   ]
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
@@ -49,12 +49,12 @@ export default function ResourcesPage() {
   const [resourceImages, setResourceImages] = useState<Record<string, string[]>>({}) // resourceId → urls
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
     }).finally(() => setLoading(false))
-  }, [token])
+  }, [user])
 
   const loadResources = (bizId: string) => {
     const slug = businesses.find(b => b.id === bizId)?.slug
@@ -79,13 +79,14 @@ export default function ResourcesPage() {
   }, [selectedBiz, businesses])
 
   const saveResourcePhotos = async (resourceId: string) => {
-    if (!token) return
+    if (!user) return
     const images = resourceImages[resourceId] ?? []
     setSaving(true)
     try {
       const res = await fetch(`${API}/api/resources/${resourceId}/images`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ images }),
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }
@@ -104,7 +105,7 @@ export default function ResourcesPage() {
   // Create resource + schedule
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token) return
+    if (!user) return
     if (scheduleForm.days.length === 0) { setFormError(t('errorPickDay')); return }
     if (scheduleForm.start >= scheduleForm.end) { setFormError(t('errorStartBeforeEnd')); return }
     setSaving(true)
@@ -112,7 +113,8 @@ export default function ResourcesPage() {
     try {
       const res = await fetch(`${API}/api/resources`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           businessId: selectedBiz,
           name: form.name,
@@ -126,7 +128,8 @@ export default function ResourcesPage() {
 
       await fetch(`${API}/api/resources/${resource.id}/schedules`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dayOfWeek: scheduleForm.days,
           startTime: scheduleForm.start,
@@ -161,7 +164,7 @@ export default function ResourcesPage() {
 
   const handleSaveSchedule = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token || !editScheduleFor) return
+    if (!user || !editScheduleFor) return
     if (editScheduleForm.days.length === 0) { setFormError(t('errorPickDay')); return }
     if (editScheduleForm.start >= editScheduleForm.end) { setFormError(t('errorStartBeforeEnd')); return }
     setSaving(true)
@@ -179,7 +182,8 @@ export default function ResourcesPage() {
         // Update existing schedule — avoid creating duplicates
         const res = await fetch(`${API}/api/resources/${editScheduleFor.id}/schedules/${existingSchedule.id}`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         })
         if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }
@@ -187,7 +191,8 @@ export default function ResourcesPage() {
         // No schedule yet — create
         const res = await fetch(`${API}/api/resources/${editScheduleFor.id}/schedules`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         })
         if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }
@@ -359,12 +364,11 @@ export default function ResourcesPage() {
               </div>
 
               {/* Inline translations editor */}
-              {translationsFor === r.id && token && (
+              {translationsFor === r.id && user && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <ContentTranslationsPanel
                     entity="resources"
                     id={r.id}
-                    token={token}
                     originalName={r.name}
                     originalDescription={r.description ?? null}
                     onClose={() => setTranslationsFor(null)}
@@ -373,12 +377,11 @@ export default function ResourcesPage() {
               )}
 
               {/* Inline photo editor */}
-              {editPhotosFor === r.id && token && (
+              {editPhotosFor === r.id && user && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <ImageUpload
                     images={resourceImages[r.id] ?? []}
                     onChange={urls => setResourceImages(prev => ({ ...prev, [r.id]: urls }))}
-                    token={token}
                     max={8}
                     label={t('photosLabel')}
                   />

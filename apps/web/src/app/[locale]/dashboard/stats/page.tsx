@@ -94,27 +94,27 @@ export default function StatsPage() {
     PENDING: t('statusLabels.PENDING'), CONFIRMED: t('statusLabels.CONFIRMED'), COMPLETED: t('statusLabels.COMPLETED'),
     CANCELLED: t('statusLabels.CANCELLED'), NO_SHOW: t('statusLabels.NO_SHOW'), BLOCK: t('statusLabels.BLOCK'),
   }
-  const { token } = useAuth()
+  const { user } = useAuth()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
   const [stats, setStats] = useState<any>(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length) setSelectedBiz(b[0].id)
     })
-  }, [token])
+  }, [user])
 
   useEffect(() => {
-    if (!selectedBiz || !token) return
+    if (!selectedBiz || !user) return
     setLoading(true)
-    api.getStats(selectedBiz, token)
+    api.getStats(selectedBiz)
       .then(setStats)
       .finally(() => setLoading(false))
-  }, [selectedBiz, token])
+  }, [selectedBiz, user])
 
   const pct = (a: number, b: number) => {
     if (!b) return null

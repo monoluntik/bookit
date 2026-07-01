@@ -17,11 +17,10 @@ function Stars({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'lg' }) 
 
 interface Props {
   businessId: string
-  token?: string | null
   isOwner?: boolean
 }
 
-export default function ReviewsList({ businessId, token, isOwner }: Props) {
+export default function ReviewsList({ businessId, isOwner }: Props) {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [replyId, setReplyId] = useState<string | null>(null)
@@ -39,12 +38,13 @@ export default function ReviewsList({ businessId, token, isOwner }: Props) {
   useEffect(() => { load() }, [businessId])
 
   const handleReply = async (reviewId: string) => {
-    if (!token || !replyText.trim()) return
+    if (!replyText.trim()) return
     setSaving(true)
     try {
       await fetch(`${API}/api/reviews/${reviewId}/reply`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reply: replyText }),
       })
       setReplyId(null)

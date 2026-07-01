@@ -92,7 +92,7 @@ function Trend({ curr, prev }: { curr: number; prev: number }) {
 
 export default function DashboardPage() {
   const t = useTranslations('Dashboard.overview')
-  const { token } = useAuth()
+  const { user } = useAuth()
   const STATUS_LABEL: Record<string, string> = {
     PENDING: t('statusLabels.PENDING'), CONFIRMED: t('statusLabels.CONFIRMED'),
     COMPLETED: t('statusLabels.COMPLETED'), CANCELLED: t('statusLabels.CANCELLED'), NO_SHOW: t('statusLabels.NO_SHOW'),
@@ -104,30 +104,30 @@ export default function DashboardPage() {
   const [todayBookings, setTodayBookings] = useState<any[]>([])
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
     }).finally(() => setLoading(false))
-  }, [token])
+  }, [user])
 
   useEffect(() => {
-    if (!token || !selectedBiz) return
+    if (!user || !selectedBiz) return
     setStats(null)
-    api.getStats(selectedBiz, token).then(setStats).catch(() => setStats(null))
-  }, [token, selectedBiz])
+    api.getStats(selectedBiz).then(setStats).catch(() => setStats(null))
+  }, [user, selectedBiz])
 
   useEffect(() => {
-    if (!token) return
+    if (!user) return
     const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
     const today = new Date().toISOString().slice(0, 10)
     fetch(`${API}/api/bookings/mine?date=${today}&limit=50`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     })
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d) setTodayBookings(d.bookings ?? []) })
       .catch(() => {})
-  }, [token])
+  }, [user])
 
   if (loading) return <div className="flex justify-center pt-20"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
 

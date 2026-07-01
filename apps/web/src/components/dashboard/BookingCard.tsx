@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
@@ -43,7 +42,6 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
     COMPLETED: { label: t('statusLabels.COMPLETED'), color: STATUS_COLOR_MAP.COMPLETED },
     NO_SHOW:   { label: t('statusLabels.NO_SHOW'),   color: STATUS_COLOR_MAP.NO_SHOW },
   }
-  const { token } = useAuth()
   const { success, error: showError } = useToast()
   const [loading, setLoading]           = useState(false)
   const [showReschedule, setShowReschedule] = useState(false)
@@ -73,11 +71,11 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
   }
 
   const handleDelete = async () => {
-    if (!token || !onDelete) return
+    if (!onDelete) return
     try {
       const res = await fetch(`${API}/api/bookings/${booking.id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error) }
       success(isBlock ? tc('successBlockDeleted') : tc('successBookingDeleted'))
@@ -89,7 +87,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
 
   const handleReschedule = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token || !rescheduleDate || !rescheduleStart || !rescheduleEnd) return
+    if (!rescheduleDate || !rescheduleStart || !rescheduleEnd) return
     if (rescheduleTimeError) return
     setRescheduleSaving(true)
     try {
@@ -97,7 +95,8 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
       const endAt   = `${rescheduleDate}T${rescheduleEnd}`
       const res = await fetch(`${API}/api/bookings/${booking.id}/reschedule`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ startAt, endAt }),
       })
       const data = await res.json()

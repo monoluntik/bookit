@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
+import cookie from '@fastify/cookie'
 import jwt from '@fastify/jwt'
 import multipart from '@fastify/multipart'
 import staticFiles from '@fastify/static'
@@ -70,9 +71,11 @@ const start = async () => {
     credentials: true,
   })
 
+  await app.register(cookie)
+
   await app.register(jwt, {
     secret: process.env.JWT_SECRET ?? 'dev-secret-change-in-production',
-    sign: { expiresIn: '7d' },
+    cookie: { cookieName: 'access_token', signed: false },
   })
 
   await app.register(authenticatePlugin)

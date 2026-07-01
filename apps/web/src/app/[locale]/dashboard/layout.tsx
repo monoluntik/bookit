@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading, token, logout } = useAuth()
+  const { user, loading, logout } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -31,21 +31,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const mobileNavItems = navItems.slice(0, 4)
 
   useEffect(() => {
-    if (!loading && !user) router.push('/login')
+    if (!loading && !user) router.push('/auth')
   }, [user, loading, router])
 
   useEffect(() => { setSidebarOpen(false) }, [pathname])
 
   useEffect(() => {
-    if (!token || !user) return
+    if (!user) return
     const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
     fetch(`${API}/api/bookings/mine?status=PENDING&limit=100`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     })
       .then(r => r.json())
       .then(data => setPendingCount(data.bookings?.length ?? 0))
       .catch(() => {})
-  }, [token, user])
+  }, [user])
 
   if (loading || !user) {
     return (
@@ -97,7 +97,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Link>
         )}
         <button
-          onClick={() => { logout(); router.push('/login') }}
+          onClick={() => { logout(); router.push('/auth') }}
           className="w-full text-left px-3 py-2 rounded-xl text-sm text-gray-500 hover:bg-gray-50">
           {t('logout')}
         </button>
@@ -153,7 +153,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Link href="/profile" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-gray-500 hover:bg-gray-50">
             <span>👤</span> {t('profile')}
           </Link>
-          <button onClick={() => { logout(); router.push('/login') }}
+          <button onClick={() => { logout(); router.push('/auth') }}
             className="w-full text-left px-3 py-2 rounded-xl text-sm text-red-400 hover:bg-red-50 flex items-center gap-2.5">
             <span>🚪</span> {t('logout')}
           </button>

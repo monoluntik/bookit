@@ -10,7 +10,7 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 export default function ServicesPage() {
   const t = useTranslations('Dashboard.services')
-  const { token } = useAuth()
+  const { user } = useAuth()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
   const [services, setServices] = useState<any[]>([])
@@ -24,12 +24,12 @@ export default function ServicesPage() {
   const [translationsFor, setTranslationsFor] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!token) return
-    api.getMyBusinesses(token).then(b => {
+    if (!user) return
+    api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
     }).finally(() => setLoading(false))
-  }, [token])
+  }, [user])
 
   useEffect(() => {
     if (!selectedBiz) return
@@ -46,14 +46,14 @@ export default function ServicesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!token) return
+    if (!user) return
     setSaving(true)
     setFormError('')
     try {
       const body = { name: form.name, description: form.description, durationMinutes: Number(form.durationMinutes), price: Number(form.price) }
       if (editId) {
         const res = await fetch(`${API}/api/services/${editId}`, {
-          method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         })
         if (!res.ok) { const e = await res.json(); throw new Error(e.error ?? t('errorGeneric')); }
@@ -61,7 +61,7 @@ export default function ServicesPage() {
         setServices(p => p.map(s => s.id === editId ? updated : s))
       } else {
         const res = await fetch(`${API}/api/services`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...body, businessId: selectedBiz }),
         })
         if (!res.ok) { const e = await res.json(); throw new Error(e.error ?? t('errorGeneric')); }
@@ -77,8 +77,8 @@ export default function ServicesPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!token || !confirm(t('confirmDelete'))) return
-    await fetch(`${API}/api/services/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
+    if (!user || !confirm(t('confirmDelete'))) return
+    await fetch(`${API}/api/services/${id}`, { method: 'DELETE', credentials: 'include' })
     setServices(p => p.filter(s => s.id !== id))
   }
 
@@ -132,12 +132,11 @@ export default function ServicesPage() {
                 </button>
               </div>
             </div>
-            {translationsFor === s.id && token && (
+            {translationsFor === s.id && (
               <div className="mt-3 pt-3 border-t border-gray-100">
                 <ContentTranslationsPanel
                   entity="services"
                   id={s.id}
-                  token={token}
                   originalName={s.name}
                   originalDescription={s.description ?? null}
                   onClose={() => setTranslationsFor(null)}

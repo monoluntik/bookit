@@ -38,17 +38,17 @@ function MiniBar({ data }: { data: { date: string; count: number }[] }) {
 }
 
 export default function AdminOverview() {
-  const { token } = useAuth()
+  const { user } = useAuth()
   const [stats, setStats] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const t = useTranslations('Admin.overview')
 
   useEffect(() => {
-    if (!token) return
+    if (!user) return
     fetch(`${API}/api/admin/stats`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     }).then(r => r.json()).then(setStats).finally(() => setLoading(false))
-  }, [token])
+  }, [user])
 
   if (loading) return (
     <div className="flex justify-center pt-20">

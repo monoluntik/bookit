@@ -17,7 +17,7 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export default function AdminReviewsPage() {
-  const { token } = useAuth()
+  const { user } = useAuth()
   const { success, error: showError } = useToast()
   const t = useTranslations('Admin.reviews')
   const [reviews, setReviews] = useState<any[]>([])
@@ -27,10 +27,10 @@ export default function AdminReviewsPage() {
   const [loading, setLoading] = useState(false)
 
   const load = (p = 1) => {
-    if (!token) return
+    if (!user) return
     setLoading(true)
     fetch(`${API}/api/admin/reviews?page=${p}&limit=20`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     }).then(r => r.json()).then(d => {
       setReviews(d.reviews ?? [])
       setTotal(d.total ?? 0)
@@ -39,14 +39,14 @@ export default function AdminReviewsPage() {
     }).finally(() => setLoading(false))
   }
 
-  useEffect(() => { load() }, [token])
+  useEffect(() => { load() }, [user])
 
   const deleteReview = async (id: string) => {
-    if (!token || !confirm(t('deleteConfirm'))) return
+    if (!user || !confirm(t('deleteConfirm'))) return
     try {
       const res = await fetch(`${API}/api/admin/reviews/${id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       })
       if (!res.ok) throw new Error('Error')
       setReviews(prev => prev.filter(r => r.id !== id))

@@ -111,8 +111,8 @@ export async function bookingRoutes(app: FastifyInstance) {
     ]).then(([customer, owner]) => {
       if (customer) {
         const full = { ...booking, customer }
-        sendBookingConfirmation(full, resource.business, customer.email).catch(console.error)
-        if (owner) sendNewBookingAlert(full, owner.email).catch(console.error)
+        if (customer.email) sendBookingConfirmation(full, resource.business, customer.email).catch(console.error)
+        if (owner?.email) sendNewBookingAlert(full, owner.email).catch(console.error)
       }
     }).catch(console.error)
 
@@ -235,7 +235,7 @@ export async function bookingRoutes(app: FastifyInstance) {
         prisma.user.findUnique({ where: { id: booking.customerId }, select: { email: true } }),
         prisma.business.findUnique({ where: { id: booking.businessId } }),
       ])
-      if (customer && biz) sendBookingCancellation(updated, biz, customer.email).catch(console.error)
+      if (customer?.email && biz) sendBookingCancellation(updated, biz, customer.email).catch(console.error)
     }
 
     return reply.send(updated)

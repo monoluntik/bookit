@@ -88,36 +88,6 @@ export async function sendBookingCancellation(booking: any, business: any, custo
   })
 }
 
-export async function sendPasswordReset(email: string, resetUrl: string) {
-  if (!resend) {
-    console.log('[email] Password reset link (RESEND not set):', resetUrl)
-    return
-  }
-  await resend.emails.send({
-    from: FROM,
-    to: email,
-    subject: 'Сброс пароля — Booking',
-    html: `<!DOCTYPE html>
-<html lang="ru">
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <div style="max-width:480px;margin:40px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)">
-    <div style="background:#2563eb;padding:28px 32px">
-      <div style="color:#fff;font-size:22px;font-weight:700">Booking</div>
-      <div style="color:#93c5fd;font-size:13px;margin-top:4px">Сброс пароля</div>
-    </div>
-    <div style="padding:28px 32px;color:#374151;font-size:14px;line-height:1.6">
-      <p>Вы запросили сброс пароля для вашего аккаунта.</p>
-      <a href="${resetUrl}" style="display:inline-block;margin:16px 0;padding:12px 28px;background:#2563eb;color:#fff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px">
-        Сбросить пароль
-      </a>
-      <p style="color:#9ca3af;font-size:12px">Ссылка действительна 15 минут. Если вы не запрашивали сброс — просто проигнорируйте это письмо.</p>
-    </div>
-  </div>
-</body>
-</html>`,
-  })
-}
-
 export async function sendNewBookingAlert(booking: any, ownerEmail: string) {
   if (!resend) {
     console.log('[email] New booking alert skipped for', ownerEmail)
