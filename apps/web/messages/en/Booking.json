@@ -43,7 +43,8 @@
       "specialization": "Specialization: ",
       "upToGuestsHotel": "👤 up to {count} guests",
       "upToGuests": "up to {count} guests",
-      "fromPrice": "from {price} som"
+      "fromPrice": "from {price} som",
+      "depositBadge": "Deposit {amount} som"
     },
     "serviceSelector": {
       "title": "Select a service",
@@ -53,7 +54,8 @@
       "durationHoursHalf": "{hours}.5 h",
       "durationHoursMinutes": "{hours} h {minutes} min",
       "back": "← Back",
-      "skipService": "No service (time only)"
+      "skipService": "No service (time only)",
+      "depositBadge": "Deposit {amount} som"
     },
     "datePicker": {
       "title": "Select a date",
@@ -155,12 +157,13 @@
       "status": "Status",
       "statusPending": "Awaiting confirmation",
       "statusPendingDeposit": "Awaiting deposit",
-      "depositRequiredNotice": "A deposit must be paid online to confirm this booking. The rest is paid at the venue.",
+      "depositRequiredNotice": "Pay the deposit online within 15 minutes to confirm this booking — otherwise the slot is released for other customers. The rest is paid at the venue.",
       "bookingNumber": "Booking number",
       "priceSom": "{price} som",
       "priceSomAtVenue": "{price} som at the venue",
       "addToCalendar": "📅 Add to calendar",
       "processingPayment": "Redirecting to payment...",
+      "paymentError": "Couldn't start the payment. Please try again.",
       "pay": "Pay {price} som",
       "payDeposit": "Pay deposit {price} som",
       "newBooking": "New booking",

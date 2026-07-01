@@ -43,7 +43,8 @@
       "specialization": "Mutaxassislik: ",
       "upToGuestsHotel": "👤 {count} kishigacha",
       "upToGuests": "{count} kishigacha",
-      "fromPrice": "{price} so'mdan"
+      "fromPrice": "{price} so'mdan",
+      "depositBadge": "Oldindan to'lov {amount} so'm"
     },
     "serviceSelector": {
       "title": "Xizmatni tanlang",
@@ -53,7 +54,8 @@
       "durationHoursHalf": "{hours}.5 soat",
       "durationHoursMinutes": "{hours} soat {minutes} daq",
       "back": "← Orqaga",
-      "skipService": "Xizmatsiz (faqat vaqt)"
+      "skipService": "Xizmatsiz (faqat vaqt)",
+      "depositBadge": "Oldindan to'lov {amount} so'm"
     },
     "datePicker": {
       "title": "Sanani tanlang",
@@ -155,12 +157,13 @@
       "status": "Holat",
       "statusPending": "Tasdiqlanishini kutmoqda",
       "statusPendingDeposit": "Oldindan to'lovni kutmoqda",
-      "depositRequiredNotice": "Ushbu bronni tasdiqlash uchun onlayn oldindan to'lov qilish kerak. Qolgan summa joyida to'lanadi.",
+      "depositRequiredNotice": "Ushbu bronni tasdiqlash uchun 15 daqiqa ichida onlayn oldindan to'lovni kiriting — aks holda vaqt boshqa mijozlar uchun bo'shatiladi. Qolgan summa joyida to'lanadi.",
       "bookingNumber": "Bron raqami",
       "priceSom": "{price} so'm",
       "priceSomAtVenue": "{price} so'm joyida",
       "addToCalendar": "📅 Kalendarga qo'shish",
       "processingPayment": "To'lovga o'tilmoqda...",
+      "paymentError": "To'lovni boshlab bo'lmadi. Qaytadan urinib ko'ring.",
       "pay": "{price} so'm to'lash",
       "payDeposit": "Oldindan to'lov qilish {price} so'm",
       "newBooking": "Yangi bron",

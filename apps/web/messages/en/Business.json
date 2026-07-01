@@ -49,7 +49,8 @@
       "titleDefault": "Services",
       "durationMinutes": "{minutes} min",
       "free": "Free",
-      "currency": "som"
+      "currency": "som",
+      "depositBadge": "Deposit {amount} som"
     },
     "staff": {
       "titleMedical": "Doctors",

@@ -43,7 +43,8 @@
       "specialization": "Адистик: ",
       "upToGuestsHotel": "👤 {count} кишиге чейин",
       "upToGuests": "{count} кишиге чейин",
-      "fromPrice": "{price} сомдон"
+      "fromPrice": "{price} сомдон",
+      "depositBadge": "Алдын ала төлөм {amount} сом"
     },
     "serviceSelector": {
       "title": "Кызматты тандаңыз",
@@ -53,7 +54,8 @@
       "durationHoursHalf": "{hours}.5 саат",
       "durationHoursMinutes": "{hours} саат {minutes} мүн",
       "back": "← Артка",
-      "skipService": "Кызматсыз (жөн гана убакыт)"
+      "skipService": "Кызматсыз (жөн гана убакыт)",
+      "depositBadge": "Алдын ала төлөм {amount} сом"
     },
     "datePicker": {
       "title": "Күндү тандаңыз",
@@ -155,12 +157,13 @@
       "status": "Абал",
       "statusPending": "Ырастоону күтүүдө",
       "statusPendingDeposit": "Алдын ала төлөмдү күтүүдө",
-      "depositRequiredNotice": "Бул бронду ырастоо үчүн онлайн алдын ала төлөм керек. Калган сумма жайында төлөнөт.",
+      "depositRequiredNotice": "Бул бронду ырастоо үчүн 15 мүнөттүн ичинде онлайн алдын ала төлөмдү киргизиңиз — болбосо убакыт башка кардарлар үчүн бошоп калат. Калган сумма жайында төлөнөт.",
       "bookingNumber": "Брон номери",
       "priceSom": "{price} сом",
       "priceSomAtVenue": "{price} сом жайында",
       "addToCalendar": "📅 Календарга кошуу",
       "processingPayment": "Төлөмгө өтүүдө...",
+      "paymentError": "Төлөмгө өтүү мүмкүн болбоду. Кайра аракет кылыңыз.",
       "pay": "{price} сом төлөө",
       "payDeposit": "Алдын ала төлөмдү киргизүү {price} сом",
       "newBooking": "Жаңы брондоо",

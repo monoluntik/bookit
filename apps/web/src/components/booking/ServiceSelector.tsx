@@ -51,6 +51,13 @@ export default function ServiceSelector({ services, onSelect, onSkip, onBack, re
                       {formatDuration(s.durationMinutes)}
                     </span>
                   )}
+                  {s.depositAmount && Number(s.depositAmount) > 0 && (
+                    <div className="mt-1">
+                      <span className="inline-block text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                        {t('depositBadge', { amount: Number(s.depositAmount).toLocaleString('ru') })}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </button>

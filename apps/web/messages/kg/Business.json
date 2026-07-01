@@ -49,7 +49,8 @@
       "titleDefault": "Кызматтар",
       "durationMinutes": "{minutes} мүн",
       "free": "Акысыз",
-      "currency": "сом"
+      "currency": "сом",
+      "depositBadge": "Алдын ала төлөм {amount} сом"
     },
     "staff": {
       "titleMedical": "Дарыгерлер",

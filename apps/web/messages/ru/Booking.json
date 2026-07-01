@@ -43,7 +43,8 @@
       "specialization": "Специализация: ",
       "upToGuestsHotel": "👤 до {count} чел.",
       "upToGuests": "до {count} чел.",
-      "fromPrice": "от {price} сом"
+      "fromPrice": "от {price} сом",
+      "depositBadge": "Предоплата {amount} сом"
     },
     "serviceSelector": {
       "title": "Выберите услугу",
@@ -53,7 +54,8 @@
       "durationHoursHalf": "{hours}.5 ч",
       "durationHoursMinutes": "{hours} ч {minutes} мин",
       "back": "← Назад",
-      "skipService": "Без услуги (только время)"
+      "skipService": "Без услуги (только время)",
+      "depositBadge": "Предоплата {amount} сом"
     },
     "datePicker": {
       "title": "Выберите дату",
@@ -155,12 +157,13 @@
       "status": "Статус",
       "statusPending": "Ожидает подтверждения",
       "statusPendingDeposit": "Ожидает предоплаты",
-      "depositRequiredNotice": "Для подтверждения брони необходимо внести предоплату онлайн. Остаток суммы оплачивается на месте.",
+      "depositRequiredNotice": "Для подтверждения брони внесите предоплату онлайн в течение 15 минут — иначе время освободится для других клиентов. Остаток суммы оплачивается на месте.",
       "bookingNumber": "Номер брони",
       "priceSom": "{price} сом",
       "priceSomAtVenue": "{price} сом на месте",
       "addToCalendar": "📅 Добавить в календарь",
       "processingPayment": "Переходим к оплате...",
+      "paymentError": "Не удалось перейти к оплате. Попробуйте ещё раз.",
       "pay": "Оплатить {price} сом",
       "payDeposit": "Внести предоплату {price} сом",
       "newBooking": "Новое бронирование",

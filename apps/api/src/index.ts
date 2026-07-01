@@ -20,6 +20,7 @@ import { adminRoutes } from './routes/admin'
 import { telegramRoutes } from './routes/telegram'
 import { reminderRuleRoutes } from './routes/reminder-rule'
 import { startReminderScheduler } from './lib/reminderScheduler'
+import { startDepositExpiryScheduler } from './lib/depositExpiryScheduler'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -107,6 +108,7 @@ const start = async () => {
   await app.listen({ port, host: '0.0.0.0' })
 
   startReminderScheduler()
+  startDepositExpiryScheduler()
 }
 
 start().catch((err) => {

@@ -99,6 +99,11 @@ export default function ResourceSelector({
                     {t('fromPrice', { price: Number(r.basePrice).toLocaleString('ru') })}
                   </div>
                 )}
+                {r.depositAmount && Number(r.depositAmount) > 0 && (
+                  <span className="inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                    {t('depositBadge', { amount: Number(r.depositAmount).toLocaleString('ru') })}
+                  </span>
+                )}
                 <span className="text-blue-400 group-hover:text-blue-600 block mt-1">→</span>
               </div>
             </div>

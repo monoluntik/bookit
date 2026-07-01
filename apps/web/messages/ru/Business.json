@@ -49,7 +49,8 @@
       "titleDefault": "Услуги",
       "durationMinutes": "{minutes} мин",
       "free": "Бесплатно",
-      "currency": "с"
+      "currency": "с",
+      "depositBadge": "Предоплата {amount} сом"
     },
     "staff": {
       "titleMedical": "Врачи",

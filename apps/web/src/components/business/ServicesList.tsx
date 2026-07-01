@@ -24,8 +24,17 @@ export default async function ServicesList({ services, businessType }: Props) {
               {s.description && <div className="text-xs text-gray-400 mt-0.5">{s.description}</div>}
               <div className="text-xs text-gray-400 mt-0.5">{t('services.durationMinutes', { minutes: s.durationMinutes })}</div>
             </div>
-            <div className="text-sm font-bold text-blue-700 ml-4 shrink-0">
-              {Number(s.price) > 0 ? `${Number(s.price).toLocaleString('ru')} ${t('services.currency')}` : t('services.free')}
+            <div className="text-right ml-4 shrink-0">
+              <div className="text-sm font-bold text-blue-700">
+                {Number(s.price) > 0 ? `${Number(s.price).toLocaleString('ru')} ${t('services.currency')}` : t('services.free')}
+              </div>
+              {s.depositAmount && Number(s.depositAmount) > 0 && (
+                <div className="mt-1">
+                  <span className="inline-block text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                    {t('services.depositBadge', { amount: Number(s.depositAmount).toLocaleString('ru') })}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -24,6 +24,7 @@ function formatDate(iso: string) {
 export default function BookingConfirmation({ booking, business, servicePrice, resourcePrice, depositAmount, nights, guestCount }: Props) {
   const t = useTranslations('Booking.confirmation')
   const [paying, setPaying] = useState(false)
+  const [payError, setPayError] = useState('')
 
   const payableAmount = servicePrice
     ? servicePrice
@@ -69,12 +70,14 @@ export default function BookingConfirmation({ booking, business, servicePrice, r
   }
 
   const handlePay = async () => {
-    if (!payableAmount) return
+    if (!amountDue) return
     setPaying(true)
+    setPayError('')
     try {
       const { payUrl } = await api.initiatePayment(booking.id)
       window.location.href = payUrl
-    } catch {
+    } catch (err: any) {
+      setPayError(err.message ?? t('paymentError'))
       setPaying(false)
     }
   }
@@ -122,10 +125,13 @@ export default function BookingConfirmation({ booking, business, servicePrice, r
       )}
 
       {amountDue && amountDue > 0 && (
-        <button onClick={handlePay} disabled={paying}
-          className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
-          {paying ? t('processingPayment') : isDeposit ? t('payDeposit', { price: amountDue.toLocaleString('ru') }) : t('pay', { price: amountDue.toLocaleString('ru') })}
-        </button>
+        <>
+          <button onClick={handlePay} disabled={paying}
+            className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
+            {paying ? t('processingPayment') : isDeposit ? t('payDeposit', { price: amountDue.toLocaleString('ru') }) : t('pay', { price: amountDue.toLocaleString('ru') })}
+          </button>
+          {payError && <p className="text-sm text-red-500 mt-2">{payError}</p>}
+        </>
       )}
 
       <button onClick={downloadCalendar}

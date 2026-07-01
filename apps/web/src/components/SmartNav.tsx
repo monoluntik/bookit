@@ -34,7 +34,7 @@ export default function SmartNav() {
             {user ? (
               <>
                 <Link href="/profile" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5">
-                  {user.name.split(' ')[0]}
+                  {user.name.split(' ')[0] || t('nav.profile')}
                 </Link>
                 <Link href="/dashboard" className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-xl hover:bg-blue-700">
                   {t('nav.dashboard')}
@@ -106,7 +106,7 @@ export default function SmartNav() {
                 <>
                   <Link href="/profile" onClick={() => setMobileOpen(false)}
                     className="text-base text-gray-700 hover:text-gray-900 px-3 py-3 rounded-xl hover:bg-gray-50">
-                    {user.name.split(' ')[0]}
+                    {user.name.split(' ')[0] || t('nav.profile')}
                   </Link>
                   <Link href="/dashboard" onClick={() => setMobileOpen(false)}
                     className="text-base bg-blue-600 text-white px-3 py-3 rounded-xl hover:bg-blue-700 text-center font-medium">
