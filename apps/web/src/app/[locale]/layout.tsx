@@ -3,10 +3,12 @@ import { Geist } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
+import { Suspense } from 'react'
 import '../globals.css'
 import { AuthProvider } from '@/context/AuthContext'
 import { ToastProvider } from '@/context/ToastContext'
 import { routing, type Locale } from '@/i18n/routing'
+import FloatingLanguageSwitcher from '@/components/FloatingLanguageSwitcher'
 
 const geist = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 
@@ -40,6 +42,9 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
           <AuthProvider><ToastProvider>{children}</ToastProvider></AuthProvider>
+          <Suspense>
+            <FloatingLanguageSwitcher />
+          </Suspense>
         </NextIntlClientProvider>
       </body>
     </html>
