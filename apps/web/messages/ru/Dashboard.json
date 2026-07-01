@@ -209,7 +209,16 @@
         "min180": "3 часа",
         "min240": "4 часа"
       },
-      "translationsButton": "🌐"
+      "translationsButton": "🌐",
+      "bookingModeLabel": "📅 Режим бронирования",
+      "bookingModeFixed": "Фиксированные слоты",
+      "bookingModeFixedExample": "Барбер, медцентр, переговорка",
+      "bookingModeFixedDesc": "Клиент выбирает из готовых слотов (09:00, 09:30...)",
+      "bookingModeFreeStart": "Свободное начало",
+      "bookingModeFreeStartExample": "СПА, прокат зала, фотостудия",
+      "bookingModeFreeStartDesc": "Клиент выбирает время старта, длительность — из услуги",
+      "bookingModeBadgeFixed": "Фикс. слоты",
+      "bookingModeBadgeFreeStart": "Своб. начало"
     },
     "services": {
       "title": "Услуги",

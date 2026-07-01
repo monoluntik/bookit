@@ -189,7 +189,16 @@
         "min180": "3 soat",
         "min240": "4 soat"
       },
-      "translationsButton": "🌐"
+      "translationsButton": "🌐",
+      "bookingModeLabel": "📅 Bron qilish rejimi",
+      "bookingModeFixed": "Belgilangan slotlar",
+      "bookingModeFixedExample": "Sartarosh, klinika, muzokaralar xonasi",
+      "bookingModeFixedDesc": "Mijoz tayyor slotlardan tanlaydi (09:00, 09:30...)",
+      "bookingModeFreeStart": "Erkin boshlash",
+      "bookingModeFreeStartExample": "SPA, zal ijarasi, fotostudiya",
+      "bookingModeFreeStartDesc": "Mijoz boshlash vaqtini tanlaydi, davomiyligi xizmatdan olinadi",
+      "bookingModeBadgeFixed": "Belgilangan",
+      "bookingModeBadgeFreeStart": "Erkin"
     },
     "services": {
       "title": "Xizmatlar",

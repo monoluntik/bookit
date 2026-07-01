@@ -209,7 +209,16 @@
         "min180": "3 hours",
         "min240": "4 hours"
       },
-      "translationsButton": "🌐"
+      "translationsButton": "🌐",
+      "bookingModeLabel": "📅 Booking mode",
+      "bookingModeFixed": "Fixed slots",
+      "bookingModeFixedExample": "Barber, clinic, meeting room",
+      "bookingModeFixedDesc": "Customer picks from pre-defined slots (09:00, 09:30...)",
+      "bookingModeFreeStart": "Free start",
+      "bookingModeFreeStartExample": "Spa, hall rental, photo studio",
+      "bookingModeFreeStartDesc": "Customer picks a start time; duration comes from the service",
+      "bookingModeBadgeFixed": "Fixed slots",
+      "bookingModeBadgeFreeStart": "Free start"
     },
     "services": {
       "title": "Services",

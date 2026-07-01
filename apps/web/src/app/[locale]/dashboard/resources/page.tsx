@@ -36,7 +36,7 @@ export default function ResourcesPage() {
 
   // Create modal
   const [showNew, setShowNew] = useState(false)
-  const [form, setForm] = useState({ name: '', description: '', capacity: '1' })
+  const [form, setForm] = useState({ name: '', description: '', capacity: '1', bookingMode: 'FIXED' as 'FIXED' | 'FREE_START' })
   const [scheduleForm, setScheduleForm] = useState(emptySchedule)
 
   // Schedule edit modal
@@ -118,6 +118,7 @@ export default function ResourcesPage() {
           name: form.name,
           description: form.description || undefined,
           capacity: Number(form.capacity),
+          bookingMode: form.bookingMode,
         }),
       })
       if (!res.ok) { const e = await res.json(); throw new Error(e.error ?? t('errorGeneric')); }
@@ -136,7 +137,7 @@ export default function ResourcesPage() {
 
       loadResources(selectedBiz)
       setShowNew(false)
-      setForm({ name: '', description: '', capacity: '1' })
+      setForm({ name: '', description: '', capacity: '1', bookingMode: 'FIXED' })
       setScheduleForm(emptySchedule)
     } catch (err: any) {
       setFormError(err.message ?? t('errorGeneric'))
@@ -295,11 +296,15 @@ export default function ResourcesPage() {
             <div key={r.id} className="bg-white rounded-2xl p-4 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-medium text-gray-900">{r.name}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-full shrink-0
                       ${r.isActive ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
                       {r.isActive ? t('active') : t('inactive')}
+                    </span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full shrink-0
+                      ${r.bookingMode === 'FREE_START' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
+                      {r.bookingMode === 'FREE_START' ? t('bookingModeBadgeFreeStart') : t('bookingModeBadgeFixed')}
                     </span>
                   </div>
                   {r.description && <div className="text-sm text-gray-400 mt-0.5">{r.description}</div>}
@@ -418,6 +423,37 @@ export default function ResourcesPage() {
                 <input type="number" min="1" value={form.capacity}
                   onChange={e => setForm(p => ({ ...p, capacity: e.target.value }))}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+              </div>
+
+              {/* Booking mode selector */}
+              <div className="pt-3 border-t border-gray-100">
+                <div className="text-xs font-medium text-gray-500 mb-3">{t('bookingModeLabel')}</div>
+                <div className="space-y-2">
+                  {(['FIXED', 'FREE_START'] as const).map(mode => (
+                    <label key={mode} className={`flex gap-3 p-3 rounded-xl border cursor-pointer transition-colors
+                      ${form.bookingMode === mode ? 'border-blue-400 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <input
+                        type="radio"
+                        name="bookingMode"
+                        value={mode}
+                        checked={form.bookingMode === mode}
+                        onChange={() => setForm(p => ({ ...p, bookingMode: mode }))}
+                        className="mt-0.5 accent-blue-600 shrink-0"
+                      />
+                      <div>
+                        <div className="text-sm font-medium text-gray-800">
+                          {mode === 'FIXED' ? t('bookingModeFixed') : t('bookingModeFreeStart')}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-0.5">
+                          {mode === 'FIXED' ? t('bookingModeFixedDesc') : t('bookingModeFreeStartDesc')}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-0.5 italic">
+                          {mode === 'FIXED' ? t('bookingModeFixedExample') : t('bookingModeFreeStartExample')}
+                        </div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <ScheduleFields value={scheduleForm} onChange={setScheduleForm} />

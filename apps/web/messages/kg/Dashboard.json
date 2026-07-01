@@ -209,7 +209,16 @@
         "min180": "3 саат",
         "min240": "4 саат"
       },
-      "translationsButton": "🌐"
+      "translationsButton": "🌐",
+      "bookingModeLabel": "📅 Брондоо режими",
+      "bookingModeFixed": "Туруктуу слоттор",
+      "bookingModeFixedExample": "Барбер, медцентр, жыйналыш бөлмөсү",
+      "bookingModeFixedDesc": "Кардар даяр слоттордон тандайт (09:00, 09:30...)",
+      "bookingModeFreeStart": "Эркин башталыш",
+      "bookingModeFreeStartExample": "СПА, зал ижарасы, фотостудия",
+      "bookingModeFreeStartDesc": "Кардар башталыш убактысын тандайт, узактыгы — кызматтан",
+      "bookingModeBadgeFixed": "Туруктуу",
+      "bookingModeBadgeFreeStart": "Эркин"
     },
     "services": {
       "title": "Кызматтар",

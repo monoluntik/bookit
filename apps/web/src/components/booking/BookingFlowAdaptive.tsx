@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
@@ -47,6 +47,20 @@ function getFlow(type: string, hasServices: boolean, s: ReturnType<typeof useTra
 const SPORT_DURATIONS = [60, 90, 120]
 const COWORKING_DURATIONS = [60, 120, 240, 480]
 
+function buildFreeStartDurations(slotGranularity: number): number[] {
+  return [1, 2, 3, 4, 6, 8].map(x => x * slotGranularity).filter(d => d <= 480)
+}
+
+function insertDurationStep(base: FlowDef, durationLabel: string): FlowDef {
+  const slotPos = base.steps.indexOf('slot')
+  if (slotPos === -1) return base
+  const steps = [...base.steps] as AnyStep[]
+  const labels = [...base.labels]
+  steps.splice(slotPos, 0, 'duration')
+  labels.splice(slotPos, 0, durationLabel)
+  return { steps, labels }
+}
+
 interface Props { business: any }
 
 export default function BookingFlowAdaptive({ business }: Props) {
@@ -66,16 +80,55 @@ export default function BookingFlowAdaptive({ business }: Props) {
   const [nights, setNights] = useState(0)
   const [guestCount, setGuestCount] = useState(1)
   const [booking, setBooking] = useState<any>(null)
+  const [extraDurationStep, setExtraDurationStep] = useState(false)
 
   useEffect(() => {
     api.getServices(business.id).then(setServices).catch(() => setServices([]))
   }, [business.id])
 
-  const flow = getFlow(business.type, services.length > 0, s)
+  const baseFlow = useMemo(() => getFlow(business.type, services.length > 0, s), [business.type, services.length, s])
+
+  const flow = useMemo(() => {
+    if (!extraDurationStep) return baseFlow
+    return insertDurationStep(baseFlow, s('durationShort'))
+  }, [baseFlow, extraDurationStep, s])
+
   const [stepIdx, setStepIdx] = useState(0)
   const step = flow.steps[stepIdx]
   const next = () => setStepIdx(i => i + 1)
   const back = () => setStepIdx(i => i - 1)
+
+  const handleSelectResource = (r: any) => {
+    setSelectedResource(r)
+    setSelectedService(null)
+    setSelectedDuration(null)
+    setSelectedSlot(null)
+
+    const needsDuration =
+      r.bookingMode === 'FREE_START' &&
+      !baseFlow.steps.slice(0, baseFlow.steps.indexOf('slot')).some(
+        (st: AnyStep) => st === 'duration' || st === 'service'
+      )
+
+    setExtraDurationStep(needsDuration)
+
+    if (needsDuration) {
+      // After state batch: flow will have extra 'duration' step
+      // resource position in new flow = same as in base flow; advance past it
+      const resourcePos = baseFlow.steps.indexOf('resource')
+      setStepIdx(resourcePos + 1)
+    } else {
+      setStepIdx(i => i + 1)
+    }
+  }
+
+  const durationOptions = useMemo(() => {
+    if (selectedResource?.bookingMode === 'FREE_START') {
+      const gran = selectedResource.schedules?.[0]?.slotDurationMinutes ?? 60
+      return buildFreeStartDurations(gran)
+    }
+    return business.type === 'COWORKING' ? COWORKING_DURATIONS : SPORT_DURATIONS
+  }, [selectedResource, business.type])
 
   const activeResource = selectedResource
 
@@ -123,7 +176,7 @@ export default function BookingFlowAdaptive({ business }: Props) {
       {step === 'resource' && (
         <ResourceSelector
           resources={business.resources}
-          onSelect={r => { setSelectedResource(r); next() }}
+          onSelect={handleSelectResource}
           onBack={back}
           label={meta.resourceLabel}
           resourceIcon={meta.resourceIcon}
@@ -155,7 +208,7 @@ export default function BookingFlowAdaptive({ business }: Props) {
 
       {step === 'duration' && (
         <DurationStep
-          options={business.type === 'COWORKING' ? COWORKING_DURATIONS : SPORT_DURATIONS}
+          options={durationOptions}
           onSelect={d => { setSelectedDuration(d); next() }}
           onBack={back}
         />

@@ -48,6 +48,11 @@ enum SubscriptionPlan {
   BUSINESS
 }
 
+enum BookingMode {
+  FIXED
+  FREE_START
+}
+
 // ─── Platform users ──────────────────────────────────────────────────────────
 
 model User {
@@ -227,6 +232,8 @@ model Resource {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  bookingMode   BookingMode  @default(FIXED)
 
   businessId    String
   business      Business     @relation(fields: [businessId], references: [id], onDelete: Cascade)

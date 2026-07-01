@@ -9,6 +9,8 @@ const translationBodySchema = z.object({
   description: z.string().optional().nullable(),
 })
 
+const BOOKING_MODES = ['FIXED', 'FREE_START'] as const
+
 const createResourceSchema = z.object({
   businessId: z.string(),
   name: z.string().min(1),
@@ -16,6 +18,14 @@ const createResourceSchema = z.object({
   capacity: z.number().int().positive().optional(),
   metadata: z.record(z.unknown()).optional(),
   staffMemberId: z.string().optional(),
+  bookingMode: z.enum(BOOKING_MODES).optional(),
+})
+
+const updateResourceSchema = z.object({
+  name: z.string().min(1).optional(),
+  description: z.string().optional().nullable(),
+  capacity: z.number().int().positive().optional(),
+  bookingMode: z.enum(BOOKING_MODES).optional(),
 })
 
 const scheduleSchema = z.object({
@@ -46,6 +56,21 @@ export async function resourceRoutes(app: FastifyInstance) {
       data: { ...rRest, ...(rMeta ? { metadata: rMeta as any } : {}) },
     })
     return reply.status(201).send(resource)
+  })
+
+  // Protected: update resource info (name, description, capacity, bookingMode)
+  app.patch('/:id', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+    const body = updateResourceSchema.safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: body.error.errors[0]?.message ?? 'Неверные данные' })
+
+    const resource = await prisma.resource.findUnique({ where: { id }, include: { business: true } })
+    if (!resource) return reply.status(404).send({ error: 'Resource not found' })
+    if (resource.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const updated = await prisma.resource.update({ where: { id }, data: body.data })
+    return reply.send(updated)
   })
 
   // Protected: update resource images

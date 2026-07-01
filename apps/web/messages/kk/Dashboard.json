@@ -189,7 +189,16 @@
         "min180": "3 сағат",
         "min240": "4 сағат"
       },
-      "translationsButton": "🌐"
+      "translationsButton": "🌐",
+      "bookingModeLabel": "📅 Брондау режимі",
+      "bookingModeFixed": "Белгіленген слоттар",
+      "bookingModeFixedExample": "Шаштараз, медорталық, кеңес бөлмесі",
+      "bookingModeFixedDesc": "Клиент дайын слоттардан таңдайды (09:00, 09:30...)",
+      "bookingModeFreeStart": "Еркін басталу",
+      "bookingModeFreeStartExample": "СПА, зал жалдауы, фотостудия",
+      "bookingModeFreeStartDesc": "Клиент басталу уақытын таңдайды, ұзақтығы қызметтен алынады",
+      "bookingModeBadgeFixed": "Белгіленген",
+      "bookingModeBadgeFreeStart": "Еркін"
     },
     "services": {
       "title": "Қызметтер",

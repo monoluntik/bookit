@@ -1,0 +1,2 @@
+CREATE TYPE "BookingMode" AS ENUM ('FIXED', 'FREE_START');
+ALTER TABLE "Resource" ADD COLUMN "bookingMode" "BookingMode" NOT NULL DEFAULT 'FIXED';
