@@ -42,7 +42,7 @@ export async function resourceRoutes(app: FastifyInstance) {
   app.post('/', { preHandler: [app.authenticate] }, async (request, reply) => {
     const payload = request.user as { sub: string }
     const body = createResourceSchema.safeParse(request.body)
-    if (!body.success) return reply.status(400).send({ error: body.error.flatten() })
+    if (!body.success) return reply.status(400).send({ error: body.error.errors[0]?.message ?? 'Неверные данные' })
 
     const business = await prisma.business.findUnique({ where: { id: body.data.businessId } })
     if (!business) return reply.status(404).send({ error: 'Business not found' })
@@ -104,7 +104,7 @@ export async function resourceRoutes(app: FastifyInstance) {
     const payload = request.user as { sub: string }
     const { id } = request.params as { id: string }
     const body = scheduleSchema.safeParse(request.body)
-    if (!body.success) return reply.status(400).send({ error: body.error.flatten() })
+    if (!body.success) return reply.status(400).send({ error: body.error.errors[0]?.message ?? 'Неверные данные' })
 
     const resource = await prisma.resource.findUnique({
       where: { id },

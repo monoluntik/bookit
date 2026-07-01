@@ -15,6 +15,9 @@ const emptySchedule = { start: '09:00', end: '18:00', slot: '60', days: [1, 2, 3
 export default function ResourcesPage() {
   const t = useTranslations('Dashboard.resources')
   const DAY_LABELS = [t('dayLabels.mon'), t('dayLabels.tue'), t('dayLabels.wed'), t('dayLabels.thu'), t('dayLabels.fri'), t('dayLabels.sat'), t('dayLabels.sun')]
+  // DAY_LABELS is displayed Mon..Sun, but the API's dayOfWeek follows JS Date.getDay()
+  // (0=Sun..6=Sat) — map each displayed index to the matching JS weekday number.
+  const JS_DAY_FOR_INDEX = [1, 2, 3, 4, 5, 6, 0]
   const SLOT_OPTIONS = [
     { value: '15', label: t('slotOptions.min15') },
     { value: '30', label: t('slotOptions.min30') },
@@ -260,9 +263,9 @@ export default function ResourcesPage() {
         <div className="flex gap-1.5">
           {DAY_LABELS.map((d, i) => (
             <button key={i} type="button"
-              onClick={() => onChange({ ...value, days: toggleDay(value.days, i + 1) })}
+              onClick={() => onChange({ ...value, days: toggleDay(value.days, JS_DAY_FOR_INDEX[i]) })}
               className={`w-9 h-9 rounded-full text-xs font-medium transition-colors
-                ${value.days.includes(i + 1) ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
+                ${value.days.includes(JS_DAY_FOR_INDEX[i]) ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
               {d}
             </button>
           ))}
@@ -359,7 +362,7 @@ export default function ResourcesPage() {
                       <div className="flex gap-1">
                         {DAY_LABELS.map((d, i) => (
                           <span key={i} className={`w-7 h-7 rounded-full text-xs flex items-center justify-center font-medium
-                            ${activeDays.includes(i + 1) ? 'bg-blue-100 text-blue-700' : 'bg-gray-50 text-gray-300'}`}>
+                            ${activeDays.includes(JS_DAY_FOR_INDEX[i]) ? 'bg-blue-100 text-blue-700' : 'bg-gray-50 text-gray-300'}`}>
                             {d}
                           </span>
                         ))}
