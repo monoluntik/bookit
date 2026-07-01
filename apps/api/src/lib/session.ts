@@ -17,12 +17,19 @@ export function generateCode(): string {
   return crypto.randomInt(0, 1_000_000).toString().padStart(6, '0')
 }
 
+// In production the frontend and API typically live on different domains (e.g. Vercel + Railway),
+// which makes every browser fetch() to the API a cross-site request. SameSite=Lax cookies are only
+// sent on top-level navigations in that case — not on the XHR/fetch calls our SPA makes — so the
+// session would appear to "disappear" right after login. SameSite=None (+ Secure, required by
+// browsers to accept it) fixes that; it's still safe in dev since we just use Lax there over plain HTTP.
+const crossSiteSameSite = isProd ? ('none' as const) : ('lax' as const)
+
 function accessCookieOptions() {
-  return { httpOnly: true, secure: isProd, sameSite: 'lax' as const, path: '/' }
+  return { httpOnly: true, secure: isProd, sameSite: crossSiteSameSite, path: '/' }
 }
 
 function refreshCookieOptions() {
-  return { httpOnly: true, secure: isProd, sameSite: 'lax' as const, path: '/api/auth', maxAge: Math.floor(REFRESH_TOKEN_TTL_MS / 1000) }
+  return { httpOnly: true, secure: isProd, sameSite: crossSiteSameSite, path: '/api/auth', maxAge: Math.floor(REFRESH_TOKEN_TTL_MS / 1000) }
 }
 
 /** Signs an access token and sets both session cookies for a freshly-authenticated user. */
