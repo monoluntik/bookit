@@ -18,7 +18,7 @@ export default function ServicesPage() {
   const [showNew, setShowNew] = useState(false)
   const [saving, setSaving] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
-  const empty = { name: '', description: '', durationMinutes: '60', price: '0' }
+  const empty = { name: '', description: '', durationMinutes: '60', price: '0', depositAmount: '' }
   const [form, setForm] = useState(empty)
   const [formError, setFormError] = useState('')
   const [translationsFor, setTranslationsFor] = useState<string | null>(null)
@@ -40,17 +40,28 @@ export default function ServicesPage() {
   const openNew = () => { setEditId(null); setForm(empty); setFormError(''); setShowNew(true) }
   const openEdit = (s: any) => {
     setEditId(s.id)
-    setForm({ name: s.name, description: s.description ?? '', durationMinutes: String(s.durationMinutes), price: String(s.price) })
+    setForm({
+      name: s.name, description: s.description ?? '', durationMinutes: String(s.durationMinutes),
+      price: String(s.price), depositAmount: s.depositAmount ? String(s.depositAmount) : '',
+    })
     setShowNew(true)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user) return
-    setSaving(true)
     setFormError('')
+    const depositAmount = form.depositAmount.trim() ? Number(form.depositAmount) : null
+    if (depositAmount && depositAmount > Number(form.price)) {
+      setFormError(t('errorDepositExceedsPrice'))
+      return
+    }
+    setSaving(true)
     try {
-      const body = { name: form.name, description: form.description, durationMinutes: Number(form.durationMinutes), price: Number(form.price) }
+      const body = {
+        name: form.name, description: form.description, durationMinutes: Number(form.durationMinutes),
+        price: Number(form.price), depositAmount,
+      }
       if (editId) {
         const res = await fetch(`${API}/api/services/${editId}`, {
           method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' },
@@ -115,6 +126,11 @@ export default function ServicesPage() {
                 <div className="flex gap-3 mt-1">
                   <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">{t('minutesShort', { count: s.durationMinutes })}</span>
                   <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full">{Number(s.price).toLocaleString('ru')} сом</span>
+                  {s.depositAmount && (
+                    <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">
+                      {t('depositBadge', { amount: Number(s.depositAmount).toLocaleString('ru') })}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex gap-2">
@@ -172,6 +188,13 @@ export default function ServicesPage() {
                     onChange={e => setForm(p => ({ ...p, price: e.target.value }))}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
                 </div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">{t('depositLabel')}</label>
+                <input type="number" min="0" placeholder={t('depositPlaceholder')} value={form.depositAmount}
+                  onChange={e => setForm(p => ({ ...p, depositAmount: e.target.value }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                <p className="text-xs text-gray-400 mt-1">{t('depositHint')}</p>
               </div>
               {formError && <p className="text-sm text-red-500">{formError}</p>}
               <div className="flex gap-3 pt-2">

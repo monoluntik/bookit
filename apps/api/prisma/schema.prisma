@@ -137,6 +137,7 @@ model Business {
   isActive         Boolean          @default(true)
   bakaiUsername    String?
   bakaiPassword    String?
+  bakaiToken       String? // exchanged once from bakaiUsername/bakaiPassword at connect-time (the password is single-use, no refresh endpoint exists)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
 
@@ -276,6 +277,7 @@ model Resource {
   updatedAt   DateTime @updatedAt
 
   bookingMode   BookingMode  @default(FIXED)
+  depositAmount Decimal?     @db.Decimal(10, 2) // fixed prepayment required to confirm; null = no prepayment
 
   businessId    String
   business      Business     @relation(fields: [businessId], references: [id], onDelete: Cascade)
@@ -325,6 +327,7 @@ model Service {
   description String?
   durationMinutes Int
   price       Decimal  @db.Decimal(10, 2)
+  depositAmount Decimal? @db.Decimal(10, 2) // fixed prepayment required to confirm; null = no prepayment
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
 
@@ -387,6 +390,8 @@ model Payment {
   id            String        @id @default(cuid())
   status        PaymentStatus @default(UNPAID)
   amount        Decimal       @db.Decimal(10, 2)
+  isDeposit     Boolean       @default(false)
+  totalAmount   Decimal?      @db.Decimal(10, 2) // full booking price, when known and isDeposit is true
   currency      String        @default("KGS")
   transactionId String?
   paidAt        DateTime?

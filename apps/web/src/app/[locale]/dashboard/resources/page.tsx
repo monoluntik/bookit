@@ -36,7 +36,7 @@ export default function ResourcesPage() {
 
   // Create modal
   const [showNew, setShowNew] = useState(false)
-  const [form, setForm] = useState({ name: '', description: '', capacity: '1', bookingMode: 'FIXED' as 'FIXED' | 'FREE_START' })
+  const [form, setForm] = useState({ name: '', description: '', capacity: '1', bookingMode: 'FIXED' as 'FIXED' | 'FREE_START', depositAmount: '' })
   const [scheduleForm, setScheduleForm] = useState(emptySchedule)
 
   // Schedule edit modal
@@ -47,6 +47,10 @@ export default function ResourcesPage() {
   const [editPhotosFor, setEditPhotosFor] = useState<string | null>(null) // resource id
   const [translationsFor, setTranslationsFor] = useState<string | null>(null) // resource id
   const [resourceImages, setResourceImages] = useState<Record<string, string[]>>({}) // resourceId → urls
+
+  // Deposit state
+  const [editDepositFor, setEditDepositFor] = useState<string | null>(null) // resource id
+  const [depositDraft, setDepositDraft] = useState('')
 
   useEffect(() => {
     if (!user) return
@@ -102,6 +106,32 @@ export default function ResourcesPage() {
   const toggleDay = (set: number[], d: number) =>
     set.includes(d) ? set.filter(x => x !== d) : [...set, d].sort()
 
+  const openEditDeposit = (resource: any) => {
+    setEditDepositFor(resource.id)
+    setDepositDraft(resource.depositAmount ? String(resource.depositAmount) : '')
+  }
+
+  const saveDeposit = async (resourceId: string) => {
+    if (!user) return
+    setSaving(true)
+    try {
+      const res = await fetch(`${API}/api/resources/${resourceId}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ depositAmount: depositDraft.trim() ? Number(depositDraft) : null }),
+      })
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }
+      loadResources(selectedBiz)
+      setEditDepositFor(null)
+      success(t('successDepositSaved'))
+    } catch (err: any) {
+      showError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   // Create resource + schedule
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -121,6 +151,7 @@ export default function ResourcesPage() {
           description: form.description || undefined,
           capacity: Number(form.capacity),
           bookingMode: form.bookingMode,
+          depositAmount: form.depositAmount.trim() ? Number(form.depositAmount) : null,
         }),
       })
       if (!res.ok) { const e = await res.json(); throw new Error(e.error ?? t('errorGeneric')); }
@@ -140,7 +171,7 @@ export default function ResourcesPage() {
 
       loadResources(selectedBiz)
       setShowNew(false)
-      setForm({ name: '', description: '', capacity: '1', bookingMode: 'FIXED' })
+      setForm({ name: '', description: '', capacity: '1', bookingMode: 'FIXED', depositAmount: '' })
       setScheduleForm(emptySchedule)
     } catch (err: any) {
       setFormError(err.message ?? t('errorGeneric'))
@@ -314,6 +345,13 @@ export default function ResourcesPage() {
                   </div>
                   {r.description && <div className="text-sm text-gray-400 mt-0.5">{r.description}</div>}
                   {r.capacity && <div className="text-xs text-gray-400 mt-0.5">{t('capacity', { count: r.capacity })}</div>}
+                  {r.depositAmount && (
+                    <div className="mt-1">
+                      <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">
+                        {t('depositBadge', { amount: Number(r.depositAmount).toLocaleString('ru') })}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Schedule preview */}
                   {sched ? (
@@ -360,8 +398,37 @@ export default function ResourcesPage() {
                         : 'border-gray-200 text-gray-600 hover:bg-teal-50 hover:border-teal-200 hover:text-teal-700'}`}>
                     {t('translationsButton')}
                   </button>
+                  <button
+                    onClick={() => editDepositFor === r.id ? setEditDepositFor(null) : openEditDeposit(r)}
+                    className={`px-3 py-1.5 text-xs border rounded-lg transition-colors
+                      ${editDepositFor === r.id
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'border-gray-200 text-gray-600 hover:bg-amber-50 hover:border-amber-200 hover:text-amber-700'}`}>
+                    {t('depositButton')}
+                  </button>
                 </div>
               </div>
+
+              {/* Inline deposit editor */}
+              {editDepositFor === r.id && (
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <label className="text-xs text-gray-500 mb-1 block">{t('depositLabel')}</label>
+                  <div className="flex gap-2">
+                    <input type="number" min="0" placeholder={t('depositPlaceholder')} value={depositDraft}
+                      onChange={e => setDepositDraft(e.target.value)}
+                      className="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                    <button type="button" onClick={() => saveDeposit(r.id)} disabled={saving}
+                      className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-medium hover:bg-blue-700 disabled:opacity-60">
+                      {saving ? t('saving') : t('save')}
+                    </button>
+                    <button type="button" onClick={() => setEditDepositFor(null)}
+                      className="px-4 py-2 rounded-xl border border-gray-200 text-xs text-gray-600 hover:bg-gray-50">
+                      {t('cancel')}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">{t('depositHint')}</p>
+                </div>
+              )}
 
               {/* Inline translations editor */}
               {translationsFor === r.id && user && (
@@ -426,6 +493,13 @@ export default function ResourcesPage() {
                 <input type="number" min="1" value={form.capacity}
                   onChange={e => setForm(p => ({ ...p, capacity: e.target.value }))}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-400 mb-1 block">{t('depositLabel')}</label>
+                <input type="number" min="0" placeholder={t('depositPlaceholder')} value={form.depositAmount}
+                  onChange={e => setForm(p => ({ ...p, depositAmount: e.target.value }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                <p className="text-xs text-gray-400 mt-1">{t('depositHint')}</p>
               </div>
 
               {/* Booking mode selector */}

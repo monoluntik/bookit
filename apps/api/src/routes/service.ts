@@ -9,6 +9,7 @@ const createSchema = z.object({
   description: z.string().optional(),
   durationMinutes: z.number().int().positive(),
   price: z.number().nonnegative(),
+  depositAmount: z.number().positive().nullable().optional(),
   resourceId: z.string().optional(),
 })
 
@@ -50,6 +51,10 @@ export async function serviceRoutes(app: FastifyInstance) {
       }
     }
 
+    if (body.data.depositAmount && body.data.depositAmount > body.data.price) {
+      return reply.status(400).send({ error: 'Депозит не может превышать цену услуги' })
+    }
+
     const service = await prisma.service.create({
       data: {
         businessId:     body.data.businessId,
@@ -57,6 +62,7 @@ export async function serviceRoutes(app: FastifyInstance) {
         description:    body.data.description,
         durationMinutes: body.data.durationMinutes,
         price:          body.data.price,
+        depositAmount:  body.data.depositAmount,
         resourceId:     body.data.resourceId,
       },
     })
@@ -73,6 +79,12 @@ export async function serviceRoutes(app: FastifyInstance) {
     const service = await prisma.service.findUnique({ where: { id }, include: { business: true } })
     if (!service) return reply.status(404).send({ error: 'Not found' })
     if (service.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const nextPrice = body.data.price ?? Number(service.price)
+    const nextDeposit = body.data.depositAmount !== undefined ? body.data.depositAmount : Number(service.depositAmount ?? 0)
+    if (nextDeposit && nextDeposit > nextPrice) {
+      return reply.status(400).send({ error: 'Депозит не может превышать цену услуги' })
+    }
 
     const updated = await prisma.service.update({
       where: { id },

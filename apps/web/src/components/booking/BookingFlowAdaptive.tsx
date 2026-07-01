@@ -241,6 +241,11 @@ export default function BookingFlowAdaptive({ business }: Props) {
           business={business}
           servicePrice={selectedService ? Number(selectedService.price) : null}
           resourcePrice={selectedResource?.basePrice ? Number(selectedResource.basePrice) : null}
+          depositAmount={
+            selectedService?.depositAmount ? Number(selectedService.depositAmount)
+              : selectedResource?.depositAmount ? Number(selectedResource.depositAmount)
+              : null
+          }
           nights={nights}
           guestCount={guestCount}
         />

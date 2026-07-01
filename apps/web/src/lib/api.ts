@@ -87,7 +87,7 @@ export const api = {
 
   // Amount no longer sent from client — server derives it from service
   initiatePayment: (bookingId: string) =>
-    apiFetch<{ payUrl: string; transactionId: string; amount: number }>('/api/payments/initiate', {
+    apiFetch<{ payUrl: string; transactionId: string; amount: number; isDeposit: boolean; totalAmount: number | null }>('/api/payments/initiate', {
       method: 'POST', body: JSON.stringify({ bookingId }),
     }),
 

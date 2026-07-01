@@ -19,6 +19,7 @@ const createResourceSchema = z.object({
   metadata: z.record(z.unknown()).optional(),
   staffMemberId: z.string().optional(),
   bookingMode: z.enum(BOOKING_MODES).optional(),
+  depositAmount: z.number().positive().nullable().optional(),
 })
 
 const updateResourceSchema = z.object({
@@ -26,6 +27,7 @@ const updateResourceSchema = z.object({
   description: z.string().optional().nullable(),
   capacity: z.number().int().positive().optional(),
   bookingMode: z.enum(BOOKING_MODES).optional(),
+  depositAmount: z.number().positive().nullable().optional(),
 })
 
 const scheduleSchema = z.object({

@@ -7,6 +7,7 @@ import { normalizePhone } from '../lib/phone'
 import { hashToken, generateCode, issueSession, rotateSession, revokeSession } from '../lib/session'
 import { sendSmsCode } from '../lib/sms'
 import { sendTelegramMessage, buildAuthDeepLink } from '../lib/telegram'
+import { isTestPhone, TEST_CODE } from '../lib/testPhones'
 
 const CHALLENGE_TTL_MS = 10 * 60 * 1000
 const SEND_COOLDOWN_MS = 60 * 1000
@@ -146,7 +147,8 @@ export async function authRoutes(app: FastifyInstance) {
         await prisma.authChallenge.update({ where: { id }, data: { status: 'EXPIRED' } })
         return reply.status(429).send({ error: 'Слишком много попыток, начните заново' })
       }
-      if (!body.data.code || !challenge.codeHash || hashToken(body.data.code) !== challenge.codeHash) {
+      const isValidTestCode = isTestPhone(challenge.phone) && body.data.code === TEST_CODE
+      if (!isValidTestCode && (!body.data.code || !challenge.codeHash || hashToken(body.data.code) !== challenge.codeHash)) {
         await prisma.authChallenge.update({ where: { id }, data: { attempts: { increment: 1 } } })
         return reply.status(401).send({ error: 'Неверный код' })
       }

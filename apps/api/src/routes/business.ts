@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 import { BusinessTypeValues } from '../types/enums'
 import { resolveContentLocale, withTranslation, CONTENT_LOCALES } from '../lib/i18n'
+import { loginBakai } from '../lib/bakai'
 
 const translationBodySchema = z.object({
   name: z.string().min(1).optional().nullable(),
@@ -72,12 +73,12 @@ export async function businessRoutes(app: FastifyInstance) {
     const payload = request.user as { sub: string }
     const businesses = await prisma.business.findMany({
       where: { ownerId: payload.sub },
-      select: { id: true, slug: true, name: true, type: true, isActive: true, subscriptionPlan: true, bakaiUsername: true },
+      select: { id: true, slug: true, name: true, type: true, isActive: true, subscriptionPlan: true, bakaiToken: true },
     })
     return reply.send(businesses.map(b => ({
       ...b,
-      hasBakaiCredentials: !!b.bakaiUsername,
-      bakaiUsername: undefined,
+      hasBakaiCredentials: !!b.bakaiToken,
+      bakaiToken: undefined,
     })))
   })
 
@@ -290,18 +291,36 @@ export async function businessRoutes(app: FastifyInstance) {
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
     const { metadata: md, bakaiUsername, bakaiPassword, ...restData } = body.data
+
+    // Bakai's login password is single-use and there's no token-refresh endpoint,
+    // so we exchange it for a durable token right here, once, and never store or
+    // reuse the raw password afterwards.
+    let bakaiToken: string | null | undefined
+    if (bakaiUsername === null && bakaiPassword === null) {
+      bakaiToken = null // disconnect
+    } else if (bakaiUsername && bakaiPassword) {
+      try {
+        bakaiToken = await loginBakai(bakaiUsername, bakaiPassword)
+      } catch (err) {
+        app.log.warn({ err }, 'Bakai login exchange failed')
+        return reply.status(400).send({ error: 'Не удалось подключиться к Bakai. Проверьте логин и пароль — если они уже использовались, запросите новые.' })
+      }
+    }
+
     const updated = await prisma.business.update({
       where: { id },
       data: {
         ...restData,
         ...(md ? { metadata: md as any } : {}),
         ...(bakaiUsername !== undefined ? { bakaiUsername } : {}),
-        ...(bakaiPassword !== undefined ? { bakaiPassword } : {}),
+        // The password itself is never persisted — it's single-use and already spent above.
+        ...(bakaiPassword !== undefined ? { bakaiPassword: null } : {}),
+        ...(bakaiToken !== undefined ? { bakaiToken } : {}),
       },
     })
     // Never return Bakai credentials to client
-    const { bakaiUsername: _u, bakaiPassword: _p, ...safe } = updated as any
-    return reply.send({ ...safe, hasBakaiCredentials: !!(updated as any).bakaiUsername })
+    const { bakaiUsername: _u, bakaiPassword: _p, bakaiToken: _t, ...safe } = updated as any
+    return reply.send({ ...safe, hasBakaiCredentials: !!(updated as any).bakaiToken })
   })
 
   // Protected: list translations for a business (owner only)

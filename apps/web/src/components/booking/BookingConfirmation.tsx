@@ -9,6 +9,7 @@ interface Props {
   business: any
   servicePrice?: number | null
   resourcePrice?: number | null
+  depositAmount?: number | null
   nights?: number
   guestCount?: number
 }
@@ -20,13 +21,17 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-export default function BookingConfirmation({ booking, business, servicePrice, resourcePrice, nights, guestCount }: Props) {
+export default function BookingConfirmation({ booking, business, servicePrice, resourcePrice, depositAmount, nights, guestCount }: Props) {
   const t = useTranslations('Booking.confirmation')
   const [paying, setPaying] = useState(false)
 
   const payableAmount = servicePrice
     ? servicePrice
     : (resourcePrice && nights && nights > 0 ? resourcePrice * nights : null)
+
+  const isDeposit = !!depositAmount && depositAmount > 0
+  const amountDue = isDeposit ? depositAmount! : payableAmount
+  const remainder = isDeposit && payableAmount ? payableAmount - depositAmount! : null
 
   const downloadCalendar = () => {
     const start = new Date(booking.startAt)
@@ -80,7 +85,7 @@ export default function BookingConfirmation({ booking, business, servicePrice, r
         ✓
       </div>
       <h2 className="text-xl font-bold text-gray-900 mb-1">{t('title')}</h2>
-      <p className="text-gray-500 text-sm mb-6">{t('subtitle')}</p>
+      <p className="text-gray-500 text-sm mb-6">{isDeposit ? t('subtitleDeposit') : t('subtitle')}</p>
 
       <div className="bg-gray-50 rounded-2xl p-4 text-left space-y-3">
         <Row label={t('place')} value={business.name} />
@@ -94,30 +99,48 @@ export default function BookingConfirmation({ booking, business, servicePrice, r
         {guestCount && guestCount > 1 && (
           <Row label={t('guests')} value={String(guestCount)} />
         )}
-        {payableAmount && payableAmount > 0 && (
-          <Row label={t('total')} value={t('priceSom', { price: payableAmount.toLocaleString('ru') })} />
+        {isDeposit ? (
+          <>
+            <Row label={t('depositLabel')} value={t('priceSom', { price: amountDue!.toLocaleString('ru') })} />
+            {remainder != null && remainder > 0 && (
+              <Row label={t('remainderLabel')} value={t('priceSomAtVenue', { price: remainder.toLocaleString('ru') })} />
+            )}
+          </>
+        ) : (
+          payableAmount && payableAmount > 0 && (
+            <Row label={t('total')} value={t('priceSom', { price: payableAmount.toLocaleString('ru') })} />
+          )
         )}
-        <Row label={t('status')} value={t('statusPending')} />
+        <Row label={t('status')} value={isDeposit ? t('statusPendingDeposit') : t('statusPending')} />
         <Row label={t('bookingNumber')} value={booking.id.slice(0, 8).toUpperCase()} />
       </div>
 
+      {isDeposit && (
+        <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-amber-800">
+          {t('depositRequiredNotice')}
+        </div>
+      )}
+
+      {amountDue && amountDue > 0 && (
+        <button onClick={handlePay} disabled={paying}
+          className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
+          {paying ? t('processingPayment') : isDeposit ? t('payDeposit', { price: amountDue.toLocaleString('ru') }) : t('pay', { price: amountDue.toLocaleString('ru') })}
+        </button>
+      )}
+
       <button onClick={downloadCalendar}
-        className="mt-4 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm flex items-center justify-center gap-2">
+        className="mt-3 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm flex items-center justify-center gap-2">
         {t('addToCalendar')}
       </button>
 
-      {payableAmount && payableAmount > 0 && (
-        <button onClick={handlePay} disabled={paying}
-          className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60">
-          {paying ? t('processingPayment') : t('pay', { price: payableAmount.toLocaleString('ru') })}
+      {!isDeposit && (
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-3 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm"
+        >
+          {t('newBooking')}
         </button>
       )}
-      <button
-        onClick={() => window.location.reload()}
-        className="mt-3 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm"
-      >
-        {t('newBooking')}
-      </button>
     </div>
   )
 }

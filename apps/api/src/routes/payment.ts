@@ -15,39 +15,42 @@ export async function paymentRoutes(app: FastifyInstance) {
 
     const booking = await prisma.booking.findUnique({
       where: { id: body.data.bookingId },
-      include: { business: true, service: { select: { price: true, name: true } }, payment: true },
+      include: {
+        business: true,
+        service: { select: { price: true, name: true, depositAmount: true } },
+        resource: { select: { depositAmount: true } },
+        payment: true,
+      },
     })
 
     if (!booking) return reply.status(404).send({ error: 'Booking not found' })
     if (booking.customerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
     if (booking.payment?.status === 'PAID') return reply.status(409).send({ error: 'Already paid' })
-    if (!booking.service) return reply.status(400).send({ error: 'Нет услуги для оплаты' })
 
-    const amount = Number(booking.service.price)
+    const deposit = booking.service?.depositAmount ?? booking.resource.depositAmount
+    const isDeposit = !!deposit && Number(deposit) > 0
+    const totalAmount = booking.service ? Number(booking.service.price) : null
+    const amount = isDeposit ? Number(deposit) : (totalAmount ?? 0)
+
+    if (!isDeposit && !booking.service) return reply.status(400).send({ error: 'Нет услуги для оплаты' })
     if (amount <= 0) return reply.status(400).send({ error: 'Услуга бесплатна' })
 
-    if (!booking.business.bakaiUsername || !booking.business.bakaiPassword) {
+    if (!booking.business.bakaiToken) {
       return reply.status(400).send({ error: 'Онлайн-оплата не настроена для этого бизнеса' })
-    }
-
-    const credentials = {
-      username: booking.business.bakaiUsername,
-      password: booking.business.bakaiPassword,
-      businessId: booking.business.id,
     }
 
     const transactionId = `BK-${booking.id.slice(0, 12).toUpperCase()}-${Date.now()}`
     const redirectUrl = `${process.env.FRONTEND_URL}/booking/payment-result?bookingId=${booking.id}&txId=${transactionId}`
 
-    const { payUrl } = await createPayLink({ amount, transactionId, redirectUrl, bookingId: booking.id, credentials })
+    const { payUrl } = await createPayLink({ amount, transactionId, redirectUrl, bookingId: booking.id, token: booking.business.bakaiToken })
 
     await prisma.payment.upsert({
       where: { bookingId: booking.id },
-      create: { bookingId: booking.id, amount, status: 'PENDING', transactionId },
-      update: { amount, status: 'PENDING', transactionId },
+      create: { bookingId: booking.id, amount, isDeposit, totalAmount, status: 'PENDING', transactionId },
+      update: { amount, isDeposit, totalAmount, status: 'PENDING', transactionId },
     })
 
-    return reply.send({ payUrl, transactionId, amount })
+    return reply.send({ payUrl, transactionId, amount, isDeposit, totalAmount })
   })
 
   // Bakai redirect — verify txId matches stored transaction
@@ -69,12 +72,7 @@ export async function paymentRoutes(app: FastifyInstance) {
       return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?bookingId=${bookingId}`)
     }
 
-    const biz = payment.booking.business
-    const credentials = biz.bakaiUsername && biz.bakaiPassword
-      ? { username: biz.bakaiUsername, password: biz.bakaiPassword, businessId: biz.id }
-      : undefined
-
-    const status = await getPaymentStatus(txId, credentials)
+    const status = await getPaymentStatus(txId, payment.booking.business.bakaiToken)
 
     if (status === 'SUCCESS') {
       await prisma.$transaction([
@@ -121,7 +119,13 @@ export async function paymentRoutes(app: FastifyInstance) {
     const isOwner = payment.booking.business.ownerId === payload.sub
     if (!isCustomer && !isOwner) return reply.status(403).send({ error: 'Forbidden' })
 
-    return reply.send({ status: payment.status, amount: Number(payment.amount), paidAt: payment.paidAt })
+    return reply.send({
+      status: payment.status,
+      amount: Number(payment.amount),
+      isDeposit: payment.isDeposit,
+      totalAmount: payment.totalAmount ? Number(payment.totalAmount) : null,
+      paidAt: payment.paidAt,
+    })
   })
 
   // Bakai webhook — called by Bakai when payment succeeds
