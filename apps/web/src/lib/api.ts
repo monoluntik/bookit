@@ -52,10 +52,10 @@ export const api = {
   }) =>
     apiFetch<any>('/api/bookings', { method: 'POST', body: JSON.stringify(data) }),
 
-  // Name + phone entry — begins a Telegram/SMS confirmation challenge
-  startAuth: (name: string, phone: string) =>
+  // Phone entry — begins a Telegram/SMS confirmation challenge
+  startAuth: (phone: string) =>
     apiFetch<{ challengeId: string; telegramDeepLink: string | null; canPushTelegram: boolean }>(
-      '/api/auth/start', { method: 'POST', body: JSON.stringify({ name, phone }) },
+      '/api/auth/start', { method: 'POST', body: JSON.stringify({ phone }) },
     ),
 
   sendChallengeCode: (challengeId: string, channel: 'TELEGRAM' | 'SMS') =>

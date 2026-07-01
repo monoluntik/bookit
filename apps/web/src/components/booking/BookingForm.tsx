@@ -25,17 +25,22 @@ function formatDate(iso: string) {
 
 export default function BookingForm({ resource, service, slot, guestCount, nights, onSuccess, onBack }: Props) {
   const t = useTranslations('Booking.form')
-  const { user } = useAuth()
+  const { user, updateUser } = useAuth()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [notes, setNotes] = useState('')
+  const [name, setName] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
+      if (user && !user.name && name.trim()) {
+        await api.updateProfile({ name: name.trim() })
+        updateUser({ name: name.trim() })
+      }
       const booking = await api.createBooking({
         resourceId: resource.id,
         serviceId: service?.id,
@@ -83,15 +88,21 @@ export default function BookingForm({ resource, service, slot, guestCount, night
         </>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-          <div className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
-            <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-green-700 font-bold text-sm shrink-0">
-              {user.name[0].toUpperCase()}
+          {user.name ? (
+            <div className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
+              <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-green-700 font-bold text-sm shrink-0">
+                {user.name[0].toUpperCase()}
+              </div>
+              <div>
+                <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                <div className="text-xs text-gray-500">{user.phone}</div>
+              </div>
             </div>
-            <div>
-              <div className="text-sm font-medium text-gray-900">{user.name}</div>
-              <div className="text-xs text-gray-500">{user.phone}</div>
-            </div>
-          </div>
+          ) : (
+            <input required placeholder={t('namePlaceholder')} value={name}
+              onChange={e => setName(e.target.value)} autoComplete="name"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+          )}
 
           <textarea placeholder={t('notesPlaceholder')} value={notes}
             onChange={e => setNotes(e.target.value)} rows={2}
@@ -104,7 +115,7 @@ export default function BookingForm({ resource, service, slot, guestCount, night
               className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm">
               {t('back')}
             </button>
-            <button type="submit" disabled={loading} aria-busy={loading}
+            <button type="submit" disabled={loading || (!user.name && !name.trim())} aria-busy={loading}
               className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed">
               {loading ? t('submitting') : t('submit')}
             </button>

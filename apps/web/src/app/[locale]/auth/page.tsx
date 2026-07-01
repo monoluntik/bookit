@@ -10,7 +10,7 @@ function AuthForm() {
   const t = useTranslations('Auth')
   const router = useRouter()
   const params = useSearchParams()
-  const redirect = params.get('redirect') ?? '/dashboard'
+  const redirect = params.get('redirect') ?? '/'
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">

@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const mobileNavItems = navItems.slice(0, 4)
 
   useEffect(() => {
-    if (!loading && !user) router.push('/auth')
+    if (!loading && !user) router.push('/auth?redirect=/dashboard')
   }, [user, loading, router])
 
   useEffect(() => { setSidebarOpen(false) }, [pathname])

@@ -13,7 +13,6 @@ const SEND_COOLDOWN_MS = 60 * 1000
 const MAX_ATTEMPTS = 5
 
 const startSchema = z.object({
-  name: z.string().min(1, 'Имя обязательно'),
   phone: z.string().min(1, 'Телефон обязателен'),
 })
 
@@ -30,7 +29,7 @@ function publicUser(user: { id: string; name: string; phone: string | null; emai
 }
 
 export async function authRoutes(app: FastifyInstance) {
-  // POST /start — collect name + phone, create a pending challenge
+  // POST /start — collect phone, create a pending challenge (name defaults to the existing user's name, or empty for new signups — collected later in the booking form)
   app.post('/start', async (request, reply) => {
     const ip = request.ip
     if (!checkRateLimit(ip, 20, 60_000)) {
@@ -57,7 +56,7 @@ export async function authRoutes(app: FastifyInstance) {
     const challenge = await prisma.authChallenge.create({
       data: {
         phone,
-        name: body.data.name,
+        name: existingUser?.name ?? '',
         channel: 'TELEGRAM',
         codeHash: hashToken(code),
         telegramToken,

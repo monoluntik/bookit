@@ -16,7 +16,6 @@ export default function PhoneAuthFlow({ onAuthenticated }: Props) {
   const { refreshUser } = useAuth()
 
   const [step, setStep] = useState<'start' | 'confirm'>('start')
-  const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -36,7 +35,7 @@ export default function PhoneAuthFlow({ onAuthenticated }: Props) {
     setError('')
     setLoading(true)
     try {
-      const res = await api.startAuth(name, phone)
+      const res = await api.startAuth(phone)
       setChallengeId(res.challengeId)
       setTelegramDeepLink(res.telegramDeepLink)
       setCanPushTelegram(res.canPushTelegram)
@@ -122,9 +121,6 @@ export default function PhoneAuthFlow({ onAuthenticated }: Props) {
   if (step === 'start') {
     return (
       <form onSubmit={handleStart} className="space-y-3">
-        <input required placeholder={t('step1.namePlaceholder')} value={name}
-          onChange={e => setName(e.target.value)} autoComplete="name"
-          className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
         <input required type="tel" placeholder={t('step1.phonePlaceholder')} value={phone}
           onChange={e => setPhone(e.target.value)} autoComplete="tel"
           className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
