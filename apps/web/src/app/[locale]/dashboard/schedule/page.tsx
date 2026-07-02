@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { api } from '@/lib/api'
+import { toLocalDateStr } from '@/lib/date'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -121,7 +122,7 @@ export default function SchedulePage() {
     }
   }
 
-  const today = new Date().toISOString().split('T')[0]
+  const today = toLocalDateStr(new Date())
   const upcoming = exceptions.filter(e => e.date.slice(0, 10) >= today)
   const past     = exceptions.filter(e => e.date.slice(0, 10) < today)
 

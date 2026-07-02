@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { api } from '@/lib/api'
+import { toLocalDateStr, addDaysToDateStr, parseLocalDateStr } from '@/lib/date'
 
 interface Slot { start: string; end: string }
 
@@ -48,17 +49,14 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
 
   const handleNextDay = () => {
     if (!onChangeDate) return
-    const nextDate = new Date(date)
-    nextDate.setDate(nextDate.getDate() + 1)
-    const nextDateStr = nextDate.toISOString().split('T')[0]
-    onChangeDate(nextDateStr)
+    onChangeDate(addDaysToDateStr(date, 1))
   }
 
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-800 mb-0.5">{t('title')}</h2>
       <p className="text-sm text-gray-400 mb-4">
-        {new Date(date).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long' })}
+        {parseLocalDateStr(date).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long' })}
       </p>
 
       {loading ? (
@@ -78,9 +76,9 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
       ) : slots.length === 0 ? (
         <div className="text-center py-10 bg-gray-50 rounded-xl">
           <div className="text-3xl mb-2">
-            {date === new Date().toISOString().split('T')[0] ? '🌙' : '😔'}
+            {date === toLocalDateStr(new Date()) ? '🌙' : '😔'}
           </div>
-          {date === new Date().toISOString().split('T')[0] ? (
+          {date === toLocalDateStr(new Date()) ? (
             <>
               <p className="text-gray-500 font-medium text-sm">{t('noSlotsToday')}</p>
               <p className="text-xs text-gray-400 mt-1">{t('noSlotsTodayHint')}</p>

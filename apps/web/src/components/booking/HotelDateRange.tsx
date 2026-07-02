@@ -2,14 +2,10 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { toLocalDateStr, parseLocalDateStr } from '@/lib/date'
 
-function toISO(d: Date) {
-  return d.toISOString().slice(0, 10)
-}
-function parseLocal(s: string) {
-  const [y, m, d] = s.split('-').map(Number)
-  return new Date(y, m - 1, d)
-}
+const toISO = toLocalDateStr
+const parseLocal = parseLocalDateStr
 
 interface Props {
   onSelect: (checkIn: string, checkOut: string, nights: number) => void
@@ -98,9 +94,9 @@ export default function HotelDateRange({ onSelect, onBack }: Props) {
 
       {checkIn && checkOut && (
         <div className="mt-4 p-3 bg-blue-50 rounded-xl text-sm text-blue-700">
-          {t('checkIn')} <strong>{new Date(checkIn).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
+          {t('checkIn')} <strong>{parseLocal(checkIn).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
           {' · '}
-          {t('checkOut')} <strong>{new Date(checkOut).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
+          {t('checkOut')} <strong>{parseLocal(checkOut).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
           {' · '}<strong>{t('nights', { count: nights })}</strong>
         </div>
       )}

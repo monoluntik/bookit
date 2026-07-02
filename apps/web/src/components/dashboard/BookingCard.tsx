@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useToast } from '@/context/ToastContext'
+import { toLocalDateStr } from '@/lib/date'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -55,7 +56,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
   const canReschedule = ['PENDING', 'CONFIRMED'].includes(booking.status)
   const isBlock      = booking.source === 'BLOCK'
   const isManual     = booking.source === 'MANUAL'
-  const today        = new Date().toISOString().split('T')[0]
+  const today        = toLocalDateStr(new Date())
 
   const rescheduleTimeError =
     rescheduleStart && rescheduleEnd && rescheduleStart >= rescheduleEnd

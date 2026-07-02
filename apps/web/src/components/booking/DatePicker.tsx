@@ -2,15 +2,14 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { toLocalDateStr } from '@/lib/date'
 
 interface Props {
   onSelect: (date: string) => void
   onBack: () => void
 }
 
-function formatDate(date: Date): string {
-  return date.toISOString().split('T')[0]
-}
+const formatDate = toLocalDateStr
 
 function addDays(date: Date, days: number): Date {
   const d = new Date(date)
