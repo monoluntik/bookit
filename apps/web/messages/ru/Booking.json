@@ -83,6 +83,7 @@
         "december": "Декабрь"
       },
       "todayIs": "Сегодня — {date}",
+      "dayUnavailable": "В этот день нет приёма",
       "back": "Назад",
       "next": "Далее"
     },

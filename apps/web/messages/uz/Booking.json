@@ -83,6 +83,7 @@
         "december": "Dekabr"
       },
       "todayIs": "Bugun — {date}",
+      "dayUnavailable": "Bu kuni qabul yo'q",
       "back": "Orqaga",
       "next": "Keyingi"
     },

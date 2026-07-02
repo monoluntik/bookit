@@ -83,6 +83,7 @@
         "december": "Желтоқсан"
       },
       "todayIs": "Бүгін — {date}",
+      "dayUnavailable": "Бұл күні қабылдау жоқ",
       "back": "Артқа",
       "next": "Келесі"
     },

@@ -130,6 +130,23 @@ export default function BookingFlowAdaptive({ business }: Props) {
 
   const activeResource = selectedResource
 
+  // Days the resource has no schedule for, and dates explicitly closed via an
+  // exception, so the date picker can gray them out instead of letting the
+  // customer pick a date that turns out to have zero slots.
+  const activeDaysOfWeek = useMemo(() => {
+    const days = new Set<number>()
+    activeResource?.schedules?.forEach((s: any) => s.dayOfWeek?.forEach((d: number) => days.add(d)))
+    return days
+  }, [activeResource])
+
+  const closedDates = useMemo(() => {
+    const dates = new Set<string>()
+    activeResource?.schedules?.forEach((s: any) =>
+      s.exceptions?.forEach((e: any) => { if (e.isClosed) dates.add(e.date.slice(0, 10)) })
+    )
+    return dates
+  }, [activeResource])
+
   const hotelSlot = checkIn && checkOut ? {
     start: `${checkIn}T14:00:00`,
     end: `${checkOut}T12:00:00`,
@@ -194,7 +211,12 @@ export default function BookingFlowAdaptive({ business }: Props) {
       )}
 
       {step === 'date' && (
-        <DatePicker onSelect={d => { setSelectedDate(d); next() }} onBack={back} />
+        <DatePicker
+          onSelect={d => { setSelectedDate(d); next() }}
+          onBack={back}
+          activeDaysOfWeek={activeDaysOfWeek}
+          closedDates={closedDates}
+        />
       )}
 
       {step === 'dateRange' && (

@@ -83,6 +83,7 @@
         "december": "December"
       },
       "todayIs": "Today — {date}",
+      "dayUnavailable": "Not available on this day",
       "back": "Back",
       "next": "Next"
     },

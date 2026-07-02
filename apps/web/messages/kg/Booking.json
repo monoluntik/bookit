@@ -83,6 +83,7 @@
         "december": "Декабрь"
       },
       "todayIs": "Бүгүн — {date}",
+      "dayUnavailable": "Бул күнү кабыл алуу жок",
       "back": "Артка",
       "next": "Кийинки"
     },

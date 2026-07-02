@@ -38,7 +38,10 @@ export async function businessRoutes(app: FastifyInstance) {
         resources: {
           where: { isActive: true },
           include: {
-            schedules: { where: { isActive: true } },
+            schedules: {
+              where: { isActive: true },
+              include: { exceptions: { where: { isClosed: true } } },
+            },
             services: { where: { isActive: true }, include: { translations: { where: { locale } } } },
             translations: { where: { locale } },
           },

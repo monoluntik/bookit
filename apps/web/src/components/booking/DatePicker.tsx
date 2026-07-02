@@ -7,6 +7,10 @@ import { toLocalDateStr } from '@/lib/date'
 interface Props {
   onSelect: (date: string) => void
   onBack: () => void
+  /** JS Date.getDay() convention (0=Sun..6=Sat). Empty/undefined = no restriction. */
+  activeDaysOfWeek?: Set<number>
+  /** "YYYY-MM-DD" dates fully closed via a schedule exception. */
+  closedDates?: Set<string>
 }
 
 const formatDate = toLocalDateStr
@@ -17,7 +21,7 @@ function addDays(date: Date, days: number): Date {
   return d
 }
 
-export default function DatePicker({ onSelect, onBack }: Props) {
+export default function DatePicker({ onSelect, onBack, activeDaysOfWeek, closedDates }: Props) {
   const t = useTranslations('Booking.datePicker')
   const DAY_LABELS = [t('days.mon'), t('days.tue'), t('days.wed'), t('days.thu'), t('days.fri'), t('days.sat'), t('days.sun')]
   const MONTH_NAMES = [
@@ -68,15 +72,19 @@ export default function DatePicker({ onSelect, onBack }: Props) {
             if (!date) return <div key={i} />
             const str = formatDate(date)
             const isPast = date < today
+            const noSchedule = !!activeDaysOfWeek && activeDaysOfWeek.size > 0 && !activeDaysOfWeek.has(date.getDay())
+            const isClosed = !!closedDates?.has(str)
+            const isUnavailable = isPast || noSchedule || isClosed
             const isToday = str === formatDate(today)
             const isSelected = str === selected
             return (
               <button
                 key={i}
-                disabled={isPast}
+                disabled={isUnavailable}
+                title={!isPast && (noSchedule || isClosed) ? t('dayUnavailable') : undefined}
                 onClick={() => setSelected(str)}
                 className={`relative h-9 w-full rounded-lg text-sm font-medium transition-colors
-                  ${isPast ? 'text-gray-200 cursor-not-allowed' :
+                  ${isUnavailable ? 'text-gray-200 cursor-not-allowed' :
                     isSelected ? 'bg-blue-600 text-white' :
                     isToday ? 'ring-2 ring-blue-400 text-blue-600 hover:bg-blue-50' :
                     'hover:bg-blue-50 text-gray-700'}`}
