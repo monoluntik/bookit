@@ -264,9 +264,6 @@ export async function bookingRoutes(app: FastifyInstance) {
       return reply.status(400).send({ error: body.error.errors[0]?.message ?? 'Неверные данные' })
     }
 
-    const startAt = new Date(body.data.startAt)
-    const endAt   = new Date(body.data.endAt)
-
     // Verify resource belongs to this owner
     const resource = await prisma.resource.findUnique({
       where: { id: body.data.resourceId, isActive: true },
@@ -274,6 +271,12 @@ export async function bookingRoutes(app: FastifyInstance) {
     })
     if (!resource) return reply.status(404).send({ error: 'Ресурс не найден' })
     if (resource.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Нет доступа' })
+
+    // startAt/endAt arrive as naive "YYYY-MM-DDTHH:mm" wall-clock strings from
+    // the owner's date+time inputs — interpret them in the business's own
+    // timezone, not the server process's timezone (see zonedTimeToUtc).
+    const startAt = zonedTimeToUtc(body.data.startAt, resource.business.timezone)
+    const endAt   = zonedTimeToUtc(body.data.endAt, resource.business.timezone)
 
     // Atomic conflict check + create
     let booking

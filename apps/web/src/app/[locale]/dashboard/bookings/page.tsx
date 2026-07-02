@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { api } from '@/lib/api'
 import BookingCard from '@/components/dashboard/BookingCard'
+import { toLocalDateStr } from '@/lib/date'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -36,14 +37,14 @@ function CalendarView({ bookings, onDateClick, statusLabels, dayLabels, blockLab
   const bookingsByDate = useMemo(() => {
     const map: Record<string, any[]> = {}
     bookings.forEach(b => {
-      const d = new Date(b.startAt).toISOString().slice(0, 10)
+      const d = toLocalDateStr(new Date(b.startAt))
       if (!map[d]) map[d] = []
       map[d].push(b)
     })
     return map
   }, [bookings])
 
-  const today = new Date().toISOString().slice(0, 10)
+  const today = toLocalDateStr(new Date())
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
