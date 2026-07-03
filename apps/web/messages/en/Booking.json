@@ -185,7 +185,10 @@
     "paymentResult": {
       "checking": "Checking payment...",
       "pending": "Awaiting confirmation",
-      "pendingHint": "The bank is still processing the payment"
+      "pendingHint": "The bank is still processing the payment",
+      "success": "Payment successful!",
+      "goToBookings": "Go to my bookings",
+      "failed": "Couldn't verify payment"
     },
     "payMock": {
       "sandboxLabel": "Bakai Bank — Dev Sandbox",

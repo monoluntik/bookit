@@ -24,6 +24,10 @@ function toSlug(name: string) {
 
 const MAX_REMINDER_RULES = 5
 
+// No payment provider chosen yet — bookings use the sandbox pay-mock page for
+// everyone, so hide the credential-connection panel until one is picked.
+const PAYMENT_SETTINGS_ENABLED = false
+
 export default function SettingsPage() {
   const t = useTranslations('Dashboard.settings')
   const TYPE_LABELS: Record<string, string> = {
@@ -51,9 +55,10 @@ export default function SettingsPage() {
   const [editingBiz, setEditingBiz] = useState<string | null>(null) // businessId being info-edited
   const [editBizForm, setEditBizForm] = useState({ name: '', type: 'SALON', description: '', address: '', phone: '', email: '' })
   const [editingPayment, setEditingPayment] = useState<string | null>(null) // businessId
-  const [paymentForm, setPaymentForm] = useState({ bakaiUsername: '', bakaiPassword: '' })
-  const [showBakaiPw, setShowBakaiPw] = useState(false)
+  const [paymentForm, setPaymentForm] = useState({ finikApiKey: '', finikAccountId: '' })
   const [paymentSaving, setPaymentSaving] = useState(false)
+  const [generatingKey, setGeneratingKey] = useState(false)
+  const [publicKeys, setPublicKeys] = useState<Record<string, string>>({})
   const [editingReminders, setEditingReminders] = useState<string | null>(null) // businessId
   const [editingTranslations, setEditingTranslations] = useState<string | null>(null) // businessId
   const [reminderRules, setReminderRules] = useState<Record<string, any[]>>({})
@@ -155,11 +160,48 @@ export default function SettingsPage() {
   }
 
   const openEditPayment = (b: any) => {
-    setPaymentForm({ bakaiUsername: '', bakaiPassword: '' })
-    setShowBakaiPw(false)
+    setPaymentForm({ finikApiKey: '', finikAccountId: '' })
     setEditingPayment(b.id)
     setEditingBiz(null)
     setEditPhotos(null)
+    if (b.hasFinikKey) {
+      fetch(`${API}/api/businesses/${b.id}/finik/public-key`, { credentials: 'include' })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => { if (d?.publicKey) setPublicKeys(prev => ({ ...prev, [b.id]: d.publicKey })) })
+        .catch(() => {})
+    }
+  }
+
+  const handleGenerateKey = async (bizId: string) => {
+    if (!user) return
+    setGeneratingKey(true)
+    try {
+      const res = await fetch(`${API}/api/businesses/${bizId}/finik/generate-key`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? t('paymentSection.errorGeneric'))
+      setPublicKeys(prev => ({ ...prev, [bizId]: data.publicKey }))
+      setBusinesses(prev => prev.map(b => b.id === bizId ? { ...b, hasFinikKey: true } : b))
+      success(t('paymentSection.successKeyGenerated'))
+    } catch (err: any) {
+      showError(err.message ?? t('paymentSection.errorGeneric'))
+    } finally {
+      setGeneratingKey(false)
+    }
+  }
+
+  const downloadKey = (bizId: string, slug: string) => {
+    const key = publicKeys[bizId]
+    if (!key) return
+    const blob = new Blob([key], { type: 'application/x-pem-file' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `finik-public-key-${slug}.pem`
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   const handleSavePayment = async (bizId: string) => {
@@ -171,13 +213,13 @@ export default function SettingsPage() {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          bakaiUsername: paymentForm.bakaiUsername || null,
-          bakaiPassword: paymentForm.bakaiPassword || null,
+          finikApiKey: paymentForm.finikApiKey || null,
+          finikAccountId: paymentForm.finikAccountId || null,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? t('paymentSection.errorGeneric'))
-      setBusinesses(prev => prev.map(b => b.id === bizId ? { ...b, hasBakaiCredentials: data.hasBakaiCredentials } : b))
+      setBusinesses(prev => prev.map(b => b.id === bizId ? { ...b, hasFinikCredentials: data.hasFinikCredentials } : b))
       setEditingPayment(null)
       success(t('paymentSection.successSaved'))
     } catch (err: any) {
@@ -373,13 +415,15 @@ export default function SettingsPage() {
                       >
                         {t('businessCard.photosButton')}
                       </button>
-                      <button
-                        onClick={() => editingPayment === b.id ? setEditingPayment(null) : openEditPayment(b)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors
-                          ${editingPayment === b.id ? 'bg-green-600 text-white border-green-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
-                      >
-                        {b.hasBakaiCredentials ? t('businessCard.paymentButtonConnected') : t('businessCard.paymentButton')}
-                      </button>
+                      {PAYMENT_SETTINGS_ENABLED && (
+                        <button
+                          onClick={() => editingPayment === b.id ? setEditingPayment(null) : openEditPayment(b)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors
+                            ${editingPayment === b.id ? 'bg-green-600 text-white border-green-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                        >
+                          {b.hasFinikCredentials ? t('businessCard.paymentButtonConnected') : t('businessCard.paymentButton')}
+                        </button>
+                      )}
                       <button
                         onClick={() => editingReminders === b.id ? setEditingReminders(null) : openEditReminders(b)}
                         className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors
@@ -530,7 +574,7 @@ export default function SettingsPage() {
                   </div>
                 )}
                 {/* Payment settings */}
-                {editingPayment === b.id && (
+                {PAYMENT_SETTINGS_ENABLED && editingPayment === b.id && (
                   <div className="border-t border-gray-100 p-5 bg-gray-50 space-y-4">
                     <div>
                       <div className="text-sm font-medium text-gray-800 mb-1">{t('paymentSection.title')}</div>
@@ -539,38 +583,78 @@ export default function SettingsPage() {
                       </p>
                     </div>
 
-                    {b.hasBakaiCredentials && (
+                    {b.hasFinikCredentials && (
                       <div className="flex items-center gap-2 text-xs text-green-600 bg-green-50 rounded-xl px-3 py-2">
                         <span>✓</span>
                         <span>{t('paymentSection.connectedNotice')}</span>
                       </div>
                     )}
 
+                    {/* Step 1: generate/download the RSA public key */}
+                    <div className="bg-white rounded-xl p-4 space-y-3">
+                      <div className="text-xs font-medium text-gray-600">{t('paymentSection.step1Title')}</div>
+                      {publicKeys[b.id] ? (
+                        <>
+                          <textarea
+                            readOnly
+                            value={publicKeys[b.id]}
+                            rows={4}
+                            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-mono text-gray-500 resize-none"
+                          />
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => { navigator.clipboard.writeText(publicKeys[b.id]); success(t('paymentSection.successCopied')) }}
+                              className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-600 hover:bg-gray-50"
+                            >
+                              {t('paymentSection.copyKey')}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => downloadKey(b.id, b.slug)}
+                              className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-600 hover:bg-gray-50"
+                            >
+                              {t('paymentSection.downloadKey')}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleGenerateKey(b.id)}
+                              disabled={generatingKey}
+                              className="px-3 py-1.5 rounded-lg border border-amber-200 text-xs text-amber-600 hover:bg-amber-50 disabled:opacity-60"
+                            >
+                              {generatingKey ? t('paymentSection.generating') : t('paymentSection.regenerateKey')}
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleGenerateKey(b.id)}
+                          disabled={generatingKey}
+                          className="w-full py-2.5 rounded-xl bg-gray-800 text-white text-sm font-medium hover:bg-gray-900 disabled:opacity-60"
+                        >
+                          {generatingKey ? t('paymentSection.generating') : t('paymentSection.generateKey')}
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Step 2: paste back the apiKey/accountId Finik issues */}
                     <div className="space-y-3">
+                      <div className="text-xs font-medium text-gray-600">{t('paymentSection.step2Title')}</div>
                       <input
-                        placeholder={t('paymentSection.usernamePlaceholder')}
-                        value={paymentForm.bakaiUsername}
-                        onChange={e => setPaymentForm(p => ({ ...p, bakaiUsername: e.target.value }))}
+                        placeholder={t('paymentSection.apiKeyPlaceholder')}
+                        value={paymentForm.finikApiKey}
+                        onChange={e => setPaymentForm(p => ({ ...p, finikApiKey: e.target.value }))}
                         autoComplete="off"
                         className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
                       />
-                      <div className="relative">
-                        <input
-                          type={showBakaiPw ? 'text' : 'password'}
-                          placeholder={t('paymentSection.passwordPlaceholder')}
-                          value={paymentForm.bakaiPassword}
-                          onChange={e => setPaymentForm(p => ({ ...p, bakaiPassword: e.target.value }))}
-                          autoComplete="new-password"
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 pr-10"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowBakaiPw(v => !v)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
-                        >
-                          {showBakaiPw ? '🙈' : '👁'}
-                        </button>
-                      </div>
+                      <input
+                        placeholder={t('paymentSection.accountIdPlaceholder')}
+                        value={paymentForm.finikAccountId}
+                        onChange={e => setPaymentForm(p => ({ ...p, finikAccountId: e.target.value }))}
+                        autoComplete="off"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+                      />
                     </div>
 
                     <div className="bg-amber-50 rounded-xl px-3 py-2.5 text-xs text-amber-700">
@@ -578,7 +662,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="flex gap-3">
-                      {b.hasBakaiCredentials && (
+                      {b.hasFinikCredentials && (
                         <button
                           type="button"
                           onClick={async () => {
@@ -589,9 +673,9 @@ export default function SettingsPage() {
                                 method: 'PATCH',
                                 credentials: 'include',
                                 headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ bakaiUsername: null, bakaiPassword: null }),
+                                body: JSON.stringify({ finikApiKey: null, finikAccountId: null }),
                               })
-                              setBusinesses(prev => prev.map(biz => biz.id === b.id ? { ...biz, hasBakaiCredentials: false } : biz))
+                              setBusinesses(prev => prev.map(biz => biz.id === b.id ? { ...biz, hasFinikCredentials: false } : biz))
                               setEditingPayment(null)
                               success(t('paymentSection.successDisconnected'))
                             } catch {
@@ -611,7 +695,7 @@ export default function SettingsPage() {
                       <button
                         type="button"
                         onClick={() => handleSavePayment(b.id)}
-                        disabled={paymentSaving || !paymentForm.bakaiUsername || !paymentForm.bakaiPassword}
+                        disabled={paymentSaving || !paymentForm.finikApiKey || !paymentForm.finikAccountId}
                         className="flex-1 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium hover:bg-green-700 disabled:opacity-60"
                       >
                         {paymentSaving ? t('paymentSection.saving') : t('paymentSection.save')}

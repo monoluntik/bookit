@@ -11,17 +11,22 @@ function PayMockContent() {
   const t = useTranslations('Booking.payMock')
   const params = useSearchParams()
   const router = useRouter()
-  const txId = params.get('txId') ?? ''
+  const paymentId = params.get('paymentId') ?? params.get('txId') ?? ''
   const bookingId = params.get('bookingId') ?? ''
   const amount = params.get('amount') ?? '0'
   const [loading, setLoading] = useState(false)
 
-  const pay = async (success: boolean) => {
+  const pay = async (paySuccess: boolean) => {
     setLoading(true)
     await new Promise(r => setTimeout(r, 1200))
-    if (success) {
-      // Route through real API result endpoint — marks payment PAID + booking CONFIRMED
-      window.location.href = `${API_URL}/api/payments/result?bookingId=${bookingId}&txId=${txId}`
+    if (paySuccess) {
+      // Dev/QA-only mock confirmation — marks payment PAID + booking CONFIRMED
+      await fetch(`${API_URL}/api/payments/mock-confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId }),
+      })
+      router.push(`/booking/payment-result?bookingId=${bookingId}`)
     } else {
       router.push(`/booking/failed?bookingId=${bookingId}`)
     }
@@ -33,7 +38,7 @@ function PayMockContent() {
         <div className="text-center mb-6">
           <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">{t('sandboxLabel')}</div>
           <div className="text-2xl font-bold text-gray-900">{t('priceSom', { price: Number(amount).toLocaleString('ru') })}</div>
-          <div className="text-xs text-gray-400 mt-1">{t('transactionNumber', { txId })}</div>
+          <div className="text-xs text-gray-400 mt-1">{t('transactionNumber', { txId: paymentId })}</div>
         </div>
         <div className="space-y-2">
           <button onClick={() => pay(true)} disabled={loading}

@@ -135,9 +135,13 @@ model Business {
   subscriptionPlan SubscriptionPlan @default(FREE)
   subscriptionActive Boolean        @default(true)
   isActive         Boolean          @default(true)
-  bakaiUsername    String?
-  bakaiPassword    String?
-  bakaiToken       String? // exchanged once from bakaiUsername/bakaiPassword at connect-time (the password is single-use, no refresh endpoint exists)
+  // Finik payment integration — we generate the RSA keypair server-side so
+  // the owner doesn't need OpenSSL; they upload finikPublicKey to their Finik
+  // "Web" API client, then paste back the apiKey/accountId Finik issues them.
+  finikPublicKey           String?
+  finikPrivateKeyEncrypted String? // AES-256-GCM encrypted, never sent to the client
+  finikApiKey              String?
+  finikAccountId           String?
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
 

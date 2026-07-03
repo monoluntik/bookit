@@ -185,7 +185,10 @@
     "paymentResult": {
       "checking": "To'lov tekshirilmoqda...",
       "pending": "Tasdiqlanishini kutmoqda",
-      "pendingHint": "Bank to'lovni hali qayta ishlamoqda"
+      "pendingHint": "Bank to'lovni hali qayta ishlamoqda",
+      "success": "To'lov muvaffaqiyatli o'tdi!",
+      "goToBookings": "Bronlarimga o'tish",
+      "failed": "To'lovni tekshirib bo'lmadi"
     },
     "payMock": {
       "sandboxLabel": "Bakai Bank — Dev Sandbox",

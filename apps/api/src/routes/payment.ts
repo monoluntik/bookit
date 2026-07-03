@@ -1,13 +1,43 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
+import crypto from 'crypto'
 import { prisma } from '../lib/prisma'
-import { createPayLink, getPaymentStatus } from '../lib/bakai'
+import { createFinikPayment, decryptPrivateKey, verifyFinikWebhook } from '../lib/finik'
 import { sendBookingConfirmation, sendNewBookingAlert } from '../lib/email'
 
 const initiateSchema = z.object({ bookingId: z.string() })
+const WEBHOOK_PATH = '/api/payments/webhook'
+
+// No payment provider has been chosen yet — every booking goes through the
+// sandbox pay-mock page regardless of business credentials/env. The Finik
+// integration below is kept intact; flip this back on once a provider is picked.
+const FINIK_ENABLED = false
+
+async function markPaidAndNotify(app: FastifyInstance, bookingId: string) {
+  await prisma.$transaction([
+    prisma.payment.update({ where: { bookingId }, data: { status: 'PAID', paidAt: new Date() } }),
+    prisma.booking.update({ where: { id: bookingId }, data: { status: 'CONFIRMED' } }),
+  ])
+
+  const bk = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    include: {
+      customer: { select: { email: true, name: true, phone: true } },
+      resource: { select: { name: true } },
+      service: { select: { name: true } },
+      business: true,
+    },
+  })
+  if (bk?.customer) {
+    if (bk.customer.email) sendBookingConfirmation(bk, bk.business, bk.customer.email).catch(console.error)
+    prisma.user.findUnique({ where: { id: bk.business.ownerId }, select: { email: true } })
+      .then(o => { if (o?.email) sendNewBookingAlert(bk, o.email).catch(console.error) })
+      .catch(console.error)
+  }
+}
 
 export async function paymentRoutes(app: FastifyInstance) {
-  // Initiate payment — price calculated server-side from service
+  // Initiate payment — price calculated server-side from service/deposit
   app.post('/initiate', { preHandler: [app.authenticate] }, async (request, reply) => {
     const payload = request.user as { sub: string }
     const body = initiateSchema.safeParse(request.body)
@@ -35,75 +65,35 @@ export async function paymentRoutes(app: FastifyInstance) {
     if (!isDeposit && !booking.service) return reply.status(400).send({ error: 'Нет услуги для оплаты' })
     if (amount <= 0) return reply.status(400).send({ error: 'Услуга бесплатна' })
 
-    if (!booking.business.bakaiToken) {
-      return reply.status(400).send({ error: 'Онлайн-оплата не настроена для этого бизнеса' })
+    const { business } = booking
+    const paymentId = crypto.randomUUID()
+    const redirectUrl = `${process.env.FRONTEND_URL}/booking/payment-result?bookingId=${booking.id}`
+
+    let payUrl: string
+    if (FINIK_ENABLED && business.finikApiKey && business.finikAccountId && business.finikPrivateKeyEncrypted) {
+      const webhookUrl = `${process.env.API_PUBLIC_URL ?? process.env.FRONTEND_URL}${WEBHOOK_PATH}`
+      const result = await createFinikPayment({
+        amount,
+        paymentId,
+        redirectUrl,
+        webhookUrl,
+        accountId: business.finikAccountId,
+        nameEn: business.slug,
+        apiKey: business.finikApiKey,
+        privateKeyPem: decryptPrivateKey(business.finikPrivateKeyEncrypted),
+      })
+      payUrl = result.payUrl
+    } else {
+      payUrl = `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/booking/pay-mock?paymentId=${paymentId}&amount=${amount}&bookingId=${booking.id}`
     }
-
-    const transactionId = `BK-${booking.id.slice(0, 12).toUpperCase()}-${Date.now()}`
-    const redirectUrl = `${process.env.FRONTEND_URL}/booking/payment-result?bookingId=${booking.id}&txId=${transactionId}`
-
-    const { payUrl } = await createPayLink({ amount, transactionId, redirectUrl, bookingId: booking.id, token: booking.business.bakaiToken })
 
     await prisma.payment.upsert({
       where: { bookingId: booking.id },
-      create: { bookingId: booking.id, amount, isDeposit, totalAmount, status: 'PENDING', transactionId },
-      update: { amount, isDeposit, totalAmount, status: 'PENDING', transactionId },
+      create: { bookingId: booking.id, amount, isDeposit, totalAmount, status: 'PENDING', transactionId: paymentId },
+      update: { amount, isDeposit, totalAmount, status: 'PENDING', transactionId: paymentId },
     })
 
-    return reply.send({ payUrl, transactionId, amount, isDeposit, totalAmount })
-  })
-
-  // Bakai redirect — verify txId matches stored transaction
-  app.get('/result', async (request, reply) => {
-    const { bookingId, txId } = request.query as { bookingId?: string; txId?: string }
-    if (!bookingId || !txId) {
-      return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?reason=missing-params`)
-    }
-
-    const payment = await prisma.payment.findUnique({
-      where: { bookingId },
-      include: { booking: { include: { business: true } } },
-    })
-    if (!payment) return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?bookingId=${bookingId}`)
-
-    // Security: verify txId matches stored value — prevents spoofed callbacks
-    if (payment.transactionId !== txId) {
-      app.log.warn(`Payment txId mismatch for booking ${bookingId}`)
-      return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?bookingId=${bookingId}`)
-    }
-
-    const status = await getPaymentStatus(txId, payment.booking.business.bakaiToken)
-
-    if (status === 'SUCCESS') {
-      await prisma.$transaction([
-        prisma.payment.update({ where: { bookingId }, data: { status: 'PAID', paidAt: new Date() } }),
-        prisma.booking.update({ where: { id: bookingId }, data: { status: 'CONFIRMED' } }),
-      ])
-
-      const bk = await prisma.booking.findUnique({
-        where: { id: bookingId },
-        include: {
-          customer: { select: { email: true, name: true, phone: true } },
-          resource: { select: { name: true } },
-          service: { select: { name: true } },
-          business: true,
-        },
-      })
-      if (bk?.customer) {
-        if (bk.customer.email) sendBookingConfirmation(bk, bk.business, bk.customer.email).catch(console.error)
-        prisma.user.findUnique({ where: { id: bk.business.ownerId }, select: { email: true } })
-          .then(o => { if (o?.email) sendNewBookingAlert(bk, o.email).catch(console.error) })
-          .catch(console.error)
-      }
-      return reply.redirect(`${process.env.FRONTEND_URL}/booking/success?bookingId=${bookingId}`)
-    }
-
-    if (status === 'FAILED') {
-      await prisma.payment.update({ where: { bookingId }, data: { status: 'UNPAID' } })
-      return reply.redirect(`${process.env.FRONTEND_URL}/booking/failed?bookingId=${bookingId}`)
-    }
-
-    return reply.redirect(`${process.env.FRONTEND_URL}/booking/payment-result?bookingId=${bookingId}&txId=${txId}`)
+    return reply.send({ payUrl, transactionId: paymentId, amount, isDeposit, totalAmount })
   })
 
   app.get('/status/:bookingId', { preHandler: [app.authenticate] }, async (request, reply) => {
@@ -128,52 +118,57 @@ export async function paymentRoutes(app: FastifyInstance) {
     })
   })
 
-  // Bakai webhook — called by Bakai when payment succeeds
-  // URL: POST /api/payments/webhook
-  // Configure in Bakai Business portal → "Платежные ссылки" → "Вебхук"
+  // Finik webhook — the source of truth for payment confirmation (their
+  // redirect alone is not reliable). Configure webhookUrl per-payment via the
+  // Data.webhookUrl field sent in /initiate; Finik retries with backoff, so
+  // this must be idempotent (guarded by payment.status === 'PAID' below).
   app.post('/webhook', async (request, reply) => {
-    const body = request.body as { transactionId?: string; status?: string; amount?: number }
-    app.log.info({ body }, 'Bakai webhook received')
+    const signature = request.headers['signature'] as string | undefined
+    const body = request.body as { id?: string; transactionId?: string; status?: string; fields?: { paymentId?: string } }
+    app.log.info({ body }, 'Finik webhook received')
 
-    if (!body.transactionId) return reply.status(400).send({ error: 'transactionId required' })
+    if (!signature) return reply.status(400).send({ error: 'signature header required' })
 
-    const payment = await prisma.payment.findFirst({
-      where: { transactionId: body.transactionId },
-      include: {
-        booking: {
-          include: {
-            customer: { select: { email: true, name: true, phone: true } },
-            resource: { select: { name: true } },
-            service: { select: { name: true } },
-            business: true,
-          },
-        },
-      },
-    })
+    const isValid = await verifyFinikWebhook({
+      body: body as Record<string, unknown>,
+      headers: request.headers as Record<string, string | undefined>,
+      httpMethod: 'POST',
+      path: WEBHOOK_PATH,
+    }, signature)
+    if (!isValid) {
+      app.log.warn('Finik webhook signature verification failed')
+      return reply.status(401).send({ error: 'Invalid signature' })
+    }
 
+    const paymentId = body.fields?.paymentId ?? body.transactionId ?? body.id
+    if (!paymentId) return reply.status(400).send({ error: 'paymentId required' })
+
+    const payment = await prisma.payment.findFirst({ where: { transactionId: paymentId } })
     if (!payment) {
-      app.log.warn({ transactionId: body.transactionId }, 'Webhook: payment not found')
+      app.log.warn({ paymentId }, 'Finik webhook: payment not found')
       return reply.status(404).send({ error: 'Payment not found' })
     }
 
     if (payment.status === 'PAID') return reply.send({ ok: true, already: true })
+    if (body.status !== 'success') return reply.send({ ok: true, ignored: true })
 
-    const isSuccess = !body.status || body.status === 'Success' || body.status === 'Processed'
-    if (!isSuccess) return reply.send({ ok: true, ignored: true })
+    await markPaidAndNotify(app, payment.bookingId)
+    return reply.send({ ok: true })
+  })
 
-    const { booking } = payment
-    await prisma.$transaction([
-      prisma.payment.update({ where: { id: payment.id }, data: { status: 'PAID', paidAt: new Date() } }),
-      prisma.booking.update({ where: { id: booking.id }, data: { status: 'CONFIRMED' } }),
-    ])
+  // Sandbox confirm for the pay-mock page — this is the only payment path
+  // while FINIK_ENABLED is false, so it's intentionally available in all envs.
+  app.post('/mock-confirm', async (request, reply) => {
+    const { bookingId } = request.body as { bookingId?: string }
+    if (!bookingId) return reply.status(400).send({ error: 'bookingId required' })
 
-    if (booking.customer) {
-      if (booking.customer.email) sendBookingConfirmation(booking, booking.business, booking.customer.email).catch(console.error)
-      prisma.user.findUnique({ where: { id: booking.business.ownerId }, select: { email: true } })
-        .then(o => { if (o?.email) sendNewBookingAlert(booking, o.email).catch(console.error) })
-        .catch(console.error)
-    }
+    const payment = await prisma.payment.findUnique({ where: { bookingId }, include: { booking: { include: { business: true } } } })
+    if (!payment) return reply.status(404).send({ error: 'Payment not found' })
+    // Only ever allow this for businesses that aren't actually connected to Finik.
+    if (payment.booking.business.finikApiKey) return reply.status(403).send({ error: 'Forbidden' })
+    if (payment.status === 'PAID') return reply.send({ ok: true, already: true })
 
+    await markPaidAndNotify(app, bookingId)
     return reply.send({ ok: true })
   })
 }

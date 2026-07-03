@@ -185,7 +185,10 @@
     "paymentResult": {
       "checking": "Проверяем оплату...",
       "pending": "Ожидаем подтверждения",
-      "pendingHint": "Банк ещё обрабатывает платёж"
+      "pendingHint": "Банк ещё обрабатывает платёж",
+      "success": "Оплата прошла успешно!",
+      "goToBookings": "Перейти к моим бронированиям",
+      "failed": "Не удалось проверить оплату"
     },
     "payMock": {
       "sandboxLabel": "Bakai Bank — Dev Sandbox",

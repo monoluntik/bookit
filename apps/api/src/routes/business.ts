@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 import { BusinessTypeValues } from '../types/enums'
 import { resolveContentLocale, withTranslation, CONTENT_LOCALES } from '../lib/i18n'
-import { loginBakai } from '../lib/bakai'
+import { generateFinikKeyPair, encryptPrivateKey } from '../lib/finik'
 
 const translationBodySchema = z.object({
   name: z.string().min(1).optional().nullable(),
@@ -23,8 +23,8 @@ const createBusinessSchema = z.object({
 })
 
 const updateBusinessSchema = createBusinessSchema.partial().omit({ slug: true }).extend({
-  bakaiUsername: z.string().optional().nullable(),
-  bakaiPassword: z.string().optional().nullable(),
+  finikApiKey: z.string().optional().nullable(),
+  finikAccountId: z.string().optional().nullable(),
 })
 
 export async function businessRoutes(app: FastifyInstance) {
@@ -76,12 +76,18 @@ export async function businessRoutes(app: FastifyInstance) {
     const payload = request.user as { sub: string }
     const businesses = await prisma.business.findMany({
       where: { ownerId: payload.sub },
-      select: { id: true, slug: true, name: true, type: true, isActive: true, subscriptionPlan: true, bakaiToken: true },
+      select: {
+        id: true, slug: true, name: true, type: true, isActive: true, subscriptionPlan: true,
+        finikApiKey: true, finikAccountId: true, finikPublicKey: true,
+      },
     })
     return reply.send(businesses.map(b => ({
       ...b,
-      hasBakaiCredentials: !!b.bakaiToken,
-      bakaiToken: undefined,
+      hasFinikCredentials: !!b.finikApiKey && !!b.finikAccountId,
+      hasFinikKey: !!b.finikPublicKey,
+      finikApiKey: undefined,
+      finikAccountId: undefined,
+      finikPublicKey: undefined,
     })))
   })
 
@@ -293,37 +299,54 @@ export async function businessRoutes(app: FastifyInstance) {
     if (!business) return reply.status(404).send({ error: 'Not found' })
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
-    const { metadata: md, bakaiUsername, bakaiPassword, ...restData } = body.data
-
-    // Bakai's login password is single-use and there's no token-refresh endpoint,
-    // so we exchange it for a durable token right here, once, and never store or
-    // reuse the raw password afterwards.
-    let bakaiToken: string | null | undefined
-    if (bakaiUsername === null && bakaiPassword === null) {
-      bakaiToken = null // disconnect
-    } else if (bakaiUsername && bakaiPassword) {
-      try {
-        bakaiToken = await loginBakai(bakaiUsername, bakaiPassword)
-      } catch (err) {
-        app.log.warn({ err }, 'Bakai login exchange failed')
-        return reply.status(400).send({ error: 'Не удалось подключиться к Bakai. Проверьте логин и пароль — если они уже использовались, запросите новые.' })
-      }
-    }
+    const { metadata: md, finikApiKey, finikAccountId, ...restData } = body.data
 
     const updated = await prisma.business.update({
       where: { id },
       data: {
         ...restData,
         ...(md ? { metadata: md as any } : {}),
-        ...(bakaiUsername !== undefined ? { bakaiUsername } : {}),
-        // The password itself is never persisted — it's single-use and already spent above.
-        ...(bakaiPassword !== undefined ? { bakaiPassword: null } : {}),
-        ...(bakaiToken !== undefined ? { bakaiToken } : {}),
+        ...(finikApiKey !== undefined ? { finikApiKey } : {}),
+        ...(finikAccountId !== undefined ? { finikAccountId } : {}),
       },
     })
-    // Never return Bakai credentials to client
-    const { bakaiUsername: _u, bakaiPassword: _p, bakaiToken: _t, ...safe } = updated as any
-    return reply.send({ ...safe, hasBakaiCredentials: !!(updated as any).bakaiToken })
+    // Never return Finik credentials to client
+    const { finikApiKey: _k, finikAccountId: _a, finikPrivateKeyEncrypted: _pk, ...safe } = updated as any
+    return reply.send({ ...safe, hasFinikCredentials: !!(updated as any).finikApiKey && !!(updated as any).finikAccountId })
+  })
+
+  // Protected: generate a Finik RSA keypair for this business (owner only) —
+  // the owner uploads the returned public key to their Finik "Web" API client.
+  app.post('/:id/finik/generate-key', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+
+    const business = await prisma.business.findUnique({ where: { id } })
+    if (!business) return reply.status(404).send({ error: 'Not found' })
+    if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    const { publicKey, privateKey } = generateFinikKeyPair()
+    await prisma.business.update({
+      where: { id },
+      data: {
+        finikPublicKey: publicKey,
+        finikPrivateKeyEncrypted: encryptPrivateKey(privateKey),
+      },
+    })
+    return reply.send({ publicKey })
+  })
+
+  // Protected: re-fetch the already-generated public key (owner only)
+  app.get('/:id/finik/public-key', { preHandler: [app.authenticate] }, async (request, reply) => {
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+
+    const business = await prisma.business.findUnique({ where: { id } })
+    if (!business) return reply.status(404).send({ error: 'Not found' })
+    if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+    if (!business.finikPublicKey) return reply.status(404).send({ error: 'Ключ ещё не сгенерирован' })
+
+    return reply.send({ publicKey: business.finikPublicKey })
   })
 
   // Protected: list translations for a business (owner only)

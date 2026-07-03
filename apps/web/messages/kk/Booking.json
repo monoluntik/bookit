@@ -185,7 +185,10 @@
     "paymentResult": {
       "checking": "Төлем тексерілуде...",
       "pending": "Растауды күтуде",
-      "pendingHint": "Банк төлемді әлі өңдеуде"
+      "pendingHint": "Банк төлемді әлі өңдеуде",
+      "success": "Төлем сәтті өтті!",
+      "goToBookings": "Менің брондарыма өту",
+      "failed": "Төлемді тексеру мүмкін болмады"
     },
     "payMock": {
       "sandboxLabel": "Bakai Bank — Dev Sandbox",
