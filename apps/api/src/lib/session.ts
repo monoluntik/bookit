@@ -6,8 +6,11 @@ const isProd = process.env.NODE_ENV === 'production'
 
 export const ACCESS_TOKEN_COOKIE = 'access_token'
 export const REFRESH_TOKEN_COOKIE = 'refresh_token'
-const ACCESS_TOKEN_TTL = '30m'
-const REFRESH_TOKEN_TTL_MS = 365 * 24 * 60 * 60 * 1000 // ~1 year, sliding
+// Kept well above the frontend's heartbeat-refresh interval (20 min, see AuthContext.tsx)
+// so a backgrounded/throttled tab has a big buffer before the access token truly expires.
+const ACCESS_TOKEN_TTL = '2h'
+const ACCESS_TOKEN_TTL_MS = 2 * 60 * 60 * 1000
+const REFRESH_TOKEN_TTL_MS = 365 * 24 * 60 * 60 * 1000 // ~1 year, sliding — rotated on every refresh, so an active user's session effectively never expires
 
 export function hashToken(token: string): string {
   return crypto.createHash('sha256').update(token).digest('hex')
@@ -25,7 +28,9 @@ export function generateCode(): string {
 const crossSiteSameSite = isProd ? ('none' as const) : ('lax' as const)
 
 function accessCookieOptions() {
-  return { httpOnly: true, secure: isProd, sameSite: crossSiteSameSite, path: '/' }
+  // maxAge makes this a persistent cookie (not a browser-session cookie) so a tab
+  // reopened after the browser was closed doesn't need an extra refresh round-trip.
+  return { httpOnly: true, secure: isProd, sameSite: crossSiteSameSite, path: '/', maxAge: Math.floor(ACCESS_TOKEN_TTL_MS / 1000) }
 }
 
 function refreshCookieOptions() {
