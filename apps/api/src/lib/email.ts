@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
-const FROM = process.env.EMAIL_FROM ?? 'Booking <noreply@booking.app>'
+const FROM = process.env.EMAIL_FROM ?? 'Bronly <noreply@bronly.app>'
 
 function fmt(iso: string, opts: Intl.DateTimeFormatOptions) {
   return new Date(iso).toLocaleString('ru', { timeZone: 'Asia/Bishkek', ...opts })

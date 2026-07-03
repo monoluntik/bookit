@@ -6,17 +6,38 @@
       "descriptionFallback": "Book online at {name}. Fast, convenient, no calls needed."
     },
     "typeMeta": {
-      "HOTEL": { "label": "Hotel", "bookingVerb": "Book a room" },
-      "RESTAURANT": { "label": "Restaurant", "bookingVerb": "Book a table" },
-      "SALON": { "label": "Beauty salon", "bookingVerb": "Book an appointment" },
-      "COWORKING": { "label": "Coworking", "bookingVerb": "Book a spot" },
-      "SPORT": { "label": "Sports", "bookingVerb": "Book now" },
-      "MEDICAL": { "label": "Medical", "bookingVerb": "Book a visit" },
-      "CUSTOM": { "label": "Other", "bookingVerb": "Book now" }
+      "HOTEL": {
+        "label": "Hotel",
+        "bookingVerb": "Book a room"
+      },
+      "RESTAURANT": {
+        "label": "Restaurant",
+        "bookingVerb": "Book a table"
+      },
+      "SALON": {
+        "label": "Beauty salon",
+        "bookingVerb": "Book an appointment"
+      },
+      "COWORKING": {
+        "label": "Coworking",
+        "bookingVerb": "Book a spot"
+      },
+      "SPORT": {
+        "label": "Sports",
+        "bookingVerb": "Book now"
+      },
+      "MEDICAL": {
+        "label": "Medical",
+        "bookingVerb": "Book a visit"
+      },
+      "CUSTOM": {
+        "label": "Other",
+        "bookingVerb": "Book now"
+      }
     },
     "nav": {
       "back": "← Back",
-      "brand": "Booking",
+      "brand": "Bronly",
       "logout": "Log out",
       "login": "Log in"
     },

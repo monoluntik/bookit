@@ -6,17 +6,38 @@
       "descriptionFallback": "Запишитесь онлайн в {name}. Быстро, удобно, без звонков."
     },
     "typeMeta": {
-      "HOTEL": { "label": "Отель", "bookingVerb": "Забронировать номер" },
-      "RESTAURANT": { "label": "Ресторан", "bookingVerb": "Забронировать стол" },
-      "SALON": { "label": "Салон красоты", "bookingVerb": "Записаться" },
-      "COWORKING": { "label": "Коворкинг", "bookingVerb": "Забронировать место" },
-      "SPORT": { "label": "Спорт", "bookingVerb": "Забронировать" },
-      "MEDICAL": { "label": "Медицина", "bookingVerb": "Записаться на приём" },
-      "CUSTOM": { "label": "Другое", "bookingVerb": "Забронировать" }
+      "HOTEL": {
+        "label": "Отель",
+        "bookingVerb": "Забронировать номер"
+      },
+      "RESTAURANT": {
+        "label": "Ресторан",
+        "bookingVerb": "Забронировать стол"
+      },
+      "SALON": {
+        "label": "Салон красоты",
+        "bookingVerb": "Записаться"
+      },
+      "COWORKING": {
+        "label": "Коворкинг",
+        "bookingVerb": "Забронировать место"
+      },
+      "SPORT": {
+        "label": "Спорт",
+        "bookingVerb": "Забронировать"
+      },
+      "MEDICAL": {
+        "label": "Медицина",
+        "bookingVerb": "Записаться на приём"
+      },
+      "CUSTOM": {
+        "label": "Другое",
+        "bookingVerb": "Забронировать"
+      }
     },
     "nav": {
       "back": "← Назад",
-      "brand": "Booking",
+      "brand": "Bronly",
       "logout": "Выйти",
       "login": "Войти"
     },

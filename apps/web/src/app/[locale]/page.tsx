@@ -149,7 +149,7 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid sm:grid-cols-4 gap-8 mb-8">
             <div>
-              <div className="text-lg font-bold text-blue-600 mb-3">Booking</div>
+              <div className="text-lg font-bold text-blue-600 mb-3">Bronly</div>
               <p className="text-xs text-gray-400 leading-relaxed">
                 {t('footer.tagline')}
               </p>

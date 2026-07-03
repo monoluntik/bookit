@@ -41,7 +41,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="w-52 bg-gray-900 border-r border-gray-800 flex flex-col">
         <div className="px-4 py-4 border-b border-gray-800">
-          <div className="text-white font-bold text-sm">Booking Admin</div>
+          <div className="text-white font-bold text-sm">Bronly Admin</div>
           <div className="text-gray-500 text-xs mt-0.5">{user?.email}</div>
         </div>
         <nav className="flex-1 py-3 px-2 space-y-0.5">

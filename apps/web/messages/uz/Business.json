@@ -6,17 +6,38 @@
       "descriptionFallback": "{name} muassasasiga onlayn yoziling. Tez, qulay, qo'ng'iroqsiz."
     },
     "typeMeta": {
-      "HOTEL": { "label": "Mehmonxona", "bookingVerb": "Xona band qilish" },
-      "RESTAURANT": { "label": "Restoran", "bookingVerb": "Stol band qilish" },
-      "SALON": { "label": "Go'zallik saloni", "bookingVerb": "Yozilish" },
-      "COWORKING": { "label": "Koworking", "bookingVerb": "O'rin band qilish" },
-      "SPORT": { "label": "Sport", "bookingVerb": "Band qilish" },
-      "MEDICAL": { "label": "Tibbiyot", "bookingVerb": "Qabulga yozilish" },
-      "CUSTOM": { "label": "Boshqa", "bookingVerb": "Band qilish" }
+      "HOTEL": {
+        "label": "Mehmonxona",
+        "bookingVerb": "Xona band qilish"
+      },
+      "RESTAURANT": {
+        "label": "Restoran",
+        "bookingVerb": "Stol band qilish"
+      },
+      "SALON": {
+        "label": "Go'zallik saloni",
+        "bookingVerb": "Yozilish"
+      },
+      "COWORKING": {
+        "label": "Koworking",
+        "bookingVerb": "O'rin band qilish"
+      },
+      "SPORT": {
+        "label": "Sport",
+        "bookingVerb": "Band qilish"
+      },
+      "MEDICAL": {
+        "label": "Tibbiyot",
+        "bookingVerb": "Qabulga yozilish"
+      },
+      "CUSTOM": {
+        "label": "Boshqa",
+        "bookingVerb": "Band qilish"
+      }
     },
     "nav": {
       "back": "← Orqaga",
-      "brand": "Booking",
+      "brand": "Bronly",
       "logout": "Chiqish",
       "login": "Kirish"
     },

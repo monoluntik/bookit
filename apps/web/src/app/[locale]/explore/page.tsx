@@ -100,7 +100,7 @@ function ExploreContent() {
       {/* Sticky header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
-          <Link href="/" className="text-blue-600 font-bold text-lg shrink-0">Booking</Link>
+          <Link href="/" className="text-blue-600 font-bold text-lg shrink-0">Bronly</Link>
 
           {/* Search */}
           <div className="flex-1 relative">

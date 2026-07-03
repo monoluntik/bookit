@@ -6,17 +6,38 @@
       "descriptionFallback": "{name} жайына онлайн жазылыңыз. Тез, ыңгайлуу, чалуусуз."
     },
     "typeMeta": {
-      "HOTEL": { "label": "Мейманкана", "bookingVerb": "Бөлмө брондоо" },
-      "RESTAURANT": { "label": "Ресторан", "bookingVerb": "Стол брондоо" },
-      "SALON": { "label": "Сулуулук салону", "bookingVerb": "Жазылуу" },
-      "COWORKING": { "label": "Коворкинг", "bookingVerb": "Орун брондоо" },
-      "SPORT": { "label": "Спорт", "bookingVerb": "Брондоо" },
-      "MEDICAL": { "label": "Медицина", "bookingVerb": "Кабылдоого жазылуу" },
-      "CUSTOM": { "label": "Башка", "bookingVerb": "Брондоо" }
+      "HOTEL": {
+        "label": "Мейманкана",
+        "bookingVerb": "Бөлмө брондоо"
+      },
+      "RESTAURANT": {
+        "label": "Ресторан",
+        "bookingVerb": "Стол брондоо"
+      },
+      "SALON": {
+        "label": "Сулуулук салону",
+        "bookingVerb": "Жазылуу"
+      },
+      "COWORKING": {
+        "label": "Коворкинг",
+        "bookingVerb": "Орун брондоо"
+      },
+      "SPORT": {
+        "label": "Спорт",
+        "bookingVerb": "Брондоо"
+      },
+      "MEDICAL": {
+        "label": "Медицина",
+        "bookingVerb": "Кабылдоого жазылуу"
+      },
+      "CUSTOM": {
+        "label": "Башка",
+        "bookingVerb": "Брондоо"
+      }
     },
     "nav": {
       "back": "← Артка",
-      "brand": "Booking",
+      "brand": "Bronly",
       "logout": "Чыгуу",
       "login": "Кирүү"
     },

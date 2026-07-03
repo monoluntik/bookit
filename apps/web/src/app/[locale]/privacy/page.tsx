@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import SmartNav from '@/components/SmartNav'
 
-export const metadata = { title: 'Политика конфиденциальности — Booking' }
+export const metadata = { title: 'Политика конфиденциальности — Bronly' }
 
 export default async function PrivacyPage() {
   const t = await getTranslations('Static')

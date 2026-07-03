@@ -1,7 +1,7 @@
 {
   "Static": {
     "pricing": {
-      "metaTitle": "Tariflar — Booking",
+      "metaTitle": "Tariflar — Bronly",
       "hero": {
         "title": "Shaffof tariflar",
         "subtitle": "Yashirin to'lovlar yo'q. Faqat kerakli narsa uchun to'lang."
@@ -71,10 +71,22 @@
       },
       "faq": {
         "title": "Tez-tez beriladigan savollar",
-        "q1": { "q": "Pullik tarifga qanday o'tsam bo'ladi?", "a": "Kerakli tarifdagi tugma orqali so'rov qoldiring — biz bir ish kuni ichida bog'lanib, ulanishda yordam beramiz." },
-        "q2": { "q": "Yillik to'lovda chegirma bormi?", "a": "Ha — yillik to'lovda 20% chegirma beriladi. So'rov yuborishda bu haqda so'rang." },
-        "q3": { "q": "Tarif o'zgartirilganda ma'lumotlarim nima bo'ladi?", "a": "Barcha ma'lumotlaringiz — bronlar, mijozlar, tarix — tarifni qanday o'zgartirishingizdan qat'i nazar saqlanib qoladi." },
-        "q4": { "q": "Bepul sinab ko'rsam bo'ladimi?", "a": "Free tarif vaqt chegarasisiz mavjud. Ro'yxatdan o'tish 2 daqiqa vaqt oladi, karta talab qilinmaydi." }
+        "q1": {
+          "q": "Pullik tarifga qanday o'tsam bo'ladi?",
+          "a": "Kerakli tarifdagi tugma orqali so'rov qoldiring — biz bir ish kuni ichida bog'lanib, ulanishda yordam beramiz."
+        },
+        "q2": {
+          "q": "Yillik to'lovda chegirma bormi?",
+          "a": "Ha — yillik to'lovda 20% chegirma beriladi. So'rov yuborishda bu haqda so'rang."
+        },
+        "q3": {
+          "q": "Tarif o'zgartirilganda ma'lumotlarim nima bo'ladi?",
+          "a": "Barcha ma'lumotlaringiz — bronlar, mijozlar, tarix — tarifni qanday o'zgartirishingizdan qat'i nazar saqlanib qoladi."
+        },
+        "q4": {
+          "q": "Bepul sinab ko'rsam bo'ladimi?",
+          "a": "Free tarif vaqt chegarasisiz mavjud. Ro'yxatdan o'tish 2 daqiqa vaqt oladi, karta talab qilinmaydi."
+        }
       },
       "bottomCta": {
         "title": "Hali ham savollaringiz bormi?",
@@ -82,7 +94,7 @@
         "button": "Biz bilan bog'lanish"
       },
       "footer": {
-        "brand": "← Booking",
+        "brand": "← Bronly",
         "terms": "Shartlar",
         "privacy": "Maxfiylik",
         "contact": "Aloqa"
@@ -97,8 +109,14 @@
       "contactsList": {
         "email": "Email",
         "telegram": "Telegram",
-        "address": { "label": "Manzil", "value": "Bishkek, Qirg'iziston" },
-        "hours": { "label": "Ish vaqti", "value": "Dush–Juma, 9:00–18:00" }
+        "address": {
+          "label": "Manzil",
+          "value": "Bishkek, Qirg'iziston"
+        },
+        "hours": {
+          "label": "Ish vaqti",
+          "value": "Dush–Juma, 9:00–18:00"
+        }
       },
       "hero": {
         "planBadge": "🚀 {plan} tarifiga ulanish",
@@ -135,18 +153,27 @@
         "submitDefault": "Yuborish"
       },
       "footer": {
-        "brand": "← Booking"
+        "brand": "← Bronly"
       }
     },
     "about": {
-      "metaTitle": "Biz haqimizda — Booking",
+      "metaTitle": "Biz haqimizda — Bronly",
       "team": {
-        "product": { "name": "Mahsulot jamoasi", "desc": "Mijozlarimizning haqiqiy ehtiyojlariga asoslanib biznes uchun qulay vosita yaratamiz." },
-        "support": { "name": "Qo'llab-quvvatlash", "desc": "Tizimni sozlashda yordam beramiz va ish vaqtida savollarni bir soat ichida hal qilamiz." },
-        "security": { "name": "Xavfsizlik", "desc": "Mijozlar ma'lumotlari shifrlash bilan himoyalangan. To'lov ma'lumotlari serverlarimizda hech qachon saqlanmaydi." }
+        "product": {
+          "name": "Mahsulot jamoasi",
+          "desc": "Mijozlarimizning haqiqiy ehtiyojlariga asoslanib biznes uchun qulay vosita yaratamiz."
+        },
+        "support": {
+          "name": "Qo'llab-quvvatlash",
+          "desc": "Tizimni sozlashda yordam beramiz va ish vaqtida savollarni bir soat ichida hal qilamiz."
+        },
+        "security": {
+          "name": "Xavfsizlik",
+          "desc": "Mijozlar ma'lumotlari shifrlash bilan himoyalangan. To'lov ma'lumotlari serverlarimizda hech qachon saqlanmaydi."
+        }
       },
       "hero": {
-        "title": "Booking platformasi haqida",
+        "title": "Bronly platformasi haqida",
         "subtitle": "Biz Qirg'izistondagi kichik va o'rta bizneslarga mijozlar bronini onlaynga o'tkazishda yordam beruvchi vosita yaratmoqdamiz — qo'ng'iroqlarsiz, messenjerlarsiz va qog'oz jurnallarsiz."
       },
       "mission": {
@@ -165,20 +192,20 @@
         "pricing": "Tariflarni ko'rish"
       },
       "footer": {
-        "brand": "← Booking"
+        "brand": "← Bronly"
       }
     },
     "terms": {
-      "metaTitle": "Foydalanish shartlari — Booking",
+      "metaTitle": "Foydalanish shartlari — Bronly",
       "title": "Foydalanish shartlari",
       "lastUpdated": "Oxirgi yangilanish: 2026-yil 25-iyun",
       "section1": {
         "title": "1. Umumiy qoidalar",
-        "body": "Ushbu Foydalanish shartlari Booking platformasi (bundan buyon — \"Xizmat\", \"Biz\") va xizmat foydalanuvchilari (bundan buyon — \"Foydalanuvchi\", \"Siz\") o'rtasidagi munosabatlarni tartibga soladi. Xizmatdan foydalanish orqali siz ushbu Shartlarga rozilik bildirasiz."
+        "body": "Ushbu Foydalanish shartlari Bronly platformasi (bundan buyon — \"Xizmat\", \"Biz\") va xizmat foydalanuvchilari (bundan buyon — \"Foydalanuvchi\", \"Siz\") o'rtasidagi munosabatlarni tartibga soladi. Xizmatdan foydalanish orqali siz ushbu Shartlarga rozilik bildirasiz."
       },
       "section2": {
         "title": "2. Xizmat tavsifi",
-        "body": "Booking — bu biznes egalariga internet orqali bron qabul qilish, mijozlarga esa xizmatlarni real vaqt rejimida bron qilish imkonini beruvchi onlayn bron qilish platformasidir."
+        "body": "Bronly — bu biznes egalariga internet orqali bron qabul qilish, mijozlarga esa xizmatlarni real vaqt rejimida bron qilish imkonini beruvchi onlayn bron qilish platformasidir."
       },
       "section3": {
         "title": "3. Ro'yxatdan o'tish va akkaunt",
@@ -225,16 +252,28 @@
       }
     },
     "privacy": {
-      "metaTitle": "Maxfiylik siyosati — Booking",
+      "metaTitle": "Maxfiylik siyosati — Bronly",
       "title": "Maxfiylik siyosati",
       "lastUpdated": "Oxirgi yangilanish: 2026-yil 25-iyun",
       "section1": {
         "title": "1. Biz qanday ma'lumotlarni to'playmiz",
         "items": {
-          "item1": { "label": "Akkaunt ma'lumotlari:", "text": "email, ism, telefon raqami." },
-          "item2": { "label": "Bron ma'lumotlari:", "text": "tanlangan xizmatlar, vaqt, mehmonlar soni, izohlar." },
-          "item3": { "label": "To'lov ma'lumotlari:", "text": "tranzaksiya holati va summasi (karta ma'lumotlari serverlarimizda hech qachon saqlanmaydi)." },
-          "item4": { "label": "Texnik ma'lumotlar:", "text": "IP-manzil, brauzer turi, tashrif vaqti." }
+          "item1": {
+            "label": "Akkaunt ma'lumotlari:",
+            "text": "email, ism, telefon raqami."
+          },
+          "item2": {
+            "label": "Bron ma'lumotlari:",
+            "text": "tanlangan xizmatlar, vaqt, mehmonlar soni, izohlar."
+          },
+          "item3": {
+            "label": "To'lov ma'lumotlari:",
+            "text": "tranzaksiya holati va summasi (karta ma'lumotlari serverlarimizda hech qachon saqlanmaydi)."
+          },
+          "item4": {
+            "label": "Texnik ma'lumotlar:",
+            "text": "IP-manzil, brauzer turi, tashrif vaqti."
+          }
         }
       },
       "section2": {
@@ -262,9 +301,18 @@
       "section5": {
         "title": "5. Sizning huquqlaringiz",
         "items": {
-          "item1": { "label": "Kirish:", "text": "siz o'z ma'lumotlaringiz nusxasini so'rashingiz mumkin." },
-          "item2": { "label": "Tuzatish:", "text": "siz profil sozlamalarida ma'lumotlaringizni yangilashingiz mumkin." },
-          "item3": { "label": "O'chirish:", "text": "siz qo'llab-quvvatlash xizmati orqali akkaunt va ma'lumotlaringizni o'chirishni so'rashingiz mumkin." }
+          "item1": {
+            "label": "Kirish:",
+            "text": "siz o'z ma'lumotlaringiz nusxasini so'rashingiz mumkin."
+          },
+          "item2": {
+            "label": "Tuzatish:",
+            "text": "siz profil sozlamalarida ma'lumotlaringizni yangilashingiz mumkin."
+          },
+          "item3": {
+            "label": "O'chirish:",
+            "text": "siz qo'llab-quvvatlash xizmati orqali akkaunt va ma'lumotlaringizni o'chirishni so'rashingiz mumkin."
+          }
         }
       },
       "section6": {
@@ -285,14 +333,32 @@
       "explore": {
         "searchPlaceholder": "Joylarni qidirish...",
         "filters": "Filtrlar",
-        "categories": { "all": "Barchasi", "salons": "Salonlar", "sport": "Sport", "medical": "Tibbiyot" },
+        "categories": {
+          "all": "Barchasi",
+          "salons": "Salonlar",
+          "sport": "Sport",
+          "medical": "Tibbiyot"
+        },
         "reviewsCount": "{count} ta sharh"
       },
       "bookingFlow": {
-        "steps": { "service": "Xizmat", "date": "Sana", "time": "Vaqt", "done": "Tayyor" },
+        "steps": {
+          "service": "Xizmat",
+          "date": "Sana",
+          "time": "Vaqt",
+          "done": "Tayyor"
+        },
         "monthLabel": "2026-yil iyun",
         "selectedDate": "Tanlangan sana: 26-iyun",
-        "days": { "mon": "Dush", "tue": "Sesh", "wed": "Chor", "thu": "Pay", "fri": "Juma", "sat": "Shan", "sun": "Yak" }
+        "days": {
+          "mon": "Dush",
+          "tue": "Sesh",
+          "wed": "Chor",
+          "thu": "Pay",
+          "fri": "Juma",
+          "sat": "Shan",
+          "sun": "Yak"
+        }
       },
       "slots": {
         "windowTitle": "Vaqt tanlash",
@@ -302,14 +368,28 @@
       },
       "dashboard": {
         "windowTitle": "booking.kg/dashboard",
-        "sidebar": { "overview": "Umumiy ko'rinish", "bookings": "Bronlar", "resources": "Resurslar", "services": "Xizmatlar", "settings": "Sozlamalar" },
-        "stats": { "todayBookings": "Bugungi bronlar", "pending": "Kutilmoqda", "revenue": "Daromad" },
+        "sidebar": {
+          "overview": "Umumiy ko'rinish",
+          "bookings": "Bronlar",
+          "resources": "Resurslar",
+          "services": "Xizmatlar",
+          "settings": "Sozlamalar"
+        },
+        "stats": {
+          "todayBookings": "Bugungi bronlar",
+          "pending": "Kutilmoqda",
+          "revenue": "Daromad"
+        },
         "bookingItems": {
           "client1": "Eldiyar N.",
           "client2": "Ruslan M.",
           "client3": "Manas B. (qo'lda)"
         },
-        "statusLabels": { "confirmed": "Tasdiqlangan", "manual": "qo'lda", "pending": "Kutilmoqda" }
+        "statusLabels": {
+          "confirmed": "Tasdiqlangan",
+          "manual": "qo'lda",
+          "pending": "Kutilmoqda"
+        }
       },
       "calendar": {
         "windowTitle": "Bronlar kalendari",
@@ -343,9 +423,21 @@
         "businessName": "Oasis Salon",
         "addButton": "+ Qo'shish",
         "entries": {
-          "entry1": { "date": "28-iyun", "label": "Dam olish kuni", "reason": "Ta'til" },
-          "entry2": { "date": "5-iyul", "label": "Maxsus vaqt", "reason": "10:00–15:00" },
-          "entry3": { "date": "10-iyul", "label": "Dam olish kuni", "reason": "Bayram" }
+          "entry1": {
+            "date": "28-iyun",
+            "label": "Dam olish kuni",
+            "reason": "Ta'til"
+          },
+          "entry2": {
+            "date": "5-iyul",
+            "label": "Maxsus vaqt",
+            "reason": "10:00–15:00"
+          },
+          "entry3": {
+            "date": "10-iyul",
+            "label": "Dam olish kuni",
+            "reason": "Bayram"
+          }
         },
         "deleteButton": "O'chirish"
       },
@@ -354,7 +446,15 @@
         "revenueLabel": "Shu oylik daromad",
         "bookingsLabel": "Shu oylik bronlar",
         "weeklyChartLabel": "Hafta kunlari bo'yicha bronlar",
-        "days": { "mon": "Dush", "tue": "Sesh", "wed": "Chor", "thu": "Pay", "fri": "Juma", "sat": "Shan", "sun": "Yak" }
+        "days": {
+          "mon": "Dush",
+          "tue": "Sesh",
+          "wed": "Chor",
+          "thu": "Pay",
+          "fri": "Juma",
+          "sat": "Shan",
+          "sun": "Yak"
+        }
       },
       "settings": {
         "windowTitle": "Biznes sozlamalari",
@@ -371,8 +471,14 @@
       "review": {
         "windowTitle": "Sharhlar",
         "reviewsCount": "33 ta sharh",
-        "reviewer1": { "name": "Aigul M.", "text": "Ajoyib xizmat! Usta Aida — haqiqiy professional." },
-        "reviewer2": { "name": "Manas B.", "text": "Bron qilish oson, navbatsiz kirdim." }
+        "reviewer1": {
+          "name": "Aigul M.",
+          "text": "Ajoyib xizmat! Usta Aida — haqiqiy professional."
+        },
+        "reviewer2": {
+          "name": "Manas B.",
+          "text": "Bron qilish oson, navbatsiz kirdim."
+        }
       },
       "cancellationPolicy": {
         "windowTitle": "Bekor qilish siyosati",
@@ -408,7 +514,7 @@
       },
       "hero": {
         "badge": "📖 Platforma bo'yicha to'liq qo'llanma",
-        "titleLine1": "Booking nimalarga",
+        "titleLine1": "Bronly nimalarga",
         "titleLine2": "qodirligi",
         "subtitle": "Har bir funksiyaning bosqichma-bosqich tavsifi — biznes egalari va mijozlar uchun.",
         "businessOwnerCta": "Men biznes egasiman",
@@ -564,12 +670,12 @@
         "note": "Yashirin to'lovlar yo'q · 5 daqiqalik sozlash · Istalgan vaqtda bekor qilish"
       },
       "footer": {
-        "brand": "Booking",
+        "brand": "Bronly",
         "home": "Bosh sahifa",
         "explore": "Katalog",
         "pricing": "Tariflar",
         "contact": "Aloqa",
-        "copyright": "© 2026 Booking"
+        "copyright": "© 2026 Bronly"
       }
     },
     "notFound": {

@@ -17,10 +17,10 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: 'Booking — онлайн-бронирование для любого бизнеса',
+  title: 'Bronly — онлайн-бронирование для любого бизнеса',
   description: 'Забронируйте место в отеле, ресторане, салоне красоты, коворкинге или спортзале онлайн.',
   openGraph: {
-    title: 'Booking',
+    title: 'Bronly',
     description: 'Онлайн-бронирование для любого бизнеса',
     type: 'website',
   },

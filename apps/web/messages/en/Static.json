@@ -1,7 +1,7 @@
 {
   "Static": {
     "pricing": {
-      "metaTitle": "Pricing — Booking",
+      "metaTitle": "Pricing — Bronly",
       "hero": {
         "title": "Transparent pricing",
         "subtitle": "No hidden fees. Pay only for what you need."
@@ -71,10 +71,22 @@
       },
       "faq": {
         "title": "Frequently asked questions",
-        "q1": { "q": "How do I switch to a paid plan?", "a": "Submit a request using the button on the plan you want — we'll get in touch within one business day and help you get set up." },
-        "q2": { "q": "Is there a discount for annual payment?", "a": "Yes — a 20% discount applies for annual payment. Ask about it when submitting your request." },
-        "q3": { "q": "What happens to my data when I change plans?", "a": "All your data — bookings, customers, history — is preserved no matter what plan changes you make." },
-        "q4": { "q": "Can I try it for free?", "a": "The Free plan is available with no time limit. Registration takes 2 minutes, no card required." }
+        "q1": {
+          "q": "How do I switch to a paid plan?",
+          "a": "Submit a request using the button on the plan you want — we'll get in touch within one business day and help you get set up."
+        },
+        "q2": {
+          "q": "Is there a discount for annual payment?",
+          "a": "Yes — a 20% discount applies for annual payment. Ask about it when submitting your request."
+        },
+        "q3": {
+          "q": "What happens to my data when I change plans?",
+          "a": "All your data — bookings, customers, history — is preserved no matter what plan changes you make."
+        },
+        "q4": {
+          "q": "Can I try it for free?",
+          "a": "The Free plan is available with no time limit. Registration takes 2 minutes, no card required."
+        }
       },
       "bottomCta": {
         "title": "Still have questions?",
@@ -82,7 +94,7 @@
         "button": "Contact us"
       },
       "footer": {
-        "brand": "← Booking",
+        "brand": "← Bronly",
         "terms": "Terms",
         "privacy": "Privacy",
         "contact": "Contact"
@@ -97,8 +109,14 @@
       "contactsList": {
         "email": "Email",
         "telegram": "Telegram",
-        "address": { "label": "Address", "value": "Bishkek, Kyrgyzstan" },
-        "hours": { "label": "Business hours", "value": "Mon–Fri, 9:00 AM–6:00 PM" }
+        "address": {
+          "label": "Address",
+          "value": "Bishkek, Kyrgyzstan"
+        },
+        "hours": {
+          "label": "Business hours",
+          "value": "Mon–Fri, 9:00 AM–6:00 PM"
+        }
       },
       "hero": {
         "planBadge": "🚀 Signing up for the {plan} plan",
@@ -135,18 +153,27 @@
         "submitDefault": "Send"
       },
       "footer": {
-        "brand": "← Booking"
+        "brand": "← Bronly"
       }
     },
     "about": {
-      "metaTitle": "About us — Booking",
+      "metaTitle": "About us — Bronly",
       "team": {
-        "product": { "name": "Product team", "desc": "We build a convenient tool for businesses based on the real needs of our customers." },
-        "support": { "name": "Support", "desc": "We help set up the system and resolve questions within an hour during business hours." },
-        "security": { "name": "Security", "desc": "Customer data is protected by encryption. Payment data is never stored on our servers." }
+        "product": {
+          "name": "Product team",
+          "desc": "We build a convenient tool for businesses based on the real needs of our customers."
+        },
+        "support": {
+          "name": "Support",
+          "desc": "We help set up the system and resolve questions within an hour during business hours."
+        },
+        "security": {
+          "name": "Security",
+          "desc": "Customer data is protected by encryption. Payment data is never stored on our servers."
+        }
       },
       "hero": {
-        "title": "About the Booking platform",
+        "title": "About the Bronly platform",
         "subtitle": "We're building a tool that helps small and medium businesses in Kyrgyzstan move customer bookings online — no calls, no messengers, no paper logbooks."
       },
       "mission": {
@@ -165,20 +192,20 @@
         "pricing": "View pricing"
       },
       "footer": {
-        "brand": "← Booking"
+        "brand": "← Bronly"
       }
     },
     "terms": {
-      "metaTitle": "Terms of Service — Booking",
+      "metaTitle": "Terms of Service — Bronly",
       "title": "Terms of Service",
       "lastUpdated": "Last updated: June 25, 2026",
       "section1": {
         "title": "1. General provisions",
-        "body": "These Terms of Service govern the relationship between the Booking platform (hereinafter — the \"Service\", \"We\") and users of the service (hereinafter — the \"User\", \"You\"). By using the Service, you agree to these Terms."
+        "body": "These Terms of Service govern the relationship between the Bronly platform (hereinafter — the \"Service\", \"We\") and users of the service (hereinafter — the \"User\", \"You\"). By using the Service, you agree to these Terms."
       },
       "section2": {
         "title": "2. Description of the Service",
-        "body": "Booking is an online booking platform that allows business owners to accept bookings over the internet, and allows customers to book services in real time."
+        "body": "Bronly is an online booking platform that allows business owners to accept bookings over the internet, and allows customers to book services in real time."
       },
       "section3": {
         "title": "3. Registration and account",
@@ -225,16 +252,28 @@
       }
     },
     "privacy": {
-      "metaTitle": "Privacy Policy — Booking",
+      "metaTitle": "Privacy Policy — Bronly",
       "title": "Privacy Policy",
       "lastUpdated": "Last updated: June 25, 2026",
       "section1": {
         "title": "1. What data we collect",
         "items": {
-          "item1": { "label": "Account data:", "text": "email, name, phone number." },
-          "item2": { "label": "Booking data:", "text": "selected services, time, number of guests, notes." },
-          "item3": { "label": "Payment data:", "text": "transaction status and amount (card data is never stored on our servers)." },
-          "item4": { "label": "Technical data:", "text": "IP address, browser type, visit time." }
+          "item1": {
+            "label": "Account data:",
+            "text": "email, name, phone number."
+          },
+          "item2": {
+            "label": "Booking data:",
+            "text": "selected services, time, number of guests, notes."
+          },
+          "item3": {
+            "label": "Payment data:",
+            "text": "transaction status and amount (card data is never stored on our servers)."
+          },
+          "item4": {
+            "label": "Technical data:",
+            "text": "IP address, browser type, visit time."
+          }
         }
       },
       "section2": {
@@ -262,9 +301,18 @@
       "section5": {
         "title": "5. Your rights",
         "items": {
-          "item1": { "label": "Access:", "text": "you may request a copy of your data." },
-          "item2": { "label": "Correction:", "text": "you may update your data in your profile settings." },
-          "item3": { "label": "Deletion:", "text": "you may request deletion of your account and data through support." }
+          "item1": {
+            "label": "Access:",
+            "text": "you may request a copy of your data."
+          },
+          "item2": {
+            "label": "Correction:",
+            "text": "you may update your data in your profile settings."
+          },
+          "item3": {
+            "label": "Deletion:",
+            "text": "you may request deletion of your account and data through support."
+          }
         }
       },
       "section6": {
@@ -285,14 +333,32 @@
       "explore": {
         "searchPlaceholder": "Search venues...",
         "filters": "Filters",
-        "categories": { "all": "All", "salons": "Salons", "sport": "Sport", "medical": "Medical" },
+        "categories": {
+          "all": "All",
+          "salons": "Salons",
+          "sport": "Sport",
+          "medical": "Medical"
+        },
         "reviewsCount": "{count} reviews"
       },
       "bookingFlow": {
-        "steps": { "service": "Service", "date": "Date", "time": "Time", "done": "Done" },
+        "steps": {
+          "service": "Service",
+          "date": "Date",
+          "time": "Time",
+          "done": "Done"
+        },
         "monthLabel": "June 2026",
         "selectedDate": "Selected date: June 26",
-        "days": { "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun" }
+        "days": {
+          "mon": "Mon",
+          "tue": "Tue",
+          "wed": "Wed",
+          "thu": "Thu",
+          "fri": "Fri",
+          "sat": "Sat",
+          "sun": "Sun"
+        }
       },
       "slots": {
         "windowTitle": "Time selection",
@@ -302,14 +368,28 @@
       },
       "dashboard": {
         "windowTitle": "booking.kg/dashboard",
-        "sidebar": { "overview": "Overview", "bookings": "Bookings", "resources": "Resources", "services": "Services", "settings": "Settings" },
-        "stats": { "todayBookings": "Bookings today", "pending": "Pending", "revenue": "Revenue" },
+        "sidebar": {
+          "overview": "Overview",
+          "bookings": "Bookings",
+          "resources": "Resources",
+          "services": "Services",
+          "settings": "Settings"
+        },
+        "stats": {
+          "todayBookings": "Bookings today",
+          "pending": "Pending",
+          "revenue": "Revenue"
+        },
         "bookingItems": {
           "client1": "Eldiyar N.",
           "client2": "Ruslan M.",
           "client3": "Manas B. (manual)"
         },
-        "statusLabels": { "confirmed": "Confirmed", "manual": "manual", "pending": "Pending" }
+        "statusLabels": {
+          "confirmed": "Confirmed",
+          "manual": "manual",
+          "pending": "Pending"
+        }
       },
       "calendar": {
         "windowTitle": "Bookings calendar",
@@ -343,9 +423,21 @@
         "businessName": "Oasis Salon",
         "addButton": "+ Add",
         "entries": {
-          "entry1": { "date": "June 28", "label": "Day off", "reason": "Vacation" },
-          "entry2": { "date": "July 5", "label": "Special hours", "reason": "10:00 AM–3:00 PM" },
-          "entry3": { "date": "July 10", "label": "Day off", "reason": "Holiday" }
+          "entry1": {
+            "date": "June 28",
+            "label": "Day off",
+            "reason": "Vacation"
+          },
+          "entry2": {
+            "date": "July 5",
+            "label": "Special hours",
+            "reason": "10:00 AM–3:00 PM"
+          },
+          "entry3": {
+            "date": "July 10",
+            "label": "Day off",
+            "reason": "Holiday"
+          }
         },
         "deleteButton": "Delete"
       },
@@ -354,7 +446,15 @@
         "revenueLabel": "Revenue this month",
         "bookingsLabel": "Bookings this month",
         "weeklyChartLabel": "Bookings by day of week",
-        "days": { "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun" }
+        "days": {
+          "mon": "Mon",
+          "tue": "Tue",
+          "wed": "Wed",
+          "thu": "Thu",
+          "fri": "Fri",
+          "sat": "Sat",
+          "sun": "Sun"
+        }
       },
       "settings": {
         "windowTitle": "Business settings",
@@ -371,8 +471,14 @@
       "review": {
         "windowTitle": "Reviews",
         "reviewsCount": "33 reviews",
-        "reviewer1": { "name": "Aigul M.", "text": "Great service! Stylist Aida is a true professional." },
-        "reviewer2": { "name": "Manas B.", "text": "Easy to book, got in without waiting in line." }
+        "reviewer1": {
+          "name": "Aigul M.",
+          "text": "Great service! Stylist Aida is a true professional."
+        },
+        "reviewer2": {
+          "name": "Manas B.",
+          "text": "Easy to book, got in without waiting in line."
+        }
       },
       "cancellationPolicy": {
         "windowTitle": "Cancellation policy",
@@ -409,7 +515,7 @@
       "hero": {
         "badge": "📖 The complete platform guide",
         "titleLine1": "Everything",
-        "titleLine2": "Booking can do",
+        "titleLine2": "Bronly can do",
         "subtitle": "A step-by-step overview of every feature — for business owners and customers.",
         "businessOwnerCta": "I'm a business owner",
         "customerCta": "I'm a customer"
@@ -564,12 +670,12 @@
         "note": "No hidden fees · 5-minute setup · Cancel anytime"
       },
       "footer": {
-        "brand": "Booking",
+        "brand": "Bronly",
         "home": "Home",
         "explore": "Catalog",
         "pricing": "Pricing",
         "contact": "Contact",
-        "copyright": "© 2026 Booking"
+        "copyright": "© 2026 Bronly"
       }
     },
     "notFound": {

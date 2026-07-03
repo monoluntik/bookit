@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import SmartNav from '@/components/SmartNav'
 
-export const metadata = { title: 'О нас — Booking' }
+export const metadata = { title: 'О нас — Bronly' }
 
 export default async function AboutPage() {
   const t = await getTranslations('Static')

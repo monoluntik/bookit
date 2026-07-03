@@ -48,7 +48,7 @@ export default function BookingConfirmation({ booking, business, servicePrice, r
     const ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Booking//RU',
+      'PRODID:-//Bronly//RU',
       'BEGIN:VEVENT',
       `DTSTART:${fmt(start)}`,
       `DTEND:${fmt(end)}`,

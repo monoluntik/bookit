@@ -6,17 +6,38 @@
       "descriptionFallback": "{name} мекемесіне онлайн жазылыңыз. Жылдам, ыңғайлы, қоңырауссыз."
     },
     "typeMeta": {
-      "HOTEL": { "label": "Қонақүй", "bookingVerb": "Нөмір брондау" },
-      "RESTAURANT": { "label": "Мейрамхана", "bookingVerb": "Үстел брондау" },
-      "SALON": { "label": "Сұлулық салоны", "bookingVerb": "Жазылу" },
-      "COWORKING": { "label": "Коворкинг", "bookingVerb": "Орын брондау" },
-      "SPORT": { "label": "Спорт", "bookingVerb": "Брондау" },
-      "MEDICAL": { "label": "Медицина", "bookingVerb": "Қабылдауға жазылу" },
-      "CUSTOM": { "label": "Басқа", "bookingVerb": "Брондау" }
+      "HOTEL": {
+        "label": "Қонақүй",
+        "bookingVerb": "Нөмір брондау"
+      },
+      "RESTAURANT": {
+        "label": "Мейрамхана",
+        "bookingVerb": "Үстел брондау"
+      },
+      "SALON": {
+        "label": "Сұлулық салоны",
+        "bookingVerb": "Жазылу"
+      },
+      "COWORKING": {
+        "label": "Коворкинг",
+        "bookingVerb": "Орын брондау"
+      },
+      "SPORT": {
+        "label": "Спорт",
+        "bookingVerb": "Брондау"
+      },
+      "MEDICAL": {
+        "label": "Медицина",
+        "bookingVerb": "Қабылдауға жазылу"
+      },
+      "CUSTOM": {
+        "label": "Басқа",
+        "bookingVerb": "Брондау"
+      }
     },
     "nav": {
       "back": "← Артқа",
-      "brand": "Booking",
+      "brand": "Bronly",
       "logout": "Шығу",
       "login": "Кіру"
     },
