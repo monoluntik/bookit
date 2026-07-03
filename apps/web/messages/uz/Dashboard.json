@@ -15,7 +15,8 @@
       "profile": "Profil",
       "admin": "Admin",
       "logout": "Chiqish",
-      "more": "Yana"
+      "more": "Yana",
+      "clients": "Mijozlar"
     },
     "overview": {
       "welcomeTitle": "Xush kelibsiz!",
@@ -382,12 +383,21 @@
         "successSaved": "Fotosuratlar saqlandi"
       },
       "paymentSection": {
-        "title": "Bakai orqali onlayn to'lov",
-        "description": "Mablag' to'g'ridan-to'g'ri Bakai hisobingizga tushadi. Sozlash uchun: <b>Bakai Biznes</b>ga kiring → «Tashqi xizmatlar» → «To'lov havolasini yaratish» ulanishini yarating → login va parol bilan PDF faylni yuklab oling.",
+        "title": "Finik orqali onlayn to'lov",
+        "description": "Mablag' to'g'ridan-to'g'ri biznesingizning Finik hisobiga tushadi. Avval kalit yarating va uni <b>Finik</b> kabinetiga yuklang, so'ng Finik bergan API-kalit va hisob ID (accountId) ni shu yerga joylashtiring.",
         "connectedNotice": "Onlayn to'lov ulangan.",
-        "usernamePlaceholder": "PDF dagi login (username)",
-        "passwordPlaceholder": "PDF dagi parol (password)",
-        "activationWarning": "PDF dagi login va parol bir marta ishlatiladi — saqlanganda ular darhol doimiy tokenga almashtiriladi. Ularni faqat bir marta kiriting; agar ulanish allaqachon sozlangan bo'lsa, uni faqat Bakai yangi PDF bergandagina o'zgartiring.",
+        "step1Title": "1-qadam. Finik uchun kalit",
+        "generateKey": "Kalit yaratish",
+        "regenerateKey": "Kalitni qayta yaratish",
+        "generating": "Yaratilmoqda...",
+        "copyKey": "Nusxalash",
+        "downloadKey": "Yuklab olish",
+        "successCopied": "Kalit nusxalandi",
+        "successKeyGenerated": "Kalit yaratildi",
+        "step2Title": "2-qadam. Finikdan ma'lumotlar",
+        "apiKeyPlaceholder": "Finikdan API-kalit",
+        "accountIdPlaceholder": "Hisob ID (accountId)",
+        "activationWarning": "«Web» ulanishini yaratishda ochiq kalitni Finik kabinetiga yuklang, so'ng Finik bergan API-kalit va hisob ID sini joylashtirib saqlang.",
         "disconnect": "Uzish",
         "cancel": "Bekor qilish",
         "saving": "Saqlanmoqda...",
@@ -414,6 +424,18 @@
           "minutes30": "30 daqiqa oldin"
         }
       }
+    },
+    "clients": {
+      "title": "Mijozlar",
+      "searchPlaceholder": "Ism yoki telefon bo'yicha qidirish",
+      "emptyTitle": "Hozircha mijozlar yo'q",
+      "emptySearch": "Hech narsa topilmadi",
+      "noPhone": "Telefonsiz",
+      "walkInBadge": "bir martalik",
+      "bookingsLabel": "bron",
+      "upcomingLabel": "kelayotgan",
+      "paidLabel": "to'landi, som",
+      "lastVisitLabel": "oxirgi tashrif"
     }
   }
 }

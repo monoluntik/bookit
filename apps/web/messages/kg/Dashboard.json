@@ -15,7 +15,8 @@
       "profile": "Профиль",
       "admin": "Админ",
       "logout": "Чыгуу",
-      "more": "Дагы"
+      "more": "Дагы",
+      "clients": "Клиенттер"
     },
     "overview": {
       "welcomeTitle": "Кош келиңиз!",
@@ -402,12 +403,21 @@
         "successSaved": "Сүрөттөр сакталды"
       },
       "paymentSection": {
-        "title": "Bakai аркылуу онлайн төлөм",
-        "description": "Акча түз эле Bakai эсебиңизге келет. Тууралоо үчүн: <b>Bakai Бизнес</b> кириңиз → «Тышкы кызматтар» → «Төлөм шилтемесин түзүү» туташуусун түзүңүз → логин жана сырсөзү бар PDFти жүктөп алыңыз.",
+        "title": "Finik аркылуу онлайн төлөм",
+        "description": "Акча түз эле бизнесиңиздин Finik эсебине келет. Адегенде ключ түзүп, аны <b>Finik</b> кабинетине жүктөңүз, андан кийин Finik берген API-ключти жана эсеп ID (accountId) бул жерге коюңуз.",
         "connectedNotice": "Онлайн төлөм туташтырылган.",
-        "usernamePlaceholder": "PDFтеги логин (username)",
-        "passwordPlaceholder": "PDFтеги сырсөз (password)",
-        "activationWarning": "PDFтеги логин жана сырсөз бир жолу гана колдонулат — сактаганда алар дароо туруктуу токенге алмаштырылат. Аларды бир гана жолу киргизиңиз; эгер туташуу мурунтан эле бар болсо, аны Bakai жаңы PDF бергенде гана өзгөртүңүз.",
+        "step1Title": "1-кадам. Finik үчүн ключ",
+        "generateKey": "Ключ түзүү",
+        "regenerateKey": "Ключти кайра түзүү",
+        "generating": "Түзүлүүдө...",
+        "copyKey": "Көчүрүү",
+        "downloadKey": "Жүктөп алуу",
+        "successCopied": "Ключ көчүрүлдү",
+        "successKeyGenerated": "Ключ түзүлдү",
+        "step2Title": "2-кадам. Finik берген маалымат",
+        "apiKeyPlaceholder": "Finik берген API-ключ",
+        "accountIdPlaceholder": "Эсеп ID (accountId)",
+        "activationWarning": "«Web» туташуусун түзүүдө ачык ключту Finik кабинетине жүктөңүз, андан кийин Finik берген API-ключ менен эсеп ID сын коюп сактаңыз.",
         "disconnect": "Ажыратуу",
         "cancel": "Жокко чыгаруу",
         "saving": "Сакталууда...",
@@ -434,6 +444,18 @@
           "minutes30": "30 мүнөт мурун"
         }
       }
+    },
+    "clients": {
+      "title": "Клиенттер",
+      "searchPlaceholder": "Аты же телефону боюнча издөө",
+      "emptyTitle": "Азырынча клиенттер жок",
+      "emptySearch": "Эч нерсе табылган жок",
+      "noPhone": "Телефонсуз",
+      "walkInBadge": "бир жолку",
+      "bookingsLabel": "брон",
+      "upcomingLabel": "боло турган",
+      "paidLabel": "төлөндү, сом",
+      "lastVisitLabel": "акыркы жолу"
     }
   }
 }

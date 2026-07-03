@@ -103,6 +103,11 @@ export const api = {
 
   getStats: (businessId: string) => apiFetch<any>(`/api/stats/business/${businessId}`),
 
+  getClients: (businessId: string, search?: string) =>
+    apiFetch<{ clients: any[]; total: number }>(
+      `/api/clients/business/${businessId}${search ? `?search=${encodeURIComponent(search)}` : ''}`,
+    ),
+
   getStaff: (businessId: string) => apiFetch<any[]>(`/api/staff/business/${businessId}`),
 
   addStaff: (data: { businessId: string; phone: string; position?: string }) =>

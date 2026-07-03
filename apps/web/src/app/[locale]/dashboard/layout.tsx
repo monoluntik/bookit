@@ -22,6 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { href: '/dashboard/services',      label: t('services'),    icon: '✂️', mobileLabel: t('services') },
     { href: '/dashboard/staff',         label: t('staff'),       icon: '👥', mobileLabel: t('staff') },
     { href: '/dashboard/reviews',       label: t('reviews'),     icon: '💬', mobileLabel: t('reviews') },
+    { href: '/dashboard/clients',       label: t('clients'),     icon: '👤', mobileLabel: t('clients') },
     { href: '/dashboard/schedule',      label: t('schedule'),    icon: '🏖️', mobileLabel: t('schedule') },
     { href: '/dashboard/cancellation',  label: t('cancellation'), icon: '🔄', mobileLabel: t('cancellation') },
     { href: '/dashboard/settings',      label: t('settings'),    icon: '⚙️', mobileLabel: t('settings') },
@@ -58,7 +59,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const SidebarContent = () => (
     <>
       <div className="px-5 py-5 border-b border-gray-100">
-        <div className="text-xl font-bold text-blue-600">Booking</div>
+        <div className="text-xl font-bold text-blue-600">Bronly</div>
         <div className="text-xs text-gray-400 mt-0.5 truncate">{user.name}</div>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
@@ -121,7 +122,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <aside className={`md:hidden fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-100 flex flex-col z-30
         transform transition-transform duration-200 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <div className="text-lg font-bold text-blue-600">Booking</div>
+          <div className="text-lg font-bold text-blue-600">Bronly</div>
           <button onClick={() => setSidebarOpen(false)} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">×</button>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">

@@ -19,6 +19,7 @@ import { uploadRoutes } from './routes/upload'
 import { adminRoutes } from './routes/admin'
 import { telegramRoutes } from './routes/telegram'
 import { reminderRuleRoutes } from './routes/reminder-rule'
+import { clientRoutes } from './routes/clients'
 import { startReminderScheduler } from './lib/reminderScheduler'
 import { startDepositExpiryScheduler } from './lib/depositExpiryScheduler'
 
@@ -94,6 +95,7 @@ const start = async () => {
   await app.register(adminRoutes, { prefix: '/api/admin' })
   await app.register(telegramRoutes, { prefix: '/api/telegram' })
   await app.register(reminderRuleRoutes, { prefix: '/api/reminder-rules' })
+  await app.register(clientRoutes, { prefix: '/api/clients' })
 
   app.get('/health', async () => ({ status: 'ok', ts: new Date().toISOString() }))
 

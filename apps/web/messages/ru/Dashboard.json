@@ -15,7 +15,8 @@
       "profile": "Профиль",
       "admin": "Админка",
       "logout": "Выйти",
-      "more": "Ещё"
+      "more": "Ещё",
+      "clients": "Клиенты"
     },
     "overview": {
       "welcomeTitle": "Добро пожаловать!",
@@ -402,12 +403,21 @@
         "successSaved": "Фотографии сохранены"
       },
       "paymentSection": {
-        "title": "Онлайн-оплата через Bakai",
-        "description": "Деньги поступают напрямую на ваш счёт в Bakai. Для настройки: войдите в <b>Bakai Бизнес</b> → «Внешние сервисы» → создайте подключение «Создание платёжной ссылки» → скачайте PDF с логином и паролем.",
+        "title": "Онлайн-оплата через Finik",
+        "description": "Деньги поступают напрямую на счёт вашего бизнеса через Finik. Сначала сгенерируйте ключ и подключите его в личном кабинете <b>Finik</b>, затем вставьте сюда API-ключ и ID счёта, которые выдаст Finik.",
         "connectedNotice": "Онлайн-оплата подключена.",
-        "usernamePlaceholder": "Логин из PDF (username)",
-        "passwordPlaceholder": "Пароль из PDF (password)",
-        "activationWarning": "Логин и пароль из PDF одноразовые — при сохранении мы сразу обмениваем их на постоянный токен. Вводите их только один раз; если подключение уже настроено, менять его нужно только если Bakai выдал новый PDF.",
+        "step1Title": "Шаг 1. Ключ для Finik",
+        "generateKey": "Сгенерировать ключ",
+        "regenerateKey": "Перевыпустить ключ",
+        "generating": "Генерируем...",
+        "copyKey": "Скопировать",
+        "downloadKey": "Скачать",
+        "successCopied": "Ключ скопирован",
+        "successKeyGenerated": "Ключ сгенерирован",
+        "step2Title": "Шаг 2. Данные от Finik",
+        "apiKeyPlaceholder": "API-ключ от Finik",
+        "accountIdPlaceholder": "ID счёта (accountId)",
+        "activationWarning": "Загрузите публичный ключ в личном кабинете Finik при создании подключения «Web», затем вставьте выданные Finik API-ключ и ID счёта и сохраните.",
         "disconnect": "Отключить",
         "cancel": "Отмена",
         "saving": "Сохраняем...",
@@ -446,6 +456,18 @@
       "uploading": "Загружаем...",
       "dropHint": "Перетащите фото сюда или нажмите",
       "fileHint": "JPEG, PNG, WebP · до 5 МБ · максимум {max} фото"
+    },
+    "clients": {
+      "title": "Клиенты",
+      "searchPlaceholder": "Поиск по имени или телефону",
+      "emptyTitle": "Пока нет клиентов",
+      "emptySearch": "Ничего не найдено",
+      "noPhone": "Без телефона",
+      "walkInBadge": "разовый визит",
+      "bookingsLabel": "броней",
+      "upcomingLabel": "предстоящих",
+      "paidLabel": "оплачено, сом",
+      "lastVisitLabel": "последний визит"
     }
   }
 }

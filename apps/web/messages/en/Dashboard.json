@@ -15,7 +15,8 @@
       "profile": "Profile",
       "admin": "Admin",
       "logout": "Log out",
-      "more": "More"
+      "more": "More",
+      "clients": "Clients"
     },
     "overview": {
       "welcomeTitle": "Welcome!",
@@ -402,12 +403,21 @@
         "successSaved": "Photos saved"
       },
       "paymentSection": {
-        "title": "Online payment via Bakai",
-        "description": "Funds go directly to your Bakai account. To set up: log in to <b>Bakai Business</b> → \"External services\" → create a \"Payment link creation\" connection → download the PDF with your username and password.",
+        "title": "Online payment via Finik",
+        "description": "Funds go directly to your business's account via Finik. First generate a key and upload it in your <b>Finik</b> dashboard, then paste the API key and account ID Finik gives you back here.",
         "connectedNotice": "Online payment is connected.",
-        "usernamePlaceholder": "Username from PDF",
-        "passwordPlaceholder": "Password from PDF",
-        "activationWarning": "The username and password from the PDF are single-use — saving them immediately exchanges them for a permanent token. Enter them only once; only change them again if Bakai issues a new PDF.",
+        "step1Title": "Step 1. Key for Finik",
+        "generateKey": "Generate key",
+        "regenerateKey": "Regenerate key",
+        "generating": "Generating...",
+        "copyKey": "Copy",
+        "downloadKey": "Download",
+        "successCopied": "Key copied",
+        "successKeyGenerated": "Key generated",
+        "step2Title": "Step 2. Details from Finik",
+        "apiKeyPlaceholder": "API key from Finik",
+        "accountIdPlaceholder": "Account ID (accountId)",
+        "activationWarning": "Upload the public key in the Finik dashboard when creating a \"Web\" connection, then paste the API key and account ID Finik issues you and save.",
         "disconnect": "Disconnect",
         "cancel": "Cancel",
         "saving": "Saving...",
@@ -446,6 +456,18 @@
       "uploading": "Uploading...",
       "dropHint": "Drag photos here or click",
       "fileHint": "JPEG, PNG, WebP · up to 5 MB · maximum {max} photos"
+    },
+    "clients": {
+      "title": "Clients",
+      "searchPlaceholder": "Search by name or phone",
+      "emptyTitle": "No clients yet",
+      "emptySearch": "Nothing found",
+      "noPhone": "No phone",
+      "walkInBadge": "walk-in",
+      "bookingsLabel": "bookings",
+      "upcomingLabel": "upcoming",
+      "paidLabel": "paid, som",
+      "lastVisitLabel": "last visit"
     }
   }
 }
