@@ -28,6 +28,7 @@ const updateResourceSchema = z.object({
   capacity: z.number().int().positive().optional(),
   bookingMode: z.enum(BOOKING_MODES).optional(),
   depositAmount: z.number().positive().nullable().optional(),
+  isActive: z.boolean().optional(),
 })
 
 const scheduleSchema = z.object({
@@ -35,7 +36,7 @@ const scheduleSchema = z.object({
   startTime: z.string().regex(/^\d{2}:\d{2}$/),
   endTime: z.string().regex(/^\d{2}:\d{2}$/),
   slotDurationMinutes: z.number().int().positive().optional(),
-}).refine(d => d.startTime < d.endTime, { message: 'startTime должно быть раньше endTime' })
+}) // overnight schedules (e.g. 20:00–08:00) are intentionally allowed
 
 export async function resourceRoutes(app: FastifyInstance) {
   // Protected: create resource
@@ -190,6 +191,18 @@ export async function resourceRoutes(app: FastifyInstance) {
     if (!resource) return reply.status(404).send({ error: 'Resource not found' })
     const tz = resource.business.timezone
 
+    // Convert absolute minutes (may exceed 1440 for overnight) → "YYYY-MM-DDTHH:mm"
+    const fmtDateTime = (baseDate: string, totalMins: number): string => {
+      const hh = String(Math.floor((totalMins % 1440) / 60)).padStart(2, '0')
+      const mm = String(totalMins % 60).padStart(2, '0')
+      if (totalMins < 1440) return `${baseDate}T${hh}:${mm}`
+      // Roll over to next day
+      const [y, mo, dd] = baseDate.split('-').map(Number)
+      const next = new Date(y, mo - 1, dd + 1)
+      const nextStr = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-${String(next.getDate()).padStart(2, '0')}`
+      return `${nextStr}T${hh}:${mm}`
+    }
+
     const slots: { start: string; end: string }[] = []
     for (const schedule of resource.schedules) {
       const exception = schedule.exceptions[0]
@@ -204,17 +217,18 @@ export async function resourceRoutes(app: FastifyInstance) {
       // for a 4h booking) instead of every available slotDurationMinutes.
       const step = forceDuration ? schedule.slotDurationMinutes : duration
 
-      const fmt = (mins: number) => `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`
-
       const [startH, startM] = start.split(':').map(Number)
       const [endH, endM] = end.split(':').map(Number)
       const openMinutes = startH * 60 + startM
-      const endMinutes = endH * 60 + endM
+      // Overnight: endTime <= startTime means the schedule wraps past midnight
+      const rawEnd = endH * 60 + endM
+      const endMinutes = rawEnd <= openMinutes ? rawEnd + 1440 : rawEnd
+
       let current = openMinutes
       let lastEmitted = -1
 
       while (current + duration <= endMinutes) {
-        slots.push({ start: `${date}T${fmt(current)}`, end: `${date}T${fmt(current + duration)}` })
+        slots.push({ start: fmtDateTime(date, current), end: fmtDateTime(date, current + duration) })
         lastEmitted = current
         current += step
       }
@@ -223,11 +237,11 @@ export async function resourceRoutes(app: FastifyInstance) {
       // off the step grid — closing time minus duration is always bookable.
       const lastPossible = endMinutes - duration
       if (lastPossible >= openMinutes && lastPossible !== lastEmitted) {
-        slots.push({ start: `${date}T${fmt(lastPossible)}`, end: `${date}T${fmt(lastPossible + duration)}` })
+        slots.push({ start: fmtDateTime(date, lastPossible), end: fmtDateTime(date, lastPossible + duration) })
       }
     }
 
-    // Filter out already booked slots
+    // Filter out already booked slots — include next day for overnight schedules
     const dayStart = zonedTimeToUtc(`${date}T00:00`, tz)
     const bookings = await prisma.booking.findMany({
       where: {
@@ -235,7 +249,7 @@ export async function resourceRoutes(app: FastifyInstance) {
         status: { in: ['PENDING', 'CONFIRMED'] },
         startAt: {
           gte: dayStart,
-          lt: new Date(dayStart.getTime() + 86_400_000),
+          lt: new Date(dayStart.getTime() + 2 * 86_400_000), // +2 days covers overnight
         },
       },
       select: { startAt: true, endAt: true },

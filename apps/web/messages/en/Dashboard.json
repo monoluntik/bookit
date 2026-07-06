@@ -9,7 +9,7 @@
       "staff": "Staff",
       "reviews": "Reviews",
       "schedule": "Days off",
-      "cancellation": "Cancellation",
+      "cancellation": "Cancellation policy",
       "settings": "Settings",
       "statsShort": "Stats",
       "profile": "Profile",
@@ -126,7 +126,9 @@
         "successBlockDeleted": "Block removed",
         "successBookingDeleted": "Booking deleted",
         "successTimeUpdated": "Time updated",
-        "errorGeneric": "Error"
+        "errorGeneric": "Error",
+        "confirmDeleteBlock": "Delete this block?",
+        "confirmDeleteBooking": "Delete this booking? This can't be undone."
       }
     },
     "stats": {
@@ -187,7 +189,8 @@
       "saving": "Saving...",
       "save": "Save",
       "errorPickDay": "Select at least one day",
-      "errorStartBeforeEnd": "Start time must be before end time",
+      "errorStartBeforeEnd": "Start and end time cannot be the same",
+      "overnightHint": "Overnight schedule — slots continue until next day",
       "errorGeneric": "Error",
       "successPhotosSaved": "Photos saved",
       "successScheduleSaved": "Schedule saved",
@@ -225,7 +228,11 @@
       "bookingModeFreeStartExample": "Spa, hall rental, photo studio",
       "bookingModeFreeStartDesc": "Customer picks a start time; duration comes from the service",
       "bookingModeBadgeFixed": "Fixed slots",
-      "bookingModeBadgeFreeStart": "Free start"
+      "bookingModeBadgeFreeStart": "Free start",
+      "activateHint": "Activate resource",
+      "deactivateHint": "Deactivate resource",
+      "successActivated": "Resource activated",
+      "successDeactivated": "Resource deactivated"
     },
     "services": {
       "title": "Services",
@@ -315,7 +322,8 @@
       "errorGeneric": "Error",
       "successDayOffAdded": "Day off added",
       "successSpecialHoursSaved": "Special hours saved",
-      "successExceptionDeleted": "Exception deleted"
+      "successExceptionDeleted": "Exception deleted",
+      "confirmDeleteException": "Delete this exception?"
     },
     "cancellation": {
       "title": "Cancellation policy",
@@ -377,7 +385,9 @@
         "remindersButton": "🔔 Reminders",
         "pageLabel": "Page:",
         "morePhotos": "+{count}",
-        "translationsButton": "🌐 Translations"
+        "translationsButton": "🌐 Translations",
+        "logoAlt": "{name} logo",
+        "galleryAlt": "Photo {n} — {name}"
       },
       "editSection": {
         "title": "Basic information",
@@ -442,7 +452,8 @@
           "hours3": "3 hours before",
           "hour": "1 hour before",
           "minutes30": "30 minutes before"
-        }
+        },
+        "confirmDelete": "Delete this reminder?"
       }
     },
     "imageUpload": {
@@ -468,6 +479,13 @@
       "upcomingLabel": "upcoming",
       "paidLabel": "paid, som",
       "lastVisitLabel": "last visit"
+    },
+    "common": {
+      "noBusiness": {
+        "noBusinessTitle": "Create a business first",
+        "noBusinessText": "This section becomes available once you have at least one business.",
+        "noBusinessCta": "Create business"
+      }
     }
   }
 }

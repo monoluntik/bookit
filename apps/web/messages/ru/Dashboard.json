@@ -9,7 +9,7 @@
       "staff": "Персонал",
       "reviews": "Отзывы",
       "schedule": "Выходные",
-      "cancellation": "Отмена",
+      "cancellation": "Политика отмены",
       "settings": "Настройки",
       "statsShort": "Стат.",
       "profile": "Профиль",
@@ -27,7 +27,7 @@
       "createBusiness": "Создать бизнес →",
       "pageLink": "Страница ↗",
       "settings": "Настройки",
-      "todayBookingsTitle": "📅 Сегодня — {count, plural, one {# запись} few {# записи} many {# записей} other {# записи}}",
+      "todayBookingsTitle": "📅 Сегодня — {count, plural, one {# бронь} few {# брони} many {# броней} other {# брони}}",
       "andMore": "+ ещё {count}",
       "today": "Сегодня",
       "month": "За месяц",
@@ -126,7 +126,9 @@
         "successBlockDeleted": "Блокировка удалена",
         "successBookingDeleted": "Бронь удалена",
         "successTimeUpdated": "Время обновлено",
-        "errorGeneric": "Ошибка"
+        "errorGeneric": "Ошибка",
+        "confirmDeleteBlock": "Удалить эту блокировку?",
+        "confirmDeleteBooking": "Удалить эту бронь? Действие необратимо."
       }
     },
     "stats": {
@@ -141,11 +143,11 @@
       "cardPendingSub": "Всего броней: {total}",
       "chartTitle30d": "Брони за последние 30 дней",
       "statusBreakdown": "Статусы броней",
-      "upcomingAppointments": "Ближайшие записи",
-      "noUpcoming": "Предстоящих записей нет",
+      "upcomingAppointments": "Ближайшие брони",
+      "noUpcoming": "Предстоящих броней нет",
       "defaultCustomer": "Клиент",
       "servicePopularity": "Популярность услуг",
-      "noUpcomingDataForServices": "Нет данных по предстоящим записям",
+      "noUpcomingDataForServices": "Нет данных по предстоящим броням",
       "noService": "Без услуги",
       "noData": "Нет данных",
       "statusLabels": {
@@ -187,7 +189,8 @@
       "saving": "Сохраняем...",
       "save": "Сохранить",
       "errorPickDay": "Выберите хотя бы один день",
-      "errorStartBeforeEnd": "Время начала должно быть раньше конца",
+      "errorStartBeforeEnd": "Время начала и конца не могут совпадать",
+      "overnightHint": "Ночной режим — слоты продолжаются до следующего дня",
       "errorGeneric": "Ошибка",
       "successPhotosSaved": "Фото сохранены",
       "successScheduleSaved": "Расписание сохранено",
@@ -225,7 +228,11 @@
       "bookingModeFreeStartExample": "СПА, прокат зала, фотостудия",
       "bookingModeFreeStartDesc": "Клиент выбирает время старта, длительность — из услуги",
       "bookingModeBadgeFixed": "Фикс. слоты",
-      "bookingModeBadgeFreeStart": "Своб. начало"
+      "bookingModeBadgeFreeStart": "Своб. начало",
+      "activateHint": "Включить ресурс",
+      "deactivateHint": "Отключить ресурс",
+      "successActivated": "Ресурс включён",
+      "successDeactivated": "Ресурс отключён"
     },
     "services": {
       "title": "Услуги",
@@ -315,7 +322,8 @@
       "errorGeneric": "Ошибка",
       "successDayOffAdded": "Выходной добавлен",
       "successSpecialHoursSaved": "Особые часы сохранены",
-      "successExceptionDeleted": "Исключение удалено"
+      "successExceptionDeleted": "Исключение удалено",
+      "confirmDeleteException": "Удалить это исключение?"
     },
     "cancellation": {
       "title": "Политика отмены",
@@ -377,7 +385,9 @@
         "remindersButton": "🔔 Напоминания",
         "pageLabel": "Страница:",
         "morePhotos": "+{count}",
-        "translationsButton": "🌐 Переводы"
+        "translationsButton": "🌐 Переводы",
+        "logoAlt": "Логотип {name}",
+        "galleryAlt": "Фото {n} — {name}"
       },
       "editSection": {
         "title": "Основная информация",
@@ -442,7 +452,8 @@
           "hours3": "За 3 часа",
           "hour": "За час",
           "minutes30": "За 30 минут"
-        }
+        },
+        "confirmDelete": "Удалить это напоминание?"
       }
     },
     "imageUpload": {
@@ -468,6 +479,13 @@
       "upcomingLabel": "предстоящих",
       "paidLabel": "оплачено, сом",
       "lastVisitLabel": "последний визит"
+    },
+    "common": {
+      "noBusiness": {
+        "noBusinessTitle": "Сначала создайте бизнес",
+        "noBusinessText": "Этот раздел появится, когда у вас будет хотя бы один бизнес.",
+        "noBusinessCta": "Создать бизнес"
+      }
     }
   }
 }

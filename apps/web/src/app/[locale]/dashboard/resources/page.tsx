@@ -7,6 +7,7 @@ import { api } from '@/lib/api'
 import { useToast } from '@/context/ToastContext'
 import ImageUpload from '@/components/ui/ImageUpload'
 import ContentTranslationsPanel from '@/components/dashboard/ContentTranslationsPanel'
+import NoBusinessYet from '@/components/dashboard/NoBusinessYet'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -114,6 +115,23 @@ export default function ResourcesPage() {
     setDepositDraft(resource.depositAmount ? String(resource.depositAmount) : '')
   }
 
+  const toggleActive = async (resource: any) => {
+    if (!user) return
+    try {
+      const res = await fetch(`${API}/api/resources/${resource.id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: !resource.isActive }),
+      })
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? t('errorGeneric')) }
+      loadResources(selectedBiz)
+      success(resource.isActive ? t('successDeactivated') : t('successActivated'))
+    } catch (err: any) {
+      showError(err.message)
+    }
+  }
+
   const saveDeposit = async (resourceId: string) => {
     if (!user) return
     setSaving(true)
@@ -140,7 +158,7 @@ export default function ResourcesPage() {
     e.preventDefault()
     if (!user) return
     if (scheduleForm.days.length === 0) { setFormError(t('errorPickDay')); return }
-    if (scheduleForm.start >= scheduleForm.end) { setFormError(t('errorStartBeforeEnd')); return }
+    if (scheduleForm.start === scheduleForm.end) { setFormError(t('errorStartBeforeEnd')); return }
     setSaving(true)
     setFormError('')
     try {
@@ -200,7 +218,7 @@ export default function ResourcesPage() {
     e.preventDefault()
     if (!user || !editScheduleFor) return
     if (editScheduleForm.days.length === 0) { setFormError(t('errorPickDay')); return }
-    if (editScheduleForm.start >= editScheduleForm.end) { setFormError(t('errorStartBeforeEnd')); return }
+    if (editScheduleForm.start === editScheduleForm.end) { setFormError(t('errorStartBeforeEnd')); return }
     setSaving(true)
     setFormError('')
     try {
@@ -248,6 +266,8 @@ export default function ResourcesPage() {
     </div>
   )
 
+  if (businesses.length === 0) return <NoBusinessYet />
+
   const ScheduleFields = ({
     value, onChange,
   }: {
@@ -284,6 +304,9 @@ export default function ResourcesPage() {
             onChange={e => onChange({ ...value, end: e.target.value })}
             className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
         </div>
+        {value.start > value.end && value.end && (
+          <p className="text-xs text-blue-500 mt-1.5">🌙 {t('overnightHint')}</p>
+        )}
       </div>
 
       {/* Slot duration */}
@@ -337,10 +360,12 @@ export default function ResourcesPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-medium text-gray-900">{r.name}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full shrink-0
-                      ${r.isActive ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                    <button type="button" onClick={() => toggleActive(r)}
+                      title={r.isActive ? t('deactivateHint') : t('activateHint')}
+                      className={`text-xs px-2 py-0.5 rounded-full shrink-0 transition-colors
+                        ${r.isActive ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}>
                       {r.isActive ? t('active') : t('inactive')}
-                    </span>
+                    </button>
                     <span className={`text-xs px-2 py-0.5 rounded-full shrink-0
                       ${r.bookingMode === 'FREE_START' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
                       {r.bookingMode === 'FREE_START' ? t('bookingModeBadgeFreeStart') : t('bookingModeBadgeFixed')}

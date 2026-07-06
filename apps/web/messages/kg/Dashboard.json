@@ -9,14 +9,14 @@
       "staff": "Персонал",
       "reviews": "Пикирлер",
       "schedule": "Эс алуу күндөрү",
-      "cancellation": "Жокко чыгаруу",
+      "cancellation": "Жокко чыгаруу саясаты",
       "settings": "Жөндөөлөр",
       "statsShort": "Стат.",
       "profile": "Профиль",
       "admin": "Админ",
       "logout": "Чыгуу",
       "more": "Дагы",
-      "clients": "Клиенттер"
+      "clients": "Кардарлар"
     },
     "overview": {
       "welcomeTitle": "Кош келиңиз!",
@@ -126,7 +126,9 @@
         "successBlockDeleted": "Бөгөттөө өчүрүлдү",
         "successBookingDeleted": "Брон өчүрүлдү",
         "successTimeUpdated": "Убакыт жаңыртылды",
-        "errorGeneric": "Ката"
+        "errorGeneric": "Ката",
+        "confirmDeleteBlock": "Бул блокировканы өчүрөсүзбү?",
+        "confirmDeleteBooking": "Бул бронду өчүрөсүзбү? Артка кайтарылбайт."
       }
     },
     "stats": {
@@ -187,7 +189,8 @@
       "saving": "Сакталууда...",
       "save": "Сактоо",
       "errorPickDay": "Жок дегенде бир күндү тандаңыз",
-      "errorStartBeforeEnd": "Башталыш убактысы аякташтан мурда болушу керек",
+      "errorStartBeforeEnd": "Башталыш жана аяктоо убактысы бирдей боло албайт",
+      "overnightHint": "Түнкү режим — слоттор кийинки күнгө чейин уланат",
       "errorGeneric": "Ката",
       "successPhotosSaved": "Сүрөттөр сакталды",
       "successScheduleSaved": "Жадыбал сакталды",
@@ -225,7 +228,11 @@
       "bookingModeFreeStartExample": "СПА, зал ижарасы, фотостудия",
       "bookingModeFreeStartDesc": "Кардар башталыш убактысын тандайт, узактыгы — кызматтан",
       "bookingModeBadgeFixed": "Туруктуу",
-      "bookingModeBadgeFreeStart": "Эркин"
+      "bookingModeBadgeFreeStart": "Эркин",
+      "activateHint": "Ресурсту күйгүзүү",
+      "deactivateHint": "Ресурсту өчүрүү",
+      "successActivated": "Ресурс күйгүзүлдү",
+      "successDeactivated": "Ресурс өчүрүлдү"
     },
     "services": {
       "title": "Кызматтар",
@@ -315,7 +322,8 @@
       "errorGeneric": "Ката",
       "successDayOffAdded": "Эс алуу күнү кошулду",
       "successSpecialHoursSaved": "Өзгөчө сааттар сакталды",
-      "successExceptionDeleted": "Өзгөчө учур өчүрүлдү"
+      "successExceptionDeleted": "Өзгөчө учур өчүрүлдү",
+      "confirmDeleteException": "Бул өзгөчөлүктү өчүрөсүзбү?"
     },
     "cancellation": {
       "title": "Жокко чыгаруу саясаты",
@@ -377,7 +385,9 @@
         "remindersButton": "🔔 Эскертүүлөр",
         "pageLabel": "Барак:",
         "morePhotos": "+{count}",
-        "translationsButton": "🌐 Котормолор"
+        "translationsButton": "🌐 Котормолор",
+        "logoAlt": "{name} логотиби",
+        "galleryAlt": "Сүрөт {n} — {name}"
       },
       "editSection": {
         "title": "Негизги маалымат",
@@ -442,13 +452,14 @@
           "hours3": "3 саат мурун",
           "hour": "1 саат мурун",
           "minutes30": "30 мүнөт мурун"
-        }
+        },
+        "confirmDelete": "Бул эскертүүнү өчүрөсүзбү?"
       }
     },
     "clients": {
-      "title": "Клиенттер",
+      "title": "Кардарлар",
       "searchPlaceholder": "Аты же телефону боюнча издөө",
-      "emptyTitle": "Азырынча клиенттер жок",
+      "emptyTitle": "Азырынча кардарлар жок",
       "emptySearch": "Эч нерсе табылган жок",
       "noPhone": "Телефонсуз",
       "walkInBadge": "бир жолку",
@@ -456,6 +467,25 @@
       "upcomingLabel": "боло турган",
       "paidLabel": "төлөндү, сом",
       "lastVisitLabel": "акыркы жолу"
+    },
+    "common": {
+      "noBusiness": {
+        "noBusinessTitle": "Адегенде бизнес түзүңүз",
+        "noBusinessText": "Бул бөлүм жок дегенде бир бизнесиңиз болгондо көрүнөт.",
+        "noBusinessCta": "Бизнес түзүү"
+      }
+    },
+    "imageUpload": {
+      "defaultLabel": "Сүрөттөр",
+      "maxPhotos": "Максимум {max} сүрөт",
+      "uploadError": "Жүктөө катасы",
+      "moveLeft": "Солго жылдыруу",
+      "moveRight": "Оңго жылдыруу",
+      "delete": "Өчүрүү",
+      "mainBadge": "Негизги",
+      "uploading": "Жүктөлүүдө...",
+      "dropHint": "Сүрөттү бул жерге сүйрөңүз же басыңыз",
+      "fileHint": "JPEG, PNG, WebP · 5 МБга чейин · максимум {max} сүрөт"
     }
   }
 }

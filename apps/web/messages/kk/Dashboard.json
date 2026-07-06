@@ -9,7 +9,7 @@
       "staff": "Қызметкерлер",
       "reviews": "Пікірлер",
       "schedule": "Демалыс күндері",
-      "cancellation": "Бас тарту",
+      "cancellation": "Бас тарту саясаты",
       "settings": "Баптаулар",
       "statsShort": "Стат.",
       "profile": "Профиль",
@@ -107,6 +107,28 @@
         "errorGeneric": "Қате",
         "successBlock": "Уақыт бұғатталды",
         "successManual": "Брон қосылды"
+      },
+      "card": {
+        "blocked": "Блокталған",
+        "reschedule": "Ауыстыру",
+        "delete": "Жою",
+        "manualCustomer": "Клиент (қолмен)",
+        "defaultCustomer": "Клиент",
+        "manualBadge": "қолмен",
+        "paid": "✓ Төленді {amount} сом",
+        "date": "Күні",
+        "start": "Басталуы",
+        "end": "Аяқталуы",
+        "save": "Сақтау",
+        "cancel": "Бас тарту",
+        "endAfterStart": "Аяқталу уақыты басталу уақытынан кейін болуы керек",
+        "noPastReschedule": "Өткенге ауыстыруға болмайды",
+        "successBlockDeleted": "Блоктау жойылды",
+        "successBookingDeleted": "Брон жойылды",
+        "successTimeUpdated": "Уақыт жаңартылды",
+        "errorGeneric": "Қате",
+        "confirmDeleteBlock": "Бұл блокировканы жоясыз ба?",
+        "confirmDeleteBooking": "Бұл бронды жоясыз ба? Бұл қайтарылмайды."
       }
     },
     "stats": {
@@ -167,7 +189,8 @@
       "saving": "Сақталуда...",
       "save": "Сақтау",
       "errorPickDay": "Кемінде бір күнді таңдаңыз",
-      "errorStartBeforeEnd": "Басталу уақыты аяқталудан бұрын болуы керек",
+      "errorStartBeforeEnd": "Басталу және аяқталу уақыты бірдей бола алмайды",
+      "overnightHint": "Түнгі режим — слоттар келесі күнге дейін жалғасады",
       "errorGeneric": "Қате",
       "successPhotosSaved": "Суреттер сақталды",
       "successScheduleSaved": "Кесте сақталды",
@@ -205,7 +228,11 @@
       "bookingModeFreeStartExample": "СПА, зал жалдауы, фотостудия",
       "bookingModeFreeStartDesc": "Клиент басталу уақытын таңдайды, ұзақтығы қызметтен алынады",
       "bookingModeBadgeFixed": "Белгіленген",
-      "bookingModeBadgeFreeStart": "Еркін"
+      "bookingModeBadgeFreeStart": "Еркін",
+      "activateHint": "Ресурсты қосу",
+      "deactivateHint": "Ресурсты өшіру",
+      "successActivated": "Ресурс қосылды",
+      "successDeactivated": "Ресурс өшірілді"
     },
     "services": {
       "title": "Қызметтер",
@@ -295,7 +322,8 @@
       "errorGeneric": "Қате",
       "successDayOffAdded": "Демалыс күні қосылды",
       "successSpecialHoursSaved": "Арнайы сағаттар сақталды",
-      "successExceptionDeleted": "Ерекшелік жойылды"
+      "successExceptionDeleted": "Ерекшелік жойылды",
+      "confirmDeleteException": "Бұл ерекшелікті жоясыз ба?"
     },
     "cancellation": {
       "title": "Бас тарту саясаты",
@@ -357,7 +385,9 @@
         "remindersButton": "🔔 Еске салулар",
         "pageLabel": "Бет:",
         "morePhotos": "+{count}",
-        "translationsButton": "🌐 Аудармалар"
+        "translationsButton": "🌐 Аудармалар",
+        "logoAlt": "{name} логотипі",
+        "galleryAlt": "Фото {n} — {name}"
       },
       "editSection": {
         "title": "Негізгі ақпарат",
@@ -422,7 +452,8 @@
           "hours3": "3 сағат бұрын",
           "hour": "1 сағат бұрын",
           "minutes30": "30 минут бұрын"
-        }
+        },
+        "confirmDelete": "Бұл ескертуді жоясыз ба?"
       }
     },
     "clients": {
@@ -436,6 +467,25 @@
       "upcomingLabel": "алдағы",
       "paidLabel": "төленді, сом",
       "lastVisitLabel": "соңғы рет"
+    },
+    "common": {
+      "noBusiness": {
+        "noBusinessTitle": "Алдымен бизнес құрыңыз",
+        "noBusinessText": "Бұл бөлім кемінде бір бизнесіңіз болғанда қолжетімді болады.",
+        "noBusinessCta": "Бизнес құру"
+      }
+    },
+    "imageUpload": {
+      "defaultLabel": "Фотосуреттер",
+      "maxPhotos": "Максимум {max} фото",
+      "uploadError": "Жүктеу қатесі",
+      "moveLeft": "Солға жылжыту",
+      "moveRight": "Оңға жылжыту",
+      "delete": "Жою",
+      "mainBadge": "Негізгі",
+      "uploading": "Жүктелуде...",
+      "dropHint": "Фотоны осында сүйреңіз немесе басыңыз",
+      "fileHint": "JPEG, PNG, WebP · 5 МБ дейін · максимум {max} фото"
     }
   }
 }

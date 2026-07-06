@@ -9,7 +9,7 @@
       "staff": "Xodimlar",
       "reviews": "Sharhlar",
       "schedule": "Dam olish kunlari",
-      "cancellation": "Bekor qilish",
+      "cancellation": "Bekor qilish siyosati",
       "settings": "Sozlamalar",
       "statsShort": "Stat.",
       "profile": "Profil",
@@ -107,6 +107,28 @@
         "errorGeneric": "Xatolik",
         "successBlock": "Vaqt bloklandi",
         "successManual": "Bron qo'shildi"
+      },
+      "card": {
+        "blocked": "Bloklangan",
+        "reschedule": "Ko'chirish",
+        "delete": "O'chirish",
+        "manualCustomer": "Mijoz (qo'lda)",
+        "defaultCustomer": "Mijoz",
+        "manualBadge": "qo'lda",
+        "paid": "✓ To'landi {amount} som",
+        "date": "Sana",
+        "start": "Boshlanishi",
+        "end": "Tugashi",
+        "save": "Saqlash",
+        "cancel": "Bekor qilish",
+        "endAfterStart": "Tugash vaqti boshlanish vaqtidan keyin bo'lishi kerak",
+        "noPastReschedule": "O'tmishga ko'chirib bo'lmaydi",
+        "successBlockDeleted": "Bloklash o'chirildi",
+        "successBookingDeleted": "Bron o'chirildi",
+        "successTimeUpdated": "Vaqt yangilandi",
+        "errorGeneric": "Xatolik",
+        "confirmDeleteBlock": "Bu blokni o'chirasizmi?",
+        "confirmDeleteBooking": "Bu bronni o'chirasizmi? Bu amalni bekor qilib bo'lmaydi."
       }
     },
     "stats": {
@@ -167,7 +189,8 @@
       "saving": "Saqlanmoqda...",
       "save": "Saqlash",
       "errorPickDay": "Kamida bitta kunni tanlang",
-      "errorStartBeforeEnd": "Boshlanish vaqti tugash vaqtidan oldin bo'lishi kerak",
+      "errorStartBeforeEnd": "Boshlanish va tugash vaqti bir xil bo'lishi mumkin emas",
+      "overnightHint": "Tungi rejim — slotlar keyingi kungacha davom etadi",
       "errorGeneric": "Xatolik",
       "successPhotosSaved": "Fotosuratlar saqlandi",
       "successScheduleSaved": "Jadval saqlandi",
@@ -205,7 +228,11 @@
       "bookingModeFreeStartExample": "SPA, zal ijarasi, fotostudiya",
       "bookingModeFreeStartDesc": "Mijoz boshlash vaqtini tanlaydi, davomiyligi xizmatdan olinadi",
       "bookingModeBadgeFixed": "Belgilangan",
-      "bookingModeBadgeFreeStart": "Erkin"
+      "bookingModeBadgeFreeStart": "Erkin",
+      "activateHint": "Resursni yoqish",
+      "deactivateHint": "Resursni o'chirish",
+      "successActivated": "Resurs yoqildi",
+      "successDeactivated": "Resurs o'chirildi"
     },
     "services": {
       "title": "Xizmatlar",
@@ -295,7 +322,8 @@
       "errorGeneric": "Xatolik",
       "successDayOffAdded": "Dam olish kuni qo'shildi",
       "successSpecialHoursSaved": "Maxsus soatlar saqlandi",
-      "successExceptionDeleted": "Istisno o'chirildi"
+      "successExceptionDeleted": "Istisno o'chirildi",
+      "confirmDeleteException": "Bu istisnoni o'chirasizmi?"
     },
     "cancellation": {
       "title": "Bekor qilish siyosati",
@@ -357,7 +385,9 @@
         "remindersButton": "🔔 Eslatmalar",
         "pageLabel": "Sahifa:",
         "morePhotos": "+{count}",
-        "translationsButton": "🌐 Tarjimalar"
+        "translationsButton": "🌐 Tarjimalar",
+        "logoAlt": "{name} logotipi",
+        "galleryAlt": "Rasm {n} — {name}"
       },
       "editSection": {
         "title": "Asosiy ma'lumot",
@@ -422,7 +452,8 @@
           "hours3": "3 soat oldin",
           "hour": "1 soat oldin",
           "minutes30": "30 daqiqa oldin"
-        }
+        },
+        "confirmDelete": "Bu eslatmani o'chirasizmi?"
       }
     },
     "clients": {
@@ -436,6 +467,25 @@
       "upcomingLabel": "kelayotgan",
       "paidLabel": "to'landi, som",
       "lastVisitLabel": "oxirgi tashrif"
+    },
+    "common": {
+      "noBusiness": {
+        "noBusinessTitle": "Avval biznes yarating",
+        "noBusinessText": "Bu bo'lim kamida bitta biznesingiz bo'lganda ko'rinadi.",
+        "noBusinessCta": "Biznes yaratish"
+      }
+    },
+    "imageUpload": {
+      "defaultLabel": "Rasmlar",
+      "maxPhotos": "Maksimum {max} rasm",
+      "uploadError": "Yuklash xatosi",
+      "moveLeft": "Chapga siljitish",
+      "moveRight": "O'ngga siljitish",
+      "delete": "O'chirish",
+      "mainBadge": "Asosiy",
+      "uploading": "Yuklanmoqda...",
+      "dropHint": "Rasmni shu yerga tashlang yoki bosing",
+      "fileHint": "JPEG, PNG, WebP · 5 MB gacha · maksimum {max} rasm"
     }
   }
 }
