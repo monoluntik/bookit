@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { api } from '@/lib/api'
 import { toLocalDateStr } from '@/lib/date'
+import NoBusinessYet from '@/components/dashboard/NoBusinessYet'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -29,6 +30,7 @@ export default function SchedulePage() {
   const [selectedRes, setSelectedRes] = useState('')
   const [exceptions, setExceptions] = useState<Exception[]>([])
   const [loading, setLoading] = useState(false)
+  const [businessesLoaded, setBusinessesLoaded] = useState(false)
 
   // Add form
   const [adding, setAdding] = useState(false)
@@ -45,7 +47,7 @@ export default function SchedulePage() {
     api.getMyBusinesses().then(b => {
       setBusinesses(b)
       if (b.length > 0) setSelectedBiz(b[0].id)
-    })
+    }).finally(() => setBusinessesLoaded(true))
   }, [user])
 
   // Load resources when biz changes
@@ -109,6 +111,7 @@ export default function SchedulePage() {
 
   const handleDelete = async (exId: string) => {
     if (!user || !selectedRes) return
+    if (!confirm(t('confirmDeleteException'))) return
     try {
       const res = await fetch(`${API_URL}/api/resources/${selectedRes}/exceptions/${exId}`, {
         method: 'DELETE',
@@ -125,6 +128,8 @@ export default function SchedulePage() {
   const today = toLocalDateStr(new Date())
   const upcoming = exceptions.filter(e => e.date.slice(0, 10) >= today)
   const past     = exceptions.filter(e => e.date.slice(0, 10) < today)
+
+  if (businessesLoaded && businesses.length === 0) return <NoBusinessYet />
 
   return (
     <div>

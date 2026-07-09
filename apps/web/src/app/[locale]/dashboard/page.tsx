@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import { getMeta, STATUS_COLOR, formatDate, formatTime } from '@/lib/businessTypes'
+import { toLocalDateStr } from '@/lib/date'
 
 // ── Mini bar chart (pure SVG, no deps) ──────────────────────────────────────
 function BarChart({ data }: { data: { date: string; count: number }[] }) {
@@ -92,6 +93,7 @@ function Trend({ curr, prev }: { curr: number; prev: number }) {
 
 export default function DashboardPage() {
   const t = useTranslations('Dashboard.overview')
+  const locale = useLocale()
   const { user } = useAuth()
   const STATUS_LABEL: Record<string, string> = {
     PENDING: t('statusLabels.PENDING'), CONFIRMED: t('statusLabels.CONFIRMED'),
@@ -118,16 +120,17 @@ export default function DashboardPage() {
   }, [user, selectedBiz])
 
   useEffect(() => {
-    if (!user) return
-    const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
-    const today = new Date().toISOString().slice(0, 10)
-    fetch(`${API}/api/bookings/mine?date=${today}&limit=50`, {
-      credentials: 'include',
-    })
-      .then(r => r.ok ? r.json() : null)
-      .then(d => { if (d) setTodayBookings(d.bookings ?? []) })
-      .catch(() => {})
-  }, [user])
+    if (!user || !selectedBiz) return
+    // "Today" must be the business's own local calendar day, not the browser's
+    // UTC date — toLocalDateStr() reads the viewer's local date, which happens
+    // to double as a reasonable proxy for the business's day in this single-
+    // timezone (Kyrgyzstan) market; the backend re-derives the true boundary
+    // from business.timezone regardless (see routes/booking.ts).
+    const today = toLocalDateStr(new Date())
+    api.getBusinessBookings(selectedBiz, { date: today })
+      .then(setTodayBookings)
+      .catch(() => setTodayBookings([]))
+  }, [user, selectedBiz])
 
   if (loading) return <div className="flex justify-center pt-20"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
 
@@ -204,9 +207,9 @@ export default function DashboardPage() {
                 <div>
                   <span className="font-medium text-sm text-gray-900">{b.resource?.name}</span>
                   <span className="text-xs text-gray-400 ml-2">
-                    {new Date(b.startAt).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}
+                    {formatTime(b.startAt, locale)}
                     {' – '}
-                    {new Date(b.endAt).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}
+                    {formatTime(b.endAt, locale)}
                   </span>
                   {b.service && <span className="text-xs text-blue-600 ml-1">· {b.service.name}</span>}
                 </div>
@@ -294,11 +297,11 @@ export default function DashboardPage() {
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-gray-900 truncate">{b.customer?.name}</div>
                       <div className="text-xs text-gray-400">
-                        {b.resource?.name}{b.service ? ` · ${b.service.name}` : ''} · {formatTime(b.startAt)}
+                        {b.resource?.name}{b.service ? ` · ${b.service.name}` : ''} · {formatTime(b.startAt, locale)}
                       </div>
                     </div>
                     <div className="text-xs text-gray-400 shrink-0 hidden sm:block">
-                      {formatDate(b.startAt)}
+                      {formatDate(b.startAt, locale)}
                     </div>
                     <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${STATUS_COLOR[b.status]}`}>
                       {STATUS_LABEL[b.status]}

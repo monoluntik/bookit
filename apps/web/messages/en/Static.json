@@ -39,7 +39,7 @@
             "resources": "Unlimited resources",
             "bookings": "Unlimited bookings",
             "emailNotifications": "Email notifications",
-            "onlinePayment": "Online payment (Bakai)",
+            "onlinePayment": "Online payment",
             "advancedAnalytics": "Advanced analytics",
             "staffManagement": "Staff management",
             "prioritySupport": "Priority support"
@@ -59,7 +59,7 @@
             "resources": "Unlimited resources",
             "bookings": "Unlimited bookings",
             "emailNotifications": "Email notifications",
-            "onlinePayment": "Online payment (Bakai)",
+            "onlinePayment": "Online payment",
             "fullAnalytics": "Full analytics + export",
             "staffManagement": "Staff management",
             "customDomain": "Custom domain",
@@ -221,7 +221,7 @@
         "items": {
           "item1": "A booking is considered confirmed once you receive an email notification.",
           "item2": "Cancellation terms are set independently by each business.",
-          "item3": "Payment transactions are processed through Bakai PayLink under the payment provider's terms.",
+          "item3": "Payment transactions are processed through our payment provider under its terms.",
           "item4": "The Service is not responsible for the quality of services provided through the platform."
         }
       },
@@ -289,7 +289,7 @@
         "title": "3. Sharing data with third parties",
         "intro": "We do not sell or share your personal data with third parties, except for:",
         "items": {
-          "item1": "Bakai PayLink, our payment provider, for processing payments.",
+          "item1": "Our payment provider, for processing payments.",
           "item2": "Resend, our email service, for sending notifications.",
           "item3": "Cases required by the legislation of the Kyrgyz Republic."
         }
@@ -634,7 +634,7 @@
             "check2": "For hotels: select a check-in/check-out date range",
             "check3": "For restaurants: number of guests",
             "check4": "Email confirmation sent to the customer after booking",
-            "check5": "Online payment via Bakai PayLink (if enabled by the business)"
+            "check5": "Online payment (if enabled by the business)"
           }
         },
         "slots": {

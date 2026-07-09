@@ -1,6 +1,13 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
+import { localMonthStart, utcToLocalDateStr } from '../lib/datetime'
+
+// This is a platform-wide report spanning every business's own timezone, so
+// there's no single "business.timezone" to bucket by — use the platform's
+// home market timezone as the admin's wall-clock reference instead of the
+// server process's (often UTC in production).
+const PLATFORM_TIMEZONE = 'Asia/Bishkek'
 
 // All endpoints require SUPERADMIN role
 async function requireSuperAdmin(request: any, reply: any) {
@@ -18,8 +25,8 @@ export async function adminRoutes(app: FastifyInstance) {
     if (reply.sent) return
 
     const now = new Date()
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
-    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    const monthStart = localMonthStart(now, PLATFORM_TIMEZONE)
+    const prevMonthStart = localMonthStart(now, PLATFORM_TIMEZONE, -1)
 
     const [
       totalUsers, newUsersMonth,
@@ -58,14 +65,14 @@ export async function adminRoutes(app: FastifyInstance) {
       }),
     ])
 
-    // Daily chart last 60 days
+    // Daily chart last 60 days, bucketed by the platform's home timezone
     const dailyMap: Record<string, number> = {}
     for (let i = 59; i >= 0; i--) {
       const d = new Date(now.getTime() - i * 86400000)
-      dailyMap[d.toISOString().slice(0, 10)] = 0
+      dailyMap[utcToLocalDateStr(d, PLATFORM_TIMEZONE)] = 0
     }
     dailyChart.forEach(b => {
-      const key = new Date(b.createdAt).toISOString().slice(0, 10)
+      const key = utcToLocalDateStr(b.createdAt, PLATFORM_TIMEZONE)
       if (key in dailyMap) dailyMap[key]++
     })
 
@@ -116,9 +123,10 @@ export async function adminRoutes(app: FastifyInstance) {
     if (reply.sent) return
 
     const { id } = request.params as { id: string }
-    const { isActive } = request.body as { isActive: boolean }
+    const body = z.object({ isActive: z.boolean() }).safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: 'isActive должно быть true/false' })
 
-    const user = await prisma.user.update({ where: { id }, data: { isActive } })
+    const user = await prisma.user.update({ where: { id }, data: { isActive: body.data.isActive } })
     return reply.send({ id: user.id, isActive: user.isActive })
   })
 
@@ -172,9 +180,10 @@ export async function adminRoutes(app: FastifyInstance) {
     if (reply.sent) return
 
     const { id } = request.params as { id: string }
-    const { isActive } = request.body as { isActive: boolean }
+    const body = z.object({ isActive: z.boolean() }).safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: 'isActive должно быть true/false' })
 
-    const biz = await prisma.business.update({ where: { id }, data: { isActive } })
+    const biz = await prisma.business.update({ where: { id }, data: { isActive: body.data.isActive } })
     return reply.send({ id: biz.id, isActive: biz.isActive })
   })
 

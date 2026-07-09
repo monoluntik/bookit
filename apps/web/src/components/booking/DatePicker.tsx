@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { toLocalDateStr } from '@/lib/date'
+import { toIntlLocale } from '@/lib/businessTypes'
 
 interface Props {
   onSelect: (date: string) => void
@@ -23,6 +24,7 @@ function addDays(date: Date, days: number): Date {
 
 export default function DatePicker({ onSelect, onBack, activeDaysOfWeek, closedDates }: Props) {
   const t = useTranslations('Booking.datePicker')
+  const locale = useLocale()
   const DAY_LABELS = [t('days.mon'), t('days.tue'), t('days.wed'), t('days.thu'), t('days.fri'), t('days.sat'), t('days.sun')]
   const MONTH_NAMES = [
     t('months.january'), t('months.february'), t('months.march'), t('months.april'),
@@ -98,7 +100,7 @@ export default function DatePicker({ onSelect, onBack, activeDaysOfWeek, closedD
           })}
         </div>
         <p className="text-xs text-gray-400 mt-2 text-center">
-          {t('todayIs', { date: today.toLocaleDateString('ru', { day: 'numeric', month: 'long' }) })}
+          {t('todayIs', { date: today.toLocaleDateString(toIntlLocale(locale), { day: 'numeric', month: 'long' }) })}
         </p>
       </div>
       <div className="flex gap-3 mt-6">

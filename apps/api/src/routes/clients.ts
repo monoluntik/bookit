@@ -32,9 +32,15 @@ export async function clientRoutes(app: FastifyInstance) {
     if (!business) return reply.status(404).send({ error: 'Not found' })
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
+    // Bounded to the last 2 years so this stays cheap for long-running
+    // businesses — older history barely changes "who is a client" anyway.
+    const since = new Date()
+    since.setFullYear(since.getFullYear() - 2)
+
     const bookings = await prisma.booking.findMany({
       where: {
         businessId,
+        startAt: { gte: since },
         OR: [
           { source: 'ONLINE' },
           { source: 'MANUAL', OR: [{ guestName: { not: null } }, { guestPhone: { not: null } }] },

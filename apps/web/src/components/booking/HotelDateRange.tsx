@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { toLocalDateStr, parseLocalDateStr } from '@/lib/date'
+import { toIntlLocale } from '@/lib/businessTypes'
 
 const toISO = toLocalDateStr
 const parseLocal = parseLocalDateStr
@@ -15,6 +16,7 @@ interface Props {
 export default function HotelDateRange({ onSelect, onBack }: Props) {
   const t = useTranslations('Booking.hotelDateRange')
   const dp = useTranslations('Booking.datePicker')
+  const locale = useLocale()
   const MONTHS = [
     dp('months.january'), dp('months.february'), dp('months.march'), dp('months.april'),
     dp('months.may'), dp('months.june'), dp('months.july'), dp('months.august'),
@@ -94,9 +96,9 @@ export default function HotelDateRange({ onSelect, onBack }: Props) {
 
       {checkIn && checkOut && (
         <div className="mt-4 p-3 bg-blue-50 rounded-xl text-sm text-blue-700">
-          {t('checkIn')} <strong>{parseLocal(checkIn).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
+          {t('checkIn')} <strong>{parseLocal(checkIn).toLocaleDateString(toIntlLocale(locale), { day: 'numeric', month: 'long' })}</strong>
           {' · '}
-          {t('checkOut')} <strong>{parseLocal(checkOut).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}</strong>
+          {t('checkOut')} <strong>{parseLocal(checkOut).toLocaleDateString(toIntlLocale(locale), { day: 'numeric', month: 'long' })}</strong>
           {' · '}<strong>{t('nights', { count: nights })}</strong>
         </div>
       )}

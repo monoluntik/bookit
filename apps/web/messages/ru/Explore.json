@@ -34,7 +34,7 @@
         "za": "Я → А"
       },
       "extraHeading": "Дополнительно",
-      "onlineBooking": "Онлайн-запись",
+      "onlineBooking": "Онлайн-бронирование",
       "hasPhoto": "Есть фото",
       "searchTag": "«{query}»",
       "resetAll": "Сбросить всё"
@@ -59,6 +59,8 @@
       "next": "Вперёд",
       "pageOf": "Стр. {page} / {totalPages}"
     },
-    "bookCta": "Забронировать"
+    "bookCta": "Забронировать",
+    "clearSearch": "Очистить поиск",
+    "removeFilter": "Убрать фильтр"
   }
 }

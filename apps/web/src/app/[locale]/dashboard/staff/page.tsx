@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
+import NoBusinessYet from '@/components/dashboard/NoBusinessYet'
 
 export default function StaffPage() {
   const t = useTranslations('Dashboard.staff')
@@ -54,6 +55,8 @@ export default function StaffPage() {
   }
 
   if (loading) return <div className="flex justify-center pt-20"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
+
+  if (businesses.length === 0) return <NoBusinessYet />
 
   return (
     <div>

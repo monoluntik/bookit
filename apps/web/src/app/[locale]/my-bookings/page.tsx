@@ -1,15 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useRouter, Link } from '@/i18n/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
-import { STATUS_LABEL, STATUS_COLOR, formatDate, formatTime } from '@/lib/businessTypes'
+import { STATUS_COLOR, formatDate, formatTime } from '@/lib/businessTypes'
 import CustomerBottomNav from '@/components/CustomerBottomNav'
 
 export default function MyBookingsPage() {
   const t = useTranslations('Profile')
+  const st = useTranslations('Dashboard.bookings.statusLabels')
+  const locale = useLocale()
   const { user, loading: authLoading, logout } = useAuth()
   const router = useRouter()
   const [bookings, setBookings] = useState<any[]>([])
@@ -98,6 +100,8 @@ export default function MyBookingsPage() {
 
 function BookingItem({ booking: b, onCancel, cancelling }: any) {
   const t = useTranslations('Profile')
+  const st = useTranslations('Dashboard.bookings.statusLabels')
+  const locale = useLocale()
   const canCancel = onCancel && ['PENDING', 'CONFIRMED'].includes(b.status)
 
   return (
@@ -109,9 +113,9 @@ function BookingItem({ booking: b, onCancel, cancelling }: any) {
             {b.resource?.name}{b.service ? ` · ${b.service.name}` : ''}
           </div>
           <div className="text-sm text-gray-500 mt-1">
-            {formatDate(b.startAt)}
+            {formatDate(b.startAt, locale)}
             {' · '}
-            {formatTime(b.startAt)}–{formatTime(b.endAt)}
+            {formatTime(b.startAt, locale)}–{formatTime(b.endAt, locale)}
           </div>
           {b.payment?.status === 'PAID' && (
             <div className="text-xs text-green-600 mt-1">✓ {t('myBookings.paid')}</div>
@@ -119,7 +123,7 @@ function BookingItem({ booking: b, onCancel, cancelling }: any) {
         </div>
         <div className="flex flex-col items-end gap-2">
           <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_COLOR[b.status]}`}>
-            {STATUS_LABEL[b.status]}
+            {st(b.status)}
           </span>
           {canCancel && (
             <button

@@ -189,15 +189,6 @@
       "success": "Payment successful!",
       "goToBookings": "Go to my bookings",
       "failed": "Couldn't verify payment"
-    },
-    "payMock": {
-      "sandboxLabel": "Bakai Bank — Dev Sandbox",
-      "priceSom": "{price} som",
-      "transactionNumber": "Transaction #{txId}",
-      "processing": "Processing...",
-      "paySuccess": "✓ Pay (success)",
-      "payReject": "✗ Decline payment",
-      "testNotice": "This is a test page. In production you'll be redirected to Bakai."
     }
   }
 }

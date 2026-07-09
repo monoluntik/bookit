@@ -24,8 +24,8 @@ function toSlug(name: string) {
 
 const MAX_REMINDER_RULES = 5
 
-// No payment provider chosen yet — bookings use the sandbox pay-mock page for
-// everyone, so hide the credential-connection panel until one is picked.
+// No payment provider chosen/connected yet — hide the credential-connection
+// panel until one is picked; online payment cleanly fails until then.
 const PAYMENT_SETTINGS_ENABLED = false
 
 export default function SettingsPage() {
@@ -286,7 +286,7 @@ export default function SettingsPage() {
   }
 
   const handleDeleteRule = async (bizId: string, ruleId: string) => {
-    if (!user) return
+    if (!user || !confirm(t('remindersSection.confirmDelete'))) return
     const res = await fetch(`${API}/api/reminder-rules/${ruleId}`, {
       method: 'DELETE',
       credentials: 'include',
@@ -386,7 +386,7 @@ export default function SettingsPage() {
                       {/* Logo preview */}
                       {photos.logoUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={photos.logoUrl} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0" />
+                        <img src={photos.logoUrl} alt={t('businessCard.logoAlt', { name: b.name })} className="w-12 h-12 rounded-xl object-cover shrink-0" />
                       ) : (
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-2xl shrink-0">
                           🏢
@@ -446,7 +446,7 @@ export default function SettingsPage() {
                     <div className="mt-3 flex gap-1.5 overflow-hidden">
                       {photos.images.slice(0, 5).map((url, i) => (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img key={url} src={url} alt=""
+                        <img key={url} src={url} alt={t('businessCard.galleryAlt', { n: i + 1, name: b.name })}
                           className="w-14 h-10 rounded-lg object-cover shrink-0" />
                       ))}
                       {photos.images.length > 5 && (
@@ -515,7 +515,7 @@ export default function SettingsPage() {
                       <div className="flex items-center gap-3">
                         {photos.logoUrl && (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={photos.logoUrl} alt="" className="w-20 h-20 rounded-xl object-cover shrink-0" />
+                          <img src={photos.logoUrl} alt={t('businessCard.logoAlt', { name: b.name })} className="w-20 h-20 rounded-xl object-cover shrink-0" />
                         )}
                         <div className="flex flex-col gap-2">
                           <ImageUpload

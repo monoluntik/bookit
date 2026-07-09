@@ -39,7 +39,7 @@
             "resources": "Cheksiz resurslar",
             "bookings": "Cheksiz bronlar",
             "emailNotifications": "Email-bildirishnomalar",
-            "onlinePayment": "Onlayn to'lov (Bakai)",
+            "onlinePayment": "Onlayn to'lov",
             "advancedAnalytics": "Kengaytirilgan analitika",
             "staffManagement": "Xodimlarni boshqarish",
             "prioritySupport": "Ustuvor qo'llab-quvvatlash"
@@ -59,7 +59,7 @@
             "resources": "Cheksiz resurslar",
             "bookings": "Cheksiz bronlar",
             "emailNotifications": "Email-bildirishnomalar",
-            "onlinePayment": "Onlayn to'lov (Bakai)",
+            "onlinePayment": "Onlayn to'lov",
             "fullAnalytics": "To'liq analitika + eksport",
             "staffManagement": "Xodimlarni boshqarish",
             "customDomain": "Maxsus domen",
@@ -221,7 +221,7 @@
         "items": {
           "item1": "Bron email orqali bildirishnoma olinganidan so'ng tasdiqlangan hisoblanadi.",
           "item2": "Bekor qilish shartlari har bir biznes tomonidan mustaqil belgilanadi.",
-          "item3": "To'lov operatsiyalari to'lov provayderi shartlariga muvofiq Bakai PayLink orqali amalga oshiriladi.",
+          "item3": "To'lov operatsiyalari to'lov provayderimiz shartlariga muvofiq amalga oshiriladi.",
           "item4": "Xizmat platforma orqali ko'rsatiladigan xizmatlar sifati uchun javobgar emas."
         }
       },
@@ -289,7 +289,7 @@
         "title": "3. Ma'lumotlarni uchinchi shaxslarga berish",
         "intro": "Biz shaxsiy ma'lumotlaringizni quyidagi hollardan tashqari uchinchi shaxslarga sotmaymiz va bermaymiz:",
         "items": {
-          "item1": "To'lovlarni qayta ishlash uchun to'lov provayderimiz Bakai PayLink.",
+          "item1": "To'lovlarni qayta ishlash uchun to'lov provayderimiz.",
           "item2": "Bildirishnomalarni yuborish uchun email xizmatimiz Resend.",
           "item3": "Qirg'iz Respublikasi qonunchiligida nazarda tutilgan hollar."
         }
@@ -634,7 +634,7 @@
             "check2": "Mehmonxonalar uchun: kirish/chiqish sanalari oralig'ini tanlash",
             "check3": "Restoranlar uchun: mehmonlar soni",
             "check4": "Bron qilingandan keyin mijozga email orqali tasdiq yuboriladi",
-            "check5": "Bakai PayLink orqali onlayn to'lov (agar biznes tomonidan yoqilgan bo'lsa)"
+            "check5": "Onlayn to'lov (agar biznes tomonidan yoqilgan bo'lsa)"
           }
         },
         "slots": {

@@ -59,6 +59,8 @@
       "next": "Oldinga",
       "pageOf": "Sahifa {page} / {totalPages}"
     },
-    "bookCta": "Bron qilish"
+    "bookCta": "Bron qilish",
+    "clearSearch": "Qidiruvni tozalash",
+    "removeFilter": "Filtrni o'chirish"
   }
 }

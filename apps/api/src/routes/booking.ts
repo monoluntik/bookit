@@ -4,7 +4,11 @@ import { prisma, Prisma } from '../lib/prisma'
 import { sendBookingConfirmation, sendBookingCancellation, sendNewBookingAlert } from '../lib/email'
 import { zonedTimeToUtc } from '../lib/datetime'
 
-const isValidDate = (s: string) => !isNaN(Date.parse(s))
+// Must match the naive "YYYY-MM-DDTHH:mm" shape zonedTimeToUtc() expects — a
+// full ISO string with seconds/offset/"Z" would still Date.parse() fine here,
+// but silently corrupts the string zonedTimeToUtc() builds downstream.
+const NAIVE_DATETIME_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+const isValidDate = (s: string) => NAIVE_DATETIME_RE.test(s) && !isNaN(Date.parse(s))
 
 const createBookingSchema = z.object({
   resourceId: z.string().min(1),
@@ -151,14 +155,15 @@ export async function bookingRoutes(app: FastifyInstance) {
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
     const query = request.query as { date?: string; status?: string }
+    const dayStart = query.date ? zonedTimeToUtc(`${query.date}T00:00`, business.timezone) : null
     const bookings = await prisma.booking.findMany({
       where: {
         businessId,
         ...(query.status ? { status: query.status as any } : {}),
-        ...(query.date ? {
+        ...(dayStart ? {
           startAt: {
-            gte: new Date(`${query.date}T00:00:00`),
-            lt: new Date(new Date(`${query.date}T00:00:00`).getTime() + 86400000),
+            gte: dayStart,
+            lt: new Date(dayStart.getTime() + 86400000),
           },
         } : {}),
       },
@@ -365,8 +370,8 @@ export async function bookingRoutes(app: FastifyInstance) {
     if (booking.status === 'CANCELLED') return reply.status(400).send({ error: 'Отменённую бронь нельзя перенести' })
     if (booking.status === 'COMPLETED') return reply.status(400).send({ error: 'Завершённую бронь нельзя перенести' })
 
-    const startAt = new Date(body.data.startAt)
-    const endAt = new Date(body.data.endAt)
+    const startAt = zonedTimeToUtc(body.data.startAt, booking.business.timezone)
+    const endAt = zonedTimeToUtc(body.data.endAt, booking.business.timezone)
 
     if (startAt <= new Date()) return reply.status(400).send({ error: 'Нельзя перенести на прошедшую дату' })
 

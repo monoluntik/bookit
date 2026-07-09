@@ -35,7 +35,7 @@
         },
         "onlinePayment": {
           "title": "Online payments",
-          "desc": "Accept prepayment via Bakai PayLink. Funds arrive instantly."
+          "desc": "Accept prepayment online. Funds arrive instantly."
         },
         "emailNotifications": {
           "title": "Email notifications",

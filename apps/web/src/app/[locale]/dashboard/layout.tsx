@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, usePathname, Link } from '@/i18n/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { api } from '@/lib/api'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -14,21 +15,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [pendingCount, setPendingCount] = useState(0)
   const t = useTranslations('Dashboard.nav')
 
+  // First 4 land in the mobile bottom nav — Clients is checked at least as
+  // often day-to-day as Stats, so it takes one of those slots instead.
   const navItems = [
     { href: '/dashboard',               label: t('overview'),    icon: '▦',  mobileLabel: t('overview') },
     { href: '/dashboard/bookings',      label: t('bookings'),    icon: '📅', mobileLabel: t('bookings') },
+    { href: '/dashboard/clients',       label: t('clients'),     icon: '👤', mobileLabel: t('clients') },
     { href: '/dashboard/stats',         label: t('stats'),       icon: '📊', mobileLabel: t('statsShort') },
     { href: '/dashboard/resources',     label: t('resources'),   icon: '🪑', mobileLabel: t('resources') },
     { href: '/dashboard/services',      label: t('services'),    icon: '✂️', mobileLabel: t('services') },
     { href: '/dashboard/staff',         label: t('staff'),       icon: '👥', mobileLabel: t('staff') },
     { href: '/dashboard/reviews',       label: t('reviews'),     icon: '💬', mobileLabel: t('reviews') },
-    { href: '/dashboard/clients',       label: t('clients'),     icon: '👤', mobileLabel: t('clients') },
     { href: '/dashboard/schedule',      label: t('schedule'),    icon: '🏖️', mobileLabel: t('schedule') },
-    { href: '/dashboard/cancellation',  label: t('cancellation'), icon: '🔄', mobileLabel: t('cancellation') },
+    { href: '/dashboard/cancellation',  label: t('cancellation'), icon: '🚫', mobileLabel: t('cancellation') },
     { href: '/dashboard/settings',      label: t('settings'),    icon: '⚙️', mobileLabel: t('settings') },
   ]
 
-  // First 4 items appear in mobile bottom nav, rest go in sidebar only
   const mobileNavItems = navItems.slice(0, 4)
 
   useEffect(() => {
@@ -37,14 +39,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => { setSidebarOpen(false) }, [pathname])
 
+  // Pending count is "pending bookings across every business this owner has" —
+  // there's no single backend endpoint for that (bookings/my is the current
+  // user's own bookings as a *customer*, not their business's incoming
+  // bookings), so sum it client-side over each business.
   useEffect(() => {
     if (!user) return
-    const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
-    fetch(`${API}/api/bookings/mine?status=PENDING&limit=100`, {
-      credentials: 'include',
-    })
-      .then(r => r.json())
-      .then(data => setPendingCount(data.bookings?.length ?? 0))
+    api.getMyBusinesses()
+      .then(businesses => Promise.all(
+        businesses.map(b => api.getBusinessBookings(b.id, { status: 'PENDING' }).catch(() => [])),
+      ))
+      .then(lists => setPendingCount(lists.reduce((sum, l) => sum + l.length, 0)))
       .catch(() => {})
   }, [user])
 

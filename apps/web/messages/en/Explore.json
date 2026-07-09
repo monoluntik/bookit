@@ -59,6 +59,8 @@
       "next": "Next",
       "pageOf": "Page {page} / {totalPages}"
     },
-    "bookCta": "Book now"
+    "bookCta": "Book now",
+    "clearSearch": "Clear search",
+    "removeFilter": "Remove filter"
   }
 }

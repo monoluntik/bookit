@@ -22,7 +22,8 @@
       "guestCount": "{count, plural, one {# guest} other {# guests}}",
       "paid": "Paid",
       "cancel": "Cancel",
-      "review": "Rate"
+      "review": "Rate",
+      "errorLoading": "Couldn't load your bookings. Try refreshing the page."
     },
     "notifications": {
       "title": "Booking reminders",
@@ -65,7 +66,9 @@
       "noRefund": "No refund if cancelled less than {hours}h before",
       "noPolicy": "No cancellation policy set.",
       "back": "Back",
-      "confirm": "Cancel booking"
+      "confirm": "Cancel booking",
+      "confirming": "Cancelling...",
+      "errorGeneric": "Couldn't cancel the booking. Please try again."
     },
     "myBookings": {
       "title": "My bookings",

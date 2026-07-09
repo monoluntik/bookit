@@ -189,15 +189,6 @@
       "success": "Төлөм ийгиликтүү өттү!",
       "goToBookings": "Менин брондоруума өтүү",
       "failed": "Төлөмдү текшерүү мүмкүн болбоду"
-    },
-    "payMock": {
-      "sandboxLabel": "Bakai Bank — Dev Sandbox",
-      "priceSom": "{price} сом",
-      "transactionNumber": "Транзакция #{txId}",
-      "processing": "Иштетилүүдө...",
-      "paySuccess": "✓ Төлөө (ийгиликтүү)",
-      "payReject": "✗ Төлөмдү четке кагуу",
-      "testNotice": "Бул сыноо бети. Prod чөйрөсүндө Bakai'ге багытталат."
     }
   }
 }

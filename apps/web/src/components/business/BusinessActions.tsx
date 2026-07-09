@@ -5,15 +5,15 @@ import { useTranslations } from 'next-intl'
 
 interface Props {
   phone?: string | null
-  shareUrl: string
   shareName: string
 }
 
-export default function BusinessActions({ phone, shareUrl, shareName }: Props) {
+export default function BusinessActions({ phone, shareName }: Props) {
   const [copied, setCopied] = useState(false)
   const t = useTranslations('Business')
 
   const handleShare = async () => {
+    const shareUrl = window.location.href
     if (navigator.share) {
       await navigator.share({ title: shareName, url: shareUrl }).catch(() => {})
     } else {

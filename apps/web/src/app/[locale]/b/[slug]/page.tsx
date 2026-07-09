@@ -73,13 +73,12 @@ export default async function BusinessPage({ params }: Props) {
         {/* Call & Share actions */}
         <BusinessActions
           phone={business.phone}
-          shareUrl={`https://bookit-web.vercel.app/b/${business.slug}`}
           shareName={business.name}
         />
 
         {/* Photo gallery */}
         {business.images?.length > 0 && (
-          <GallerySection images={business.images} />
+          <GallerySection images={business.images} businessName={business.name} />
         )}
 
         {/* Type-specific info blocks */}

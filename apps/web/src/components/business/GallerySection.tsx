@@ -5,9 +5,10 @@ import { useTranslations } from 'next-intl'
 
 interface Props {
   images: string[]
+  businessName: string
 }
 
-export default function GallerySection({ images }: Props) {
+export default function GallerySection({ images, businessName }: Props) {
   const [lightbox, setLightbox] = useState<number | null>(null)
   const t = useTranslations('Business')
 
@@ -29,7 +30,7 @@ export default function GallerySection({ images }: Props) {
           onClick={() => setLightbox(0)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={first} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+          <img src={first} alt={t('gallery.photoAlt', { n: 1, name: businessName })} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
         </div>
 
         {/* Secondary images */}
@@ -43,7 +44,7 @@ export default function GallerySection({ images }: Props) {
               onClick={() => setLightbox(isLast ? null : idx)}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              <img src={url} alt={t('gallery.photoAlt', { n: idx + 1, name: businessName })} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
               {isLast && (
                 <button
                   onClick={e => { e.stopPropagation(); setLightbox(idx) }}
@@ -93,7 +94,7 @@ export default function GallerySection({ images }: Props) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={images[lightbox]}
-              alt=""
+              alt={t('gallery.photoAlt', { n: lightbox + 1, name: businessName })}
               className="w-full max-h-[80vh] object-contain rounded-xl"
             />
             <div className="text-center text-white/50 text-sm mt-3">

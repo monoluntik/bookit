@@ -48,7 +48,8 @@
     },
     "gallery": {
       "morePhotos": "+{count} photos",
-      "seeAll": "See all {count} photos →"
+      "seeAll": "See all {count} photos →",
+      "photoAlt": "Photo {n} — {name}"
     },
     "rooms": {
       "title": "Rooms",

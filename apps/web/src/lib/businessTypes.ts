@@ -59,20 +59,30 @@ export const STATUS_LABEL: Record<string, string> = {
   PENDING: 'Ожидает', CONFIRMED: 'Подтверждена', CANCELLED: 'Отменена',
   COMPLETED: 'Завершена', NO_SHOW: 'Неявка',
 }
+// Canonical status color mapping — kept in sync with STATUS_COLOR_MAP in
+// BookingCard.tsx, STATUS_COLORS in dashboard/bookings/page.tsx, and the
+// dashboard Overview/Stats charts: CONFIRMED is blue, COMPLETED is green.
 export const STATUS_COLOR: Record<string, string> = {
   PENDING: 'bg-yellow-50 text-yellow-700',
-  CONFIRMED: 'bg-green-50 text-green-700',
+  CONFIRMED: 'bg-blue-50 text-blue-700',
   CANCELLED: 'bg-red-50 text-red-600',
-  COMPLETED: 'bg-blue-50 text-blue-700',
+  COMPLETED: 'bg-green-50 text-green-700',
   NO_SHOW: 'bg-gray-100 text-gray-500',
 }
 
-export function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ru', { day: 'numeric', month: 'long', year: 'numeric' })
+// The app's locale codes match BCP-47 except Kyrgyz, whose real code is "ky"
+// (the app uses "kg" — the country code — for its routing segment instead).
+const INTL_LOCALE: Record<string, string> = { kg: 'ky' }
+export function toIntlLocale(locale: string) {
+  return INTL_LOCALE[locale] ?? locale
 }
-export function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+
+export function formatDate(iso: string, locale = 'ru') {
+  return new Date(iso).toLocaleDateString(toIntlLocale(locale), { day: 'numeric', month: 'long', year: 'numeric' })
 }
-export function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleString('ru', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+export function formatTime(iso: string, locale = 'ru') {
+  return new Date(iso).toLocaleTimeString(toIntlLocale(locale), { hour: '2-digit', minute: '2-digit' })
+}
+export function formatDateTime(iso: string, locale = 'ru') {
+  return new Date(iso).toLocaleString(toIntlLocale(locale), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 }

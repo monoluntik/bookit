@@ -59,6 +59,8 @@
       "next": "Алға",
       "pageOf": "Бет {page} / {totalPages}"
     },
-    "bookCta": "Брондау"
+    "bookCta": "Брондау",
+    "clearSearch": "Іздеуді тазалау",
+    "removeFilter": "Сүзгіні алып тастау"
   }
 }

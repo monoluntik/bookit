@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { api } from '@/lib/api'
 import { toLocalDateStr, addDaysToDateStr, parseLocalDateStr } from '@/lib/date'
+import { toIntlLocale } from '@/lib/businessTypes'
 
 interface Slot { start: string; end: string }
 
@@ -16,12 +17,13 @@ interface Props {
   onChangeDate?: (newDate: string) => void
 }
 
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+function formatTime(iso: string, locale: string) {
+  return new Date(iso).toLocaleTimeString(toIntlLocale(locale), { hour: '2-digit', minute: '2-digit' })
 }
 
 export default function SlotPicker({ resourceId, date, slotDuration, onSelect, onBack, onChangeDate }: Props) {
   const t = useTranslations('Booking.slotPicker')
+  const locale = useLocale()
   const [slots, setSlots] = useState<Slot[]>([])
 
   const formatDuration = (slot: Slot) => {
@@ -118,7 +120,7 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm scale-[1.02]'
                     : 'border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50'}`}
               >
-                <div>{formatTime(slot.start)}</div>
+                <div>{formatTime(slot.start, locale)}</div>
                 <div className={`text-[10px] mt-0.5 ${isSelected ? 'text-blue-100' : 'text-gray-400'}`}>
                   {formatDuration(slot)}
                 </div>
@@ -138,7 +140,7 @@ export default function SlotPicker({ resourceId, date, slotDuration, onSelect, o
           onClick={() => selected && onSelect(selected)}
           className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {selected ? t('selectSlot', { time: formatTime(selected.start) }) : t('selectTime')}
+          {selected ? t('selectSlot', { time: formatTime(selected.start, locale) }) : t('selectTime')}
         </button>
       </div>
     </div>

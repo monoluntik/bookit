@@ -48,7 +48,8 @@
     },
     "gallery": {
       "morePhotos": "+{count} rasm",
-      "seeAll": "Barcha {count} rasmni ko'rish →"
+      "seeAll": "Barcha {count} rasmni ko'rish →",
+      "photoAlt": "Rasm {n} — {name}"
     },
     "rooms": {
       "title": "Xonalar",

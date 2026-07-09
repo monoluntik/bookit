@@ -189,15 +189,6 @@
       "success": "To'lov muvaffaqiyatli o'tdi!",
       "goToBookings": "Bronlarimga o'tish",
       "failed": "To'lovni tekshirib bo'lmadi"
-    },
-    "payMock": {
-      "sandboxLabel": "Bakai Bank — Dev Sandbox",
-      "priceSom": "{price} so'm",
-      "transactionNumber": "Tranzaksiya #{txId}",
-      "processing": "Qayta ishlanmoqda...",
-      "paySuccess": "✓ To'lash (muvaffaqiyatli)",
-      "payReject": "✗ To'lovni rad etish",
-      "testNotice": "Bu test sahifasi. Prodda Bakai'ga yo'naltirilasiz."
     }
   }
 }

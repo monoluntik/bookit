@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { api } from '@/lib/api'
+import { toIntlLocale } from '@/lib/businessTypes'
 
 interface Props {
   booking: any
@@ -14,15 +15,16 @@ interface Props {
   guestCount?: number
 }
 
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+function formatTime(iso: string, locale: string) {
+  return new Date(iso).toLocaleTimeString(toIntlLocale(locale), { hour: '2-digit', minute: '2-digit' })
 }
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+function formatDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(toIntlLocale(locale), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 export default function BookingConfirmation({ booking, business, servicePrice, resourcePrice, depositAmount, nights, guestCount }: Props) {
   const t = useTranslations('Booking.confirmation')
+  const locale = useLocale()
   const [paying, setPaying] = useState(false)
   const [payError, setPayError] = useState('')
 
@@ -94,10 +96,10 @@ export default function BookingConfirmation({ booking, business, servicePrice, r
         <Row label={t('place')} value={business.name} />
         <Row label={t('resource')} value={booking.resource?.name} />
         {booking.service && <Row label={t('service')} value={booking.service.name} />}
-        <Row label={t('date')} value={formatDate(booking.startAt)} />
+        <Row label={t('date')} value={formatDate(booking.startAt, locale)} />
         {nights && nights > 0
           ? <Row label={t('nightsLabel')} value={String(nights)} />
-          : <Row label={t('time')} value={`${formatTime(booking.startAt)} – ${formatTime(booking.endAt)}`} />
+          : <Row label={t('time')} value={`${formatTime(booking.startAt, locale)} – ${formatTime(booking.endAt, locale)}`} />
         }
         {guestCount && guestCount > 1 && (
           <Row label={t('guests')} value={String(guestCount)} />

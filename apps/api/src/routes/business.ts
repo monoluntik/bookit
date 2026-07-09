@@ -126,11 +126,7 @@ export async function businessRoutes(app: FastifyInstance) {
           having: { rating: { _avg: { gte: minRating } } },
           _avg: { rating: true },
         })
-        const qualifiedIds = qualifiedRows.map(r => r.businessId)
-        // Intersect with any existing id filter
-        where.id = where.id
-          ? { in: (where.id.in as string[]).filter((id: string) => qualifiedIds.includes(id)) }
-          : { in: qualifiedIds }
+        where.id = { in: qualifiedRows.map(r => r.businessId) }
       }
     }
 
@@ -272,7 +268,9 @@ export async function businessRoutes(app: FastifyInstance) {
   app.patch('/:id/images', { preHandler: [app.authenticate] }, async (request, reply) => {
     const payload = request.user as { sub: string }
     const { id } = request.params as { id: string }
-    const body = request.body as { logoUrl?: string | null; images?: string[] }
+    const imagesSchema = z.object({ logoUrl: z.string().nullable().optional(), images: z.array(z.string()).optional() })
+    const body = imagesSchema.safeParse(request.body)
+    if (!body.success) return reply.status(400).send({ error: body.error.errors[0]?.message ?? 'Неверные данные' })
 
     const business = await prisma.business.findUnique({ where: { id } })
     if (!business) return reply.status(404).send({ error: 'Not found' })
@@ -281,8 +279,8 @@ export async function businessRoutes(app: FastifyInstance) {
     const updated = await prisma.business.update({
       where: { id },
       data: {
-        ...(body.logoUrl !== undefined ? { logoUrl: body.logoUrl } : {}),
-        ...(body.images !== undefined ? { images: body.images } : {}),
+        ...(body.data.logoUrl !== undefined ? { logoUrl: body.data.logoUrl } : {}),
+        ...(body.data.images !== undefined ? { images: body.data.images } : {}),
       },
     })
     return reply.send(updated)

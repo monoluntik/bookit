@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Link, useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { useToast } from '@/context/ToastContext'
 import { api } from '@/lib/api'
-import { STATUS_COLOR, STATUS_LABEL, formatDate, formatTime } from '@/lib/businessTypes'
+import { STATUS_COLOR, formatDate, formatTime } from '@/lib/businessTypes'
 import ReviewForm from '@/components/reviews/ReviewForm'
 import CustomerBottomNav from '@/components/CustomerBottomNav'
 
@@ -13,15 +14,20 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 export default function ProfilePage() {
   const t = useTranslations('Profile')
+  const st = useTranslations('Dashboard.bookings.statusLabels')
+  const locale = useLocale()
+  const { error: showError } = useToast()
   const { user, loading: authLoading, updateUser, logout } = useAuth()
   const router = useRouter()
 
   const [bookings, setBookings] = useState<any[]>([])
   const [loadingBookings, setLoadingBookings] = useState(true)
+  const [bookingsError, setBookingsError] = useState(false)
   const [tab, setTab] = useState<'bookings' | 'settings' | 'notifications'>('bookings')
   const [cancelTarget, setCancelTarget] = useState<any | null>(null)
   const [cancelPolicy, setCancelPolicy] = useState<any | null>(null)
   const [loadingPolicy, setLoadingPolicy] = useState(false)
+  const [cancelling, setCancelling] = useState(false)
 
   // Telegram notifications
   const [tgStatus, setTgStatus] = useState<{ linked: boolean; botUsername: string | null } | null>(null)
@@ -43,7 +49,10 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!user) return
-    api.getMyBookings().then(r => setBookings(r.bookings)).finally(() => setLoadingBookings(false))
+    api.getMyBookings()
+      .then(r => setBookings(r.bookings))
+      .catch(() => setBookingsError(true))
+      .finally(() => setLoadingBookings(false))
   }, [user])
 
   const loadTgStatus = async () => {
@@ -126,9 +135,16 @@ export default function ProfilePage() {
 
   const handleCancel = async () => {
     if (!cancelTarget) return
-    await api.updateBookingStatus(cancelTarget.id, 'CANCELLED')
-    setBookings(prev => prev.map(b => b.id === cancelTarget.id ? { ...b, status: 'CANCELLED' } : b))
-    setCancelTarget(null)
+    setCancelling(true)
+    try {
+      await api.updateBookingStatus(cancelTarget.id, 'CANCELLED')
+      setBookings(prev => prev.map(b => b.id === cancelTarget.id ? { ...b, status: 'CANCELLED' } : b))
+      setCancelTarget(null)
+    } catch (err: any) {
+      showError(err.message ?? t('cancelModal.errorGeneric'))
+    } finally {
+      setCancelling(false)
+    }
   }
 
   if (authLoading) return (
@@ -192,6 +208,11 @@ export default function ProfilePage() {
             {loadingBookings ? (
               <div className="space-y-3">
                 {[1,2,3].map(i => <div key={i} className="bg-white rounded-2xl h-24 animate-pulse" />)}
+              </div>
+            ) : bookingsError ? (
+              <div className="bg-white rounded-2xl p-12 text-center">
+                <div className="text-4xl mb-3">⚠️</div>
+                <p className="text-gray-500">{t('bookings.errorLoading')}</p>
               </div>
             ) : bookings.length === 0 ? (
               <div className="bg-white rounded-2xl p-12 text-center">
@@ -304,7 +325,7 @@ export default function ProfilePage() {
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
             <h3 className="font-semibold text-gray-900 mb-1">{t('cancelModal.title')}</h3>
             <p className="text-sm text-gray-500 mb-4">
-              {cancelTarget.business?.name} · {new Date(cancelTarget.startAt).toLocaleDateString('ru', { day: 'numeric', month: 'long' })}
+              {cancelTarget.business?.name} · {formatDate(cancelTarget.startAt, locale)}
             </p>
 
             {loadingPolicy ? (
@@ -329,13 +350,13 @@ export default function ProfilePage() {
             )}
 
             <div className="flex gap-3">
-              <button onClick={() => setCancelTarget(null)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
+              <button onClick={() => setCancelTarget(null)} disabled={cancelling}
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-60">
                 {t('cancelModal.back')}
               </button>
-              <button onClick={handleCancel}
-                className="flex-1 py-2.5 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600">
-                {t('cancelModal.confirm')}
+              <button onClick={handleCancel} disabled={cancelling}
+                className="flex-1 py-2.5 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 disabled:opacity-60">
+                {cancelling ? t('cancelModal.confirming') : t('cancelModal.confirm')}
               </button>
             </div>
           </div>
@@ -347,6 +368,8 @@ export default function ProfilePage() {
 
 function BookingRow({ b, onCancel }: { b: any; onCancel: ((b: any) => void) | null }) {
   const t = useTranslations('Profile')
+  const st = useTranslations('Dashboard.bookings.statusLabels')
+  const locale = useLocale()
   const canCancel = Boolean(onCancel) && ['PENDING', 'CONFIRMED'].includes(b.status)
   const canReview = b.status === 'COMPLETED' && !b.review
   const [showReview, setShowReview] = useState(false)
@@ -363,7 +386,7 @@ function BookingRow({ b, onCancel }: { b: any; onCancel: ((b: any) => void) | nu
             {b.resource?.name}{b.service ? ` · ${b.service.name}` : ''}
           </div>
           <div className="text-xs text-gray-400 mt-0.5">
-            {formatDate(b.startAt)} · {formatTime(b.startAt)}–{formatTime(b.endAt)}
+            {formatDate(b.startAt, locale)} · {formatTime(b.startAt, locale)}–{formatTime(b.endAt, locale)}
           </div>
           {b.guestCount && b.guestCount > 1 && (
             <div className="text-xs text-gray-400 mt-0.5">{t('bookings.guestCount', { count: b.guestCount })}</div>
@@ -371,7 +394,7 @@ function BookingRow({ b, onCancel }: { b: any; onCancel: ((b: any) => void) | nu
         </div>
         <div className="flex flex-col items-end gap-1.5 shrink-0">
           <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_COLOR[b.status]}`}>
-            {STATUS_LABEL[b.status]}
+            {st(b.status)}
           </span>
           {b.payment?.status === 'PAID' && (
             <span className="text-xs text-green-600">✓ {t('bookings.paid')}</span>

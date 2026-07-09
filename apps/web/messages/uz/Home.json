@@ -35,7 +35,7 @@
         },
         "onlinePayment": {
           "title": "Onlayn to'lov",
-          "desc": "Bakai PayLink orqali oldindan to'lovni qabul qiling. Pul darhol keladi."
+          "desc": "Onlayn oldindan to'lovni qabul qiling. Pul darhol keladi."
         },
         "emailNotifications": {
           "title": "Email xabarnomalar",

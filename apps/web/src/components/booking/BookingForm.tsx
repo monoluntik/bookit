@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import PhoneAuthFlow from '@/components/auth/PhoneAuthFlow'
+import { toIntlLocale } from '@/lib/businessTypes'
 
 interface Props {
   resource: any
@@ -16,15 +17,16 @@ interface Props {
   onBack: () => void
 }
 
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+function formatTime(iso: string, locale: string) {
+  return new Date(iso).toLocaleTimeString(toIntlLocale(locale), { hour: '2-digit', minute: '2-digit' })
 }
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ru', { day: 'numeric', month: 'long' })
+function formatDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(toIntlLocale(locale), { day: 'numeric', month: 'long' })
 }
 
 export default function BookingForm({ resource, service, slot, guestCount, nights, onSuccess, onBack }: Props) {
   const t = useTranslations('Booking.form')
+  const locale = useLocale()
   const { user, updateUser } = useAuth()
 
   const [loading, setLoading] = useState(false)
@@ -68,9 +70,9 @@ export default function BookingForm({ resource, service, slot, guestCount, night
           {service && <span className="ml-2 text-blue-500">· {service.name}</span>}
         </div>
         {nights && nights > 0 ? (
-          <div>{formatDate(slot.start)} → {formatDate(slot.end)} · <strong>{t('nights', { count: nights })}</strong></div>
+          <div>{formatDate(slot.start, locale)} → {formatDate(slot.end, locale)} · <strong>{t('nights', { count: nights })}</strong></div>
         ) : (
-          <div>{formatDate(slot.start)} · {formatTime(slot.start)}–{formatTime(slot.end)}</div>
+          <div>{formatDate(slot.start, locale)} · {formatTime(slot.start, locale)}–{formatTime(slot.end, locale)}</div>
         )}
         {guestCount && guestCount > 1 && <div>{t('guestsShort', { count: guestCount })}</div>}
         {service && Number(service.price) > 0 && (

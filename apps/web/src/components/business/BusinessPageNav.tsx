@@ -26,7 +26,7 @@ export default function BusinessPageNav() {
             </button>
           </div>
         ) : (
-          <Link href="/login" className="text-sm text-gray-500 hover:text-gray-800">{t('nav.login')}</Link>
+          <Link href="/auth" className="text-sm text-gray-500 hover:text-gray-800">{t('nav.login')}</Link>
         )}
       </div>
     </header>

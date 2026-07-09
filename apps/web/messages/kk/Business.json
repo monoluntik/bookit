@@ -48,7 +48,8 @@
     },
     "gallery": {
       "morePhotos": "+{count} сурет",
-      "seeAll": "Барлық {count} суретті көру →"
+      "seeAll": "Барлық {count} суретті көру →",
+      "photoAlt": "Фото {n} — {name}"
     },
     "rooms": {
       "title": "Нөмірлер",

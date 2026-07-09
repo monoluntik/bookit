@@ -48,7 +48,8 @@
     },
     "gallery": {
       "morePhotos": "+{count} фото",
-      "seeAll": "Посмотреть все {count} фото →"
+      "seeAll": "Посмотреть все {count} фото →",
+      "photoAlt": "Фото {n} — {name}"
     },
     "rooms": {
       "title": "Номера",

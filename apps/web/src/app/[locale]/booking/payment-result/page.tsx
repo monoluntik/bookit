@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
 import { api } from '@/lib/api'
 
 const POLL_INTERVAL_MS = 2500
@@ -55,7 +56,7 @@ function PaymentResultContent() {
           <>
             <div className="text-3xl mb-3">✅</div>
             <p className="text-gray-700 font-medium">{t('success')}</p>
-            <a href="/dashboard/bookings" className="inline-block mt-4 text-sm text-blue-600 hover:underline">{t('goToBookings')}</a>
+            <Link href="/my-bookings" className="inline-block mt-4 text-sm text-blue-600 hover:underline">{t('goToBookings')}</Link>
           </>
         )}
         {status === 'pending' && (

@@ -23,15 +23,18 @@ interface Props {
 export default function ReviewsList({ businessId, isOwner }: Props) {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
   const [replyId, setReplyId] = useState<string | null>(null)
   const [replyText, setReplyText] = useState('')
   const [saving, setSaving] = useState(false)
   const t = useTranslations('Business')
 
   const load = () => {
+    setError(false)
     fetch(`${API}/api/reviews/business/${businessId}?limit=20`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(); return r.json() })
       .then(setData)
+      .catch(() => setError(true))
       .finally(() => setLoading(false))
   }
 
@@ -56,6 +59,7 @@ export default function ReviewsList({ businessId, isOwner }: Props) {
   }
 
   if (loading) return <div className="text-center text-gray-400 text-sm py-4">{t('reviews.loading')}</div>
+  if (error) return <div className="text-center text-red-400 text-sm py-4">{t('reviews.genericError')}</div>
   if (!data || data.total === 0) return (
     <div className="text-center text-gray-400 text-sm py-6">
       <div className="text-2xl mb-2">⭐</div>

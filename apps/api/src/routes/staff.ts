@@ -44,6 +44,13 @@ export async function staffRoutes(app: FastifyInstance) {
     const phone = normalizePhone(body.data.phone)
     if (!phone) return reply.status(400).send({ error: 'Неверный номер телефона' })
 
+    if (body.data.roleId) {
+      const role = await prisma.customRole.findUnique({ where: { id: body.data.roleId } })
+      if (!role || role.businessId !== body.data.businessId) {
+        return reply.status(400).send({ error: 'Роль не найдена в этом бизнесе' })
+      }
+    }
+
     const user = await prisma.user.findUnique({ where: { phone } })
     if (!user) return reply.status(404).send({ error: 'Пользователь с таким телефоном не найден. Попросите его сначала войти на сайте.' })
 
@@ -77,6 +84,13 @@ export async function staffRoutes(app: FastifyInstance) {
     const member = await prisma.staffMember.findUnique({ where: { id }, include: { business: true } })
     if (!member) return reply.status(404).send({ error: 'Not found' })
     if (member.business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
+
+    if (body.data.roleId) {
+      const role = await prisma.customRole.findUnique({ where: { id: body.data.roleId } })
+      if (!role || role.businessId !== member.businessId) {
+        return reply.status(400).send({ error: 'Роль не найдена в этом бизнесе' })
+      }
+    }
 
     const updated = await prisma.staffMember.update({
       where: { id },

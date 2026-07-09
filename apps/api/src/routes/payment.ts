@@ -8,8 +8,8 @@ import { sendBookingConfirmation, sendNewBookingAlert } from '../lib/email'
 const initiateSchema = z.object({ bookingId: z.string() })
 const WEBHOOK_PATH = '/api/payments/webhook'
 
-// No payment provider has been chosen yet — every booking goes through the
-// sandbox pay-mock page regardless of business credentials/env. The Finik
+// No payment provider has been chosen/connected yet — /initiate fails honestly
+// with a clear message instead of faking a successful payment. The Finik
 // integration below is kept intact; flip this back on once a provider is picked.
 const FINIK_ENABLED = false
 
@@ -66,26 +66,25 @@ export async function paymentRoutes(app: FastifyInstance) {
     if (amount <= 0) return reply.status(400).send({ error: 'Услуга бесплатна' })
 
     const { business } = booking
+
+    if (!FINIK_ENABLED || !business.finikApiKey || !business.finikAccountId || !business.finikPrivateKeyEncrypted) {
+      return reply.status(400).send({ error: 'Онлайн-оплата пока недоступна. Бизнес свяжется с вами для подтверждения брони.' })
+    }
+
     const paymentId = crypto.randomUUID()
     const redirectUrl = `${process.env.FRONTEND_URL}/booking/payment-result?bookingId=${booking.id}`
-
-    let payUrl: string
-    if (FINIK_ENABLED && business.finikApiKey && business.finikAccountId && business.finikPrivateKeyEncrypted) {
-      const webhookUrl = `${process.env.API_PUBLIC_URL ?? process.env.FRONTEND_URL}${WEBHOOK_PATH}`
-      const result = await createFinikPayment({
-        amount,
-        paymentId,
-        redirectUrl,
-        webhookUrl,
-        accountId: business.finikAccountId,
-        nameEn: business.slug,
-        apiKey: business.finikApiKey,
-        privateKeyPem: decryptPrivateKey(business.finikPrivateKeyEncrypted),
-      })
-      payUrl = result.payUrl
-    } else {
-      payUrl = `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/booking/pay-mock?paymentId=${paymentId}&amount=${amount}&bookingId=${booking.id}`
-    }
+    const webhookUrl = `${process.env.API_PUBLIC_URL ?? process.env.FRONTEND_URL}${WEBHOOK_PATH}`
+    const result = await createFinikPayment({
+      amount,
+      paymentId,
+      redirectUrl,
+      webhookUrl,
+      accountId: business.finikAccountId,
+      nameEn: business.slug,
+      apiKey: business.finikApiKey,
+      privateKeyPem: decryptPrivateKey(business.finikPrivateKeyEncrypted),
+    })
+    const payUrl = result.payUrl
 
     await prisma.payment.upsert({
       where: { bookingId: booking.id },
@@ -125,7 +124,7 @@ export async function paymentRoutes(app: FastifyInstance) {
   app.post('/webhook', async (request, reply) => {
     const signature = request.headers['signature'] as string | undefined
     const body = request.body as { id?: string; transactionId?: string; status?: string; fields?: { paymentId?: string } }
-    app.log.info({ body }, 'Finik webhook received')
+    app.log.info({ id: body.id, transactionId: body.transactionId, status: body.status, paymentId: body.fields?.paymentId }, 'Finik webhook received')
 
     if (!signature) return reply.status(400).send({ error: 'signature header required' })
 
@@ -153,22 +152,6 @@ export async function paymentRoutes(app: FastifyInstance) {
     if (body.status !== 'success') return reply.send({ ok: true, ignored: true })
 
     await markPaidAndNotify(app, payment.bookingId)
-    return reply.send({ ok: true })
-  })
-
-  // Sandbox confirm for the pay-mock page — this is the only payment path
-  // while FINIK_ENABLED is false, so it's intentionally available in all envs.
-  app.post('/mock-confirm', async (request, reply) => {
-    const { bookingId } = request.body as { bookingId?: string }
-    if (!bookingId) return reply.status(400).send({ error: 'bookingId required' })
-
-    const payment = await prisma.payment.findUnique({ where: { bookingId }, include: { booking: { include: { business: true } } } })
-    if (!payment) return reply.status(404).send({ error: 'Payment not found' })
-    // Only ever allow this for businesses that aren't actually connected to Finik.
-    if (payment.booking.business.finikApiKey) return reply.status(403).send({ error: 'Forbidden' })
-    if (payment.status === 'PAID') return reply.send({ ok: true, already: true })
-
-    await markPaidAndNotify(app, bookingId)
     return reply.send({ ok: true })
   })
 }

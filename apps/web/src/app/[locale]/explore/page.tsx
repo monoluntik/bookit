@@ -113,7 +113,7 @@ function ExploreContent() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
             {search && (
-              <button onClick={() => setSearch('')}
+              <button onClick={() => setSearch('')} aria-label={t('clearSearch')} title={t('clearSearch')}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg leading-none">×</button>
             )}
           </div>
@@ -142,7 +142,7 @@ function ExploreContent() {
               {user.name.split(' ')[0]}
             </Link>
           ) : (
-            <Link href="/login" className="text-sm text-gray-500 hover:text-gray-800 shrink-0 hidden sm:block">{t('login')}</Link>
+            <Link href="/auth" className="text-sm text-gray-500 hover:text-gray-800 shrink-0 hidden sm:block">{t('login')}</Link>
           )}
         </div>
 
@@ -347,10 +347,12 @@ function ToggleChip({ active, onClick, icon, label }: {
 }
 
 function ActiveTag({ label, onRemove }: { label: string; onRemove: () => void }) {
+  const t = useTranslations('Explore')
   return (
     <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 border border-blue-100 px-2.5 py-0.5 rounded-full text-xs font-medium">
       {label}
-      <button onClick={onRemove} className="text-blue-400 hover:text-blue-700 ml-0.5 leading-none font-bold">×</button>
+      <button onClick={onRemove} aria-label={t('removeFilter')} title={t('removeFilter')}
+        className="text-blue-400 hover:text-blue-700 ml-0.5 leading-none font-bold">×</button>
     </span>
   )
 }

@@ -189,15 +189,6 @@
       "success": "Оплата прошла успешно!",
       "goToBookings": "Перейти к моим бронированиям",
       "failed": "Не удалось проверить оплату"
-    },
-    "payMock": {
-      "sandboxLabel": "Bakai Bank — Dev Sandbox",
-      "priceSom": "{price} сом",
-      "transactionNumber": "Транзакция #{txId}",
-      "processing": "Обработка...",
-      "paySuccess": "✓ Оплатить (успешно)",
-      "payReject": "✗ Отклонить платёж",
-      "testNotice": "Это тестовая страница. В prod будет перенаправление на Bakai."
     }
   }
 }

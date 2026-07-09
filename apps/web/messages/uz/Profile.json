@@ -22,7 +22,8 @@
       "guestCount": "{count} kishi",
       "paid": "To'langan",
       "cancel": "Bekor qilish",
-      "review": "Baholash"
+      "review": "Baholash",
+      "errorLoading": "Bronlarni yuklab bo'lmadi. Sahifani yangilab ko'ring."
     },
     "notifications": {
       "title": "Bronlar haqida eslatmalar",
@@ -65,7 +66,9 @@
       "noRefund": "Boshlanishiga {hours} soatdan kam qolganda pul qaytarilmaydi",
       "noPolicy": "Bekor qilish siyosati belgilanmagan.",
       "back": "Orqaga",
-      "confirm": "Bronni bekor qilish"
+      "confirm": "Bronni bekor qilish",
+      "confirming": "Bekor qilinmoqda...",
+      "errorGeneric": "Bronni bekor qilib bo'lmadi. Qayta urinib ko'ring."
     },
     "myBookings": {
       "title": "Mening bronlarim",

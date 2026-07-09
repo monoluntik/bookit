@@ -48,7 +48,8 @@
     },
     "gallery": {
       "morePhotos": "+{count} сүрөт",
-      "seeAll": "Бардык {count} сүрөттү көрүү →"
+      "seeAll": "Бардык {count} сүрөттү көрүү →",
+      "photoAlt": "Сүрөт {n} — {name}"
     },
     "rooms": {
       "title": "Бөлмөлөр",

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useAuth } from '@/context/AuthContext'
 import { api } from '@/lib/api'
 import { formatDate, formatTime } from '@/lib/businessTypes'
@@ -95,6 +95,7 @@ export default function StatsPage() {
     CANCELLED: t('statusLabels.CANCELLED'), NO_SHOW: t('statusLabels.NO_SHOW'), BLOCK: t('statusLabels.BLOCK'),
   }
   const { user } = useAuth()
+  const locale = useLocale()
   const [businesses, setBusinesses] = useState<any[]>([])
   const [selectedBiz, setSelectedBiz] = useState('')
   const [stats, setStats] = useState<any>(null)
@@ -216,14 +217,14 @@ export default function StatsPage() {
               {stats.upcomingBookings?.map((b: any) => (
                 <div key={b.id} className="flex items-center gap-3 py-2 border-b border-gray-50 last:border-0">
                   <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold shrink-0">
-                    {formatTime(b.startAt)}
+                    {formatTime(b.startAt, locale)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-gray-800 truncate">
                       {b.customer?.name ?? t('defaultCustomer')}
                     </div>
                     <div className="text-xs text-gray-400">
-                      {formatDate(b.startAt)} · {b.resource?.name}{b.service ? ` · ${b.service.name}` : ''}
+                      {formatDate(b.startAt, locale)} · {b.resource?.name}{b.service ? ` · ${b.service.name}` : ''}
                     </div>
                   </div>
                   {b.customer?.phone && (

@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { prisma } from '../lib/prisma'
+import { localDayStart, localMonthStart, utcToLocalDateStr } from '../lib/datetime'
 
 export async function statsRoutes(app: FastifyInstance) {
   app.get('/business/:businessId', { preHandler: [app.authenticate] }, async (request, reply) => {
@@ -11,10 +12,10 @@ export async function statsRoutes(app: FastifyInstance) {
     if (business.ownerId !== payload.sub) return reply.status(403).send({ error: 'Forbidden' })
 
     const now = new Date()
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const todayStart = localDayStart(business.timezone)
     const todayEnd = new Date(todayStart.getTime() + 86400000)
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
-    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    const monthStart = localMonthStart(now, business.timezone)
+    const prevMonthStart = localMonthStart(now, business.timezone, -1)
     const prevMonthEnd = monthStart
 
     const [
@@ -62,16 +63,16 @@ export async function statsRoutes(app: FastifyInstance) {
       }),
     ])
 
-    // Build daily chart data (last 30 days)
+    // Build daily chart data (last 30 days), bucketed by the business's local day
     const dailyMap: Record<string, number> = {}
     for (let i = 0; i < 30; i++) {
       const d = new Date(monthStart.getTime() + i * 86400000)
       if (d > now) break
-      const key = d.toISOString().slice(0, 10)
+      const key = utcToLocalDateStr(d, business.timezone)
       dailyMap[key] = 0
     }
     allBookingsThisMonth.forEach(b => {
-      const key = new Date(b.startAt).toISOString().slice(0, 10)
+      const key = utcToLocalDateStr(b.startAt, business.timezone)
       if (key in dailyMap) dailyMap[key]++
     })
     const dailyChart = Object.entries(dailyMap).map(([date, count]) => ({ date, count }))

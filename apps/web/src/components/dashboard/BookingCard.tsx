@@ -7,11 +7,14 @@ import { toLocalDateStr } from '@/lib/date'
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
+// Canonical status color mapping — kept in sync with STATUS_COLOR in
+// lib/businessTypes.ts, STATUS_COLORS in dashboard/bookings/page.tsx, and the
+// dashboard Overview/Stats charts: CONFIRMED is blue, COMPLETED is green.
 const STATUS_COLOR_MAP: Record<string, string> = {
   PENDING:   'bg-yellow-50 text-yellow-700 border-yellow-200',
-  CONFIRMED: 'bg-green-50 text-green-700 border-green-200',
+  CONFIRMED: 'bg-blue-50 text-blue-600 border-blue-200',
   CANCELLED: 'bg-red-50 text-red-500 border-red-200',
-  COMPLETED: 'bg-blue-50 text-blue-600 border-blue-200',
+  COMPLETED: 'bg-green-50 text-green-700 border-green-200',
   NO_SHOW:   'bg-gray-100 text-gray-500 border-gray-200',
 }
 
@@ -73,6 +76,7 @@ export default function BookingCard({ booking, onStatusChange, onDelete }: Props
 
   const handleDelete = async () => {
     if (!onDelete) return
+    if (!confirm(isBlock ? tc('confirmDeleteBlock') : tc('confirmDeleteBooking'))) return
     try {
       const res = await fetch(`${API}/api/bookings/${booking.id}`, {
         method: 'DELETE',

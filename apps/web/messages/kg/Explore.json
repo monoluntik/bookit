@@ -59,6 +59,8 @@
       "next": "Алдыга",
       "pageOf": "Бет {page} / {totalPages}"
     },
-    "bookCta": "Брондоо"
+    "bookCta": "Брондоо",
+    "clearSearch": "Издөөнү тазалоо",
+    "removeFilter": "Чыпканы алып салуу"
   }
 }

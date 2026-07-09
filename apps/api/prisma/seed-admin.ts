@@ -1,32 +1,36 @@
 /**
- * Creates or updates a SUPERADMIN user.
- * Run: pnpm tsx prisma/seed-admin.ts
+ * Grants SUPERADMIN to a phone number, creating the user if it doesn't exist yet.
+ * Auth is phone + Telegram/SMS only (no email/password) — this account logs in
+ * through the normal /auth flow like any other user, just with an elevated role.
+ * Run: pnpm tsx prisma/seed-admin.ts +996700000000
  */
 import { PrismaClient } from '@prisma/client'
-import * as bcrypt from 'bcryptjs'
+import { normalizePhone } from '../src/lib/phone'
 
 const prisma = new PrismaClient()
 
 async function main() {
-  const email = 'admin@booking.local'
-  const password = 'Admin1234!'
-  const hash = bcrypt.hashSync(password, 10)
+  const raw = process.argv[2]
+  if (!raw) {
+    console.error('Usage: pnpm tsx prisma/seed-admin.ts <phone>')
+    process.exit(1)
+  }
+  const phone = normalizePhone(raw)
+  if (!phone) {
+    console.error(`Invalid phone number: ${raw}`)
+    process.exit(1)
+  }
 
   const user = await prisma.user.upsert({
-    where: { email },
-    update: { role: 'SUPERADMIN', passwordHash: hash },
-    create: {
-      email,
-      name: 'Super Admin',
-      passwordHash: hash,
-      role: 'SUPERADMIN',
-    },
+    where: { phone },
+    update: { role: 'SUPERADMIN' },
+    create: { phone, name: 'Super Admin', role: 'SUPERADMIN' },
   })
 
-  console.log('✅ SUPERADMIN created/updated:')
-  console.log('   Email:    ', user.email)
-  console.log('   Password: ', password)
-  console.log('   Role:     ', user.role)
+  console.log('✅ SUPERADMIN ready:')
+  console.log('   Phone: ', user.phone)
+  console.log('   Role:  ', user.role)
+  console.log('   Log in as usual at /auth — Telegram or SMS code, whichever is set up for this number.')
 }
 
 main()
