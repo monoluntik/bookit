@@ -376,7 +376,7 @@ model Booking {
   customerId String
   customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
   businessId String
-  business   Business @relation(fields: [businessId], references: [id])
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
   resourceId String
   resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   serviceId  String?
