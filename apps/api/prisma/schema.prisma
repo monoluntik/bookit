@@ -256,7 +256,7 @@ model StaffMember {
   createdAt DateTime @default(now())
 
   userId     String
-  user       User   @relation(fields: [userId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
   roleId     String?
@@ -336,10 +336,10 @@ model Service {
   createdAt   DateTime @default(now())
 
   businessId String
-  business   Business @relation(fields: [businessId], references: [id])
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
   resourceId String?
-  resource   Resource? @relation(fields: [resourceId], references: [id])
+  resource   Resource? @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 
   bookings Booking[]
   translations ServiceTranslation[]
@@ -374,7 +374,7 @@ model Booking {
   updatedAt  DateTime      @updatedAt
 
   customerId String
-  customer   User     @relation(fields: [customerId], references: [id])
+  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
   businessId String
   business   Business @relation(fields: [businessId], references: [id])
   resourceId String
@@ -418,7 +418,7 @@ model Review {
   updatedAt DateTime @updatedAt
 
   customerId String
-  customer   User     @relation(fields: [customerId], references: [id])
+  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
   bookingId  String   @unique

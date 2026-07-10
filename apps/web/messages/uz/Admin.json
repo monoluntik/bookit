@@ -74,7 +74,8 @@
       },
       "actions": {
         "block": "Bloklash",
-        "unblock": "Blokdan chiqarish"
+        "unblock": "Blokdan chiqarish",
+        "delete": "O'chirish"
       },
       "loading": "Yuklanmoqda...",
       "pagination": {
@@ -86,8 +87,11 @@
         "blocked": "Foydalanuvchi bloklandi",
         "unblocked": "Foydalanuvchi blokdan chiqarildi",
         "roleChanged": "Rol o'zgartirildi",
-        "error": "Xatolik"
-      }
+        "error": "Xatolik",
+        "deleted": "Foydalanuvchi o'chirildi",
+        "hasBusinesses": "Bu foydalanuvchining bizneslari bor — avval ularni o'chiring yoki boshqa egasiga o'tkazing"
+      },
+      "deleteConfirm": "Ushbu foydalanuvchini o'chirasizmi? Bu amalni qaytarib bo'lmaydi."
     },
     "businesses": {
       "title": "Bizneslar",
@@ -119,7 +123,8 @@
       "actions": {
         "open": "Ochish ↗",
         "hide": "Yashirish",
-        "activate": "Faollashtirish"
+        "activate": "Faollashtirish",
+        "delete": "O'chirish"
       },
       "pagination": {
         "pageOf": "{page} / {totalPages} sahifa",
@@ -129,8 +134,10 @@
       "toasts": {
         "activated": "Biznes faollashtirildi",
         "deactivated": "Biznes faolsizlantirildi",
-        "error": "Xatolik"
-      }
+        "error": "Xatolik",
+        "deleted": "Biznes o'chirildi"
+      },
+      "deleteConfirm": "Ushbu biznesni o'chirasizmi? Uning barcha resurslari, xizmatlari, bronlari va sharhlari butunlay o'chiriladi."
     },
     "reviews": {
       "title": "Sharhlar",

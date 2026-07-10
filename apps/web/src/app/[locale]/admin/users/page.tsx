@@ -77,6 +77,22 @@ export default function AdminUsersPage() {
     } catch { showError(t('toasts.error')) }
   }
 
+  const deleteUser = async (id: string) => {
+    if (!currentUser || !confirm(t('deleteConfirm'))) return
+    try {
+      const res = await fetch(`${API}/api/admin/users/${id}`, { method: 'DELETE', credentials: 'include' })
+      if (res.status === 409) {
+        const data = await res.json().catch(() => null)
+        showError(data?.error ?? t('toasts.hasBusinesses'))
+        return
+      }
+      if (!res.ok) throw new Error('Error')
+      setUsers(prev => prev.filter(u => u.id !== id))
+      setTotal(n => n - 1)
+      success(t('toasts.deleted'))
+    } catch { showError(t('toasts.error')) }
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-white mb-6">
@@ -169,6 +185,13 @@ export default function AdminUsersPage() {
                       : 'bg-green-900/50 text-green-400 hover:bg-green-900'}`}>
                     {u.isActive ? t('actions.block') : t('actions.unblock')}
                   </button>
+                  {u.id !== currentUser?.id && (
+                    <button
+                      onClick={() => deleteUser(u.id)}
+                      className="text-xs px-2.5 py-1 rounded-lg ml-1.5 bg-gray-700 text-gray-400 hover:bg-red-900 hover:text-red-400 transition-colors">
+                      {t('actions.delete')}
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

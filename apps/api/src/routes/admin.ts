@@ -144,6 +144,32 @@ export async function adminRoutes(app: FastifyInstance) {
     return reply.send({ id: user.id, role: user.role })
   })
 
+  // ── Delete user ─────────────────────────────────────────────────────────────
+  // Hard delete: cascades their bookings, reviews, and staff memberships
+  // (see schema.prisma). Deliberately does NOT cascade owned businesses —
+  // an owner's business is other people's data (clients, bookings, revenue),
+  // so the admin has to delete/reassign it explicitly first.
+  app.delete('/users/:id', { preHandler: [app.authenticate] }, async (request, reply) => {
+    await requireSuperAdmin(request, reply)
+    if (reply.sent) return
+
+    const payload = request.user as { sub: string }
+    const { id } = request.params as { id: string }
+    if (id === payload.sub) return reply.status(400).send({ error: 'Нельзя удалить свою учётную запись' })
+
+    const target = await prisma.user.findUnique({
+      where: { id },
+      select: { _count: { select: { ownedBusinesses: true } } },
+    })
+    if (!target) return reply.status(404).send({ error: 'Пользователь не найден' })
+    if (target._count.ownedBusinesses > 0) {
+      return reply.status(409).send({ error: 'У пользователя есть бизнесы — сначала удалите их или передайте другому владельцу' })
+    }
+
+    await prisma.user.delete({ where: { id } })
+    return reply.send({ ok: true })
+  })
+
   // ── Businesses list ────────────────────────────────────────────────────────
   app.get('/businesses', { preHandler: [app.authenticate] }, async (request, reply) => {
     await requireSuperAdmin(request, reply)
@@ -185,6 +211,22 @@ export async function adminRoutes(app: FastifyInstance) {
 
     const biz = await prisma.business.update({ where: { id }, data: { isActive: body.data.isActive } })
     return reply.send({ id: biz.id, isActive: biz.isActive })
+  })
+
+  // ── Delete business ─────────────────────────────────────────────────────────
+  // Hard delete: cascades resources, services, staff, bookings, payments,
+  // reviews, reminder rules and translations (see schema.prisma) — this wipes
+  // the whole tenant's data, not just a listing.
+  app.delete('/businesses/:id', { preHandler: [app.authenticate] }, async (request, reply) => {
+    await requireSuperAdmin(request, reply)
+    if (reply.sent) return
+
+    const { id } = request.params as { id: string }
+    const business = await prisma.business.findUnique({ where: { id } })
+    if (!business) return reply.status(404).send({ error: 'Бизнес не найден' })
+
+    await prisma.business.delete({ where: { id } })
+    return reply.send({ ok: true })
   })
 
   // ── Delete review (moderation) ─────────────────────────────────────────────

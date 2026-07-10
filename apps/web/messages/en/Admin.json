@@ -74,7 +74,8 @@
       },
       "actions": {
         "block": "Block",
-        "unblock": "Unblock"
+        "unblock": "Unblock",
+        "delete": "Delete"
       },
       "loading": "Loading...",
       "pagination": {
@@ -86,8 +87,11 @@
         "blocked": "User blocked",
         "unblocked": "User unblocked",
         "roleChanged": "Role changed",
-        "error": "Error"
-      }
+        "error": "Error",
+        "deleted": "User deleted",
+        "hasBusinesses": "This user owns businesses — delete or reassign them first"
+      },
+      "deleteConfirm": "Delete this user? This cannot be undone."
     },
     "businesses": {
       "title": "Businesses",
@@ -119,7 +123,8 @@
       "actions": {
         "open": "Open ↗",
         "hide": "Hide",
-        "activate": "Activate"
+        "activate": "Activate",
+        "delete": "Delete"
       },
       "pagination": {
         "pageOf": "Page {page} of {totalPages}",
@@ -129,8 +134,10 @@
       "toasts": {
         "activated": "Business activated",
         "deactivated": "Business deactivated",
-        "error": "Error"
-      }
+        "error": "Error",
+        "deleted": "Business deleted"
+      },
+      "deleteConfirm": "Delete this business? This permanently removes all its resources, services, bookings, and reviews."
     },
     "reviews": {
       "title": "Reviews",

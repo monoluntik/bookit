@@ -77,6 +77,17 @@ export default function AdminBusinessesPage() {
     } catch { showError(t('toasts.error')) }
   }
 
+  const deleteBusiness = async (id: string) => {
+    if (!user || !confirm(t('deleteConfirm'))) return
+    try {
+      const res = await fetch(`${API}/api/admin/businesses/${id}`, { method: 'DELETE', credentials: 'include' })
+      if (!res.ok) throw new Error('Error')
+      setBusinesses(prev => prev.filter(b => b.id !== id))
+      setTotal(n => n - 1)
+      success(t('toasts.deleted'))
+    } catch { showError(t('toasts.error')) }
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-white mb-6">
@@ -156,6 +167,11 @@ export default function AdminBusinessesPage() {
                     ? 'bg-red-900/50 text-red-400 hover:bg-red-900'
                     : 'bg-green-900/50 text-green-400 hover:bg-green-900'}`}>
                   {b.isActive ? t('actions.hide') : t('actions.activate')}
+                </button>
+                <button
+                  onClick={() => deleteBusiness(b.id)}
+                  className="text-xs px-2.5 py-1.5 rounded-lg bg-gray-700 text-gray-400 hover:bg-red-900 hover:text-red-400 transition-colors">
+                  {t('actions.delete')}
                 </button>
               </div>
             </div>
